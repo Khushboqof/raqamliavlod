@@ -1,16 +1,23 @@
-*.cs    @sodiqjonovich
-*.md    @khayitmuradov
+# Review for all pull requests
+*       @sodiqjonovich
 
-/src/    @TemurbekUbaydullayev
+# Github configs PR reviewer
+.github/* @sodiqjonovich
 
-/src/RaqamliAvlod.Api/ @Akhadov
 
-/src/RaqamliAvlod.DataAccess/ @Maxamadzoidov
+#*.cs    @sodiqjonovich
+#*.md    @khayitmuradov
 
-/src/RaqamliAvlod.Domain/  @Maxamadzoidov
+#/src/    @TemurbekUbaydullayev
 
-/src/RaqamliAvlod.Application/ @azizsayfullayev
+#/src/RaqamliAvlod.Api/ @Akhadov
 
-/src/RaqamliAvlod.Service/ @AbdullayevAbbos
+#/src/RaqamliAvlod.DataAccess/ @Maxamadzoidov
 
-/test/ @Aslonboyev
+#/src/RaqamliAvlod.Domain/  @Maxamadzoidov
+
+#/src/RaqamliAvlod.Application/ @azizsayfullayev
+
+#/src/RaqamliAvlod.Service/ @AbdullayevAbbos
+
+#/test/ @Aslonboyev
