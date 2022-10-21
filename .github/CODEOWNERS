@@ -1,13 +1,13 @@
 src/ @TemurbekUbaydullayev
 
-src/RaqamliAvlod.Api @Akhadov
+src/RaqamliAvlod.Api/ @Akhadov
 
-src/RaqamliAvlod.DataAccess @Maxamadzoidov
+src/RaqamliAvlod.DataAccess/ @Maxamadzoidov
 
-src/RaqamliAvlod.Domain  @Maxamadzoidov
+src/RaqamliAvlod.Domain/  @Maxamadzoidov
 
-src/RaqamliAvlod.Application @azizsayfullayev
+src/RaqamliAvlod.Application/ @azizsayfullayev
 
-src/RaqamliAvlod.Service @
+src/RaqamliAvlod.Service/ @AbdullayevAbbos
 
-test/ Aslonboyev
+test/ @Aslonboyev
