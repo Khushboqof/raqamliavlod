@@ -4,6 +4,7 @@
 # Github configs PR reviewer
 .github/*  @sodiqjonovich
 
+/src/* @sodiqjonovich
 
 #*.cs    @sodiqjonovich
 #*.md    @khayitmuradov
