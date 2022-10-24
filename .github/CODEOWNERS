@@ -1,0 +1,11 @@
+# Github configs PR reviewer
+/.github/*                      @sodiqjonovich
+/src/*                          @sodiqjonovich
+
+/src/RaqamliAvlod.Api/*         @khayitmuradov
+/src/RaqamliAvlod.DataAccess/*  @Maxamadzoidov
+/src/RaqamliAvlod.Application/* @AbdullayevAbbos
+/src/RaqamliAvlod.Domain/*      @Akhadov
+/src/RaqamliAvlod.Service/*     @TemurbekUbaydullayev
+
+/test/*                         @aslonboyev
