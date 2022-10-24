@@ -2,7 +2,7 @@
 {
     public static class ServiceLayerConfiguration
     {
-        public static void AddServiceLayer(this IServiceCollection services)
+        public static void AddServiceLayer(this WebApplicationBuilder builder)
         {
 
         }

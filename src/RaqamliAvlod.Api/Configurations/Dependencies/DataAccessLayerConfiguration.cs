@@ -2,7 +2,7 @@
 {
     public static class DataAccessLayerConfiguration
     {
-        public static void AddDataAccessLayer(this IServiceCollection services)
+        public static void AddDataAccessLayer(this WebApplicationBuilder builder)
         {
 
         }

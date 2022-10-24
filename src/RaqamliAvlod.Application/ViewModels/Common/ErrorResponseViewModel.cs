@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace RaqamliAvlod.Application.ViewModels.Common
+﻿namespace RaqamliAvlod.Application.ViewModels.Common
 {
     public class ErrorResponseViewModel
     {
