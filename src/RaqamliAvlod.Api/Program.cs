@@ -6,9 +6,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDataAccessLayer();
-builder.Services.AddServiceLayer();
-builder.Services.AddApiLayer();
+builder.AddDataAccessLayer();
+builder.AddServiceLayer();
+builder.AddApiLayer();
 
 //-> Middlewares
 var app = builder.Build();

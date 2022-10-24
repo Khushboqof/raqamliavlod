@@ -2,9 +2,9 @@
 {
     public static class ApiLayerConfiguration
     {
-        public static void AddApiLayer(this IServiceCollection services)
+        public static void AddApiLayer(this WebApplicationBuilder builder)
         {
-
+            builder.ConfigureLogger();
         }
     }
 }
