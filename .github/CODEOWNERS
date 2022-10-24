@@ -1,0 +1,24 @@
+# Review for all pull requests
+* @sodiqjonovich
+
+# Github configs PR reviewer
+.github/*  @sodiqjonovich
+
+/src/* @sodiqjonovich
+
+#*.cs    @sodiqjonovich
+#*.md    @khayitmuradov
+
+#/src/    @TemurbekUbaydullayev
+
+#/src/RaqamliAvlod.Api/ @Akhadov
+
+#/src/RaqamliAvlod.DataAccess/ @Maxamadzoidov
+
+#/src/RaqamliAvlod.Domain/  @Maxamadzoidov
+
+#/src/RaqamliAvlod.Application/ @azizsayfullayev
+
+#/src/RaqamliAvlod.Service/ @AbdullayevAbbos
+
+#/test/ @Aslonboyev
