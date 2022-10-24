@@ -2,7 +2,7 @@
 * @sodiqjonovich
 
 # Github configs PR reviewer
-.github/*  @sodiqjonovich
+/.github/*  @sodiqjonovich
 
 /src/* @sodiqjonovich
 
