@@ -5,6 +5,7 @@
         public static void AddApiLayer(this WebApplicationBuilder builder)
         {
             builder.ConfigureLogger();
+            builder.Services.ConfigureCorsPolicy();
         }
     }
 }
