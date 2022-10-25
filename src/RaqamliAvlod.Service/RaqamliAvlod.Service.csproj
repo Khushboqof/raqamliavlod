@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <Folder Include="Interfaces\" />
-    <Folder Include="Extensions\" />
     <Folder Include="Security\" />
     <Folder Include="Services\" />
   </ItemGroup>
