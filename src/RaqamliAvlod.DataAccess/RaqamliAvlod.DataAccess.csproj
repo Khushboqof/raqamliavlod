@@ -14,7 +14,6 @@
     <Folder Include="Configurations\" />
     <Folder Include="DbContexts\" />
     <Folder Include="Interfaces\" />
-    <Folder Include="Common\" />
     <Folder Include="Repositories\" />
   </ItemGroup>
 
