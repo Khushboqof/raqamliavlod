@@ -1,13 +1,11 @@
 ﻿using RaqamliAvlod.Domain.Common;
 using RaqamliAvlod.Domain.Entities.Contests;
 using RaqamliAvlod.Domain.Entities.Users;
-using System.ComponentModel.DataAnnotations;
 
 namespace RaqamliAvlod.Domain.Entities.ProblemSets
 {
     public class ProblemSet : Auditable
     {
-        [MaxLength(100)]
         public string Name { get; set; } = String.Empty;
         public string Description { get; set; } = String.Empty;
         public string Type { get; set; } = String.Empty;
@@ -22,6 +20,6 @@ namespace RaqamliAvlod.Domain.Entities.ProblemSets
         public virtual User User { get; set; } = null!;
 
         public long? ContestId { get; set; }
-        public virtual Contest Contest { get; set; }=null!;
+        public virtual Contest Contest { get; set; } = null!;
     }
 }
