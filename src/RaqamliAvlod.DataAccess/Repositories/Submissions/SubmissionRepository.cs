@@ -2,13 +2,8 @@
 using RaqamliAvlod.Application.Utils;
 using RaqamliAvlod.DataAccess.DbContexts;
 using RaqamliAvlod.DataAccess.Interfaces.Submissions;
-using RaqamliAvlod.Domain.Entities.ProblemSets;
 using RaqamliAvlod.Domain.Entities.Submissions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace RaqamliAvlod.DataAccess.Repositories.Submissions
 {

@@ -3,11 +3,7 @@ using RaqamliAvlod.Application.Utils;
 using RaqamliAvlod.DataAccess.DbContexts;
 using RaqamliAvlod.DataAccess.Interfaces.ProblemSets;
 using RaqamliAvlod.Domain.Entities.ProblemSets;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace RaqamliAvlod.DataAccess.Repositories.ProblemSets
 {
@@ -50,7 +46,7 @@ namespace RaqamliAvlod.DataAccess.Repositories.ProblemSets
             if (oldEntity is not null)
             {
                 entity.Id = id;
-                _dbSet.ProblemSetTests.Update(entity);
+                _dbSet.prob.Update(entity);
                 await _dbSet.SaveChangesAsync();
                 return entity;
             }
