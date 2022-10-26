@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <Folder Include="Repositories\Submissions\" />
-    <Folder Include="Repositories\Questions\" />
     <Folder Include="Repositories\Users\" />
   </ItemGroup>
 
