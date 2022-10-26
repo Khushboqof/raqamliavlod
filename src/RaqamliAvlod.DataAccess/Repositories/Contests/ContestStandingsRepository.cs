@@ -27,13 +27,7 @@ namespace RaqamliAvlod.DataAccess.Repositories.Contests
 
         public async Task<ContestStandings?> FindByIdAsync(long id)
         {
-            var entity = await _dbSet.ContestStandings.FindAsync(id);
-
-            if (entity is not null)
-            {
-                return entity;
-            }
-            else throw new NullReferenceException("Not found entity to remove");
+            return await _dbSet.ContestStandings.FindAsync(id);
         }
 
         public async Task<ContestStandings> UpdateAsync(long id, ContestStandings entity)
