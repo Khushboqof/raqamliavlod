@@ -11,8 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\" />
-    <Folder Include="Repositories\" />
+    <Folder Include="Interfaces\Contests\" />
+    <Folder Include="Interfaces\Users\" />
+    <Folder Include="Repositories\Contests\" />
+    <Folder Include="Repositories\Users\" />
   </ItemGroup>
 
   <ItemGroup>
