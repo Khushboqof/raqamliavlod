@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace RaqamliAvlod.DataAccess.Repositories.Contests
 {
-    internal class ContestRepository : GenericRepository<Contest>, IContestRepository
+    public class ContestRepository : GenericRepository<Contest>, IContestRepository
     {
         public ContestRepository(AppDbContext context) : base(context)
         {
