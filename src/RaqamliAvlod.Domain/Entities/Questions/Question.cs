@@ -6,7 +6,6 @@ namespace RaqamliAvlod.Domain.Entities.Questions
 {
     public class Question : Auditable
     {
-        [MaxLength(80)]
         public string Title { get; set; } = String.Empty;
         public string Description { get; set; } = String.Empty;
         public int ViewCount { get; set; }

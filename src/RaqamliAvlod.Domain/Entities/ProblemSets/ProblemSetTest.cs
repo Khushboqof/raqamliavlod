@@ -2,7 +2,7 @@
 
 namespace RaqamliAvlod.Domain.Entities.ProblemSets
 {
-    public class ProblemSetTest : Auditable
+    public class ProblemSetTest : BaseEntity
     {
         public string Input { get; set; } = String.Empty;
         public string Output { get; set; } = String.Empty;

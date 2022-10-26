@@ -10,7 +10,7 @@ namespace RaqamliAvlod.Domain.Entities.Courses
         public long CourseId { get; set; }
         public Course Course { get; set; } = null!;
 
-        public long? OwnerId { get; set; }
-        public virtual User? User { get; set; }
+        public long OwnerId { get; set; }
+        public virtual User User { get; set; } = null!;
     }
 }
