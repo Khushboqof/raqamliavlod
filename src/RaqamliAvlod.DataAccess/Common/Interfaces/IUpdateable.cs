@@ -1,4 +1,4 @@
-﻿using CodePower.Domain.Common;
+﻿using RaqamliAvlod.Domain.Common;
 
 namespace CodePower.DataAccess.Common.Interfaces;
 

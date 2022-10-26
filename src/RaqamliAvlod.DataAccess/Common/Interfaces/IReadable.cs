@@ -1,4 +1,5 @@
-﻿using RaqamliAvlod.Application.Utils;
+﻿using CodePower.DataAccess.Common;
+using RaqamliAvlod.Application.Utils;
 using RaqamliAvlod.Domain.Common;
 
 namespace RaqamliAvlod.DataAccess.Common.Interfaces
