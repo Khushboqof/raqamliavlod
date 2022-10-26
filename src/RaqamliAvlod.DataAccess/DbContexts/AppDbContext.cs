@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RaqamliAvlod.DataAccess.Configurations;
 using RaqamliAvlod.Domain.Entities.Contests;
 using RaqamliAvlod.Domain.Entities.Courses;
 using RaqamliAvlod.Domain.Entities.ProblemSets;
 using RaqamliAvlod.Domain.Entities.Questions;
 using RaqamliAvlod.Domain.Entities.Submissions;
 using RaqamliAvlod.Domain.Entities.Users;
-using System.Security.Cryptography.X509Certificates;
 
 namespace RaqamliAvlod.DataAccess.DbContexts
 {
@@ -39,7 +39,7 @@ namespace RaqamliAvlod.DataAccess.DbContexts
                 .HasIndex(user => user.PhoneNumber)
                 .IsUnique();
 
-            
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
         }
     }
 }
