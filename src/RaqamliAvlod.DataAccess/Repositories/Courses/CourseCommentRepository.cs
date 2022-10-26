@@ -43,12 +43,7 @@ namespace RaqamliAvlod.DataAccess.Repositories.Courses
 
         public async Task<CourseComment?> FindByIdAsync(long id)
         {
-            var entity = await _dbSet.CourseComments.FindAsync(id);
-            if (entity is not null)
-            {
-                return entity;
-            }
-            else throw new NullReferenceException("Not found entity to remove");
+            return await _dbSet.CourseComments.FindAsync(id);
         }
 
         public async Task<CourseComment> UpdateAsync(long id, CourseComment entity)
