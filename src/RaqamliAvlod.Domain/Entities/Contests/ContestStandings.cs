@@ -11,7 +11,6 @@ namespace RaqamliAvlod.Domain.Entities.Contests
 
         public long UserId { get; set; }
         public virtual User User { get; set; } = null!;
-
         public long ContestId { get; set; }
         public virtual Contest Contest { get; set; } = null!;
     }

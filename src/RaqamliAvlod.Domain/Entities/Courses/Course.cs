@@ -1,6 +1,5 @@
 ﻿using RaqamliAvlod.Domain.Common;
 using RaqamliAvlod.Domain.Entities.Users;
-using System.ComponentModel.DataAnnotations;
 
 namespace RaqamliAvlod.Domain.Entities.Courses
 {
