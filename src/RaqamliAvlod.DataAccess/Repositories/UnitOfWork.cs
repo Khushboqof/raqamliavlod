@@ -23,9 +23,9 @@ namespace RaqamliAvlod.DataAccess.Repositories
         public IUserRepository Users { get; }
         public AppDbContext dbContext { get; }
 
-        public UnitOfWork(IContestRepository contests, IContestStandingsRepository contestStandings, 
-            ICourseCommentRepository courseComments, ICourseRepository courses, IProblemSetRepository problemSets, 
-            IProblemSetTestRepository problemSetTests, IQuestionAnswerRepository questionAnswers, 
+        public UnitOfWork(IContestRepository contests, IContestStandingsRepository contestStandings,
+            ICourseCommentRepository courseComments, ICourseRepository courses, IProblemSetRepository problemSets,
+            IProblemSetTestRepository problemSetTests, IQuestionAnswerRepository questionAnswers,
             IQuestionRepository questions, ISubmissionRepository submissions, IUserRepository users,
             AppDbContext dbContext)
         {

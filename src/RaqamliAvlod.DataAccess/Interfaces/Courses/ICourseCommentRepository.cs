@@ -3,7 +3,7 @@ using RaqamliAvlod.Domain.Entities.Courses;
 
 namespace RaqamliAvlod.DataAccess.Interfaces.Courses
 {
-    public interface ICourseCommentRepository 
+    public interface ICourseCommentRepository
         : IRepository<CourseComment>
     {
         public Task<PagedList<CourseComment>> GetAllByCourseIdAsync(long courseId);
