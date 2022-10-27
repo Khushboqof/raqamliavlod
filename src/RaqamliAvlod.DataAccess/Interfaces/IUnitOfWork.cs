@@ -20,6 +20,5 @@ namespace RaqamliAvlod.DataAccess.Interfaces
         public IQuestionRepository Questions { get; }
         public ISubmissionRepository Submissions { get; }
         public IUserRepository Users { get; }
-        public AppDbContext dbContext { get; }
     }
 }
