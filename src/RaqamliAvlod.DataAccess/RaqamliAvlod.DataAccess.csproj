@@ -12,6 +12,11 @@
 
   <ItemGroup>
     <Folder Include="Repositories\Users\" />
+    <Folder Include="Repositories\Contests\" />
+    <Folder Include="Repositories\Courses\" />
+    <Folder Include="Repositories\Submissions\" />
+    <Folder Include="Repositories\Questions\" />
+    <Folder Include="Repositories\ProblemSets\" />
   </ItemGroup>
 
   <ItemGroup>
