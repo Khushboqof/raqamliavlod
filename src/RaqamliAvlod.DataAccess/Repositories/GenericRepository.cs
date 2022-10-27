@@ -7,7 +7,8 @@ using RaqamliAvlod.Domain.Common;
 
 namespace RaqamliAvlod.DataAccess.Repositories
 {
-    public class GenericRepository<T> : BaseRepository<T>, IGenericRepository<T> where T : BaseEntity
+    public class GenericRepository<T> : BaseRepository<T>, 
+        IGenericRepository<T> where T : BaseEntity
     {
         public GenericRepository(AppDbContext context) : base(context)
         {
