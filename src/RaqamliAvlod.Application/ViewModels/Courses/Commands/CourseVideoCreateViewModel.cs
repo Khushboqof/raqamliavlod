@@ -1,6 +1,6 @@
 ﻿namespace RaqamliAvlod.Application.ViewModels.Courses.Commands
 {
-    public class CourseVideoViewModel
+    public class CourseVideoCreateViewModel
     {
         public string Title { get; set; } = string.Empty;
         public string YouTubeThumbnail { get; set; } = string.Empty;
