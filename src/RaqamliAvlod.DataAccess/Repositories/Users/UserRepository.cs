@@ -1,5 +1,4 @@
 ﻿using CodePower.DataAccess.Common;
-using Microsoft.EntityFrameworkCore;
 using RaqamliAvlod.Application.Utils;
 using RaqamliAvlod.DataAccess.DbContexts;
 using RaqamliAvlod.DataAccess.Interfaces.Users;
@@ -10,7 +9,7 @@ namespace RaqamliAvlod.DataAccess.Repositories.Users
     public class UserRepository : IUserRepository
     {
         private readonly AppDbContext _dbContext;
-        
+
         public UserRepository(AppDbContext dbContext)
         {
             _dbContext = dbContext;

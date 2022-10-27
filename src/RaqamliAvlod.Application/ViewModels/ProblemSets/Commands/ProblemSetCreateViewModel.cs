@@ -1,12 +1,4 @@
-﻿using RaqamliAvlod.Domain.Entities.Contests;
-using RaqamliAvlod.Domain.Entities.Users;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RaqamliAvlod.Application.ViewModels.ProblemSets.Commands
+﻿namespace RaqamliAvlod.Application.ViewModels.ProblemSets.Commands
 {
     public class ProblemSetCreateViewModel
     {

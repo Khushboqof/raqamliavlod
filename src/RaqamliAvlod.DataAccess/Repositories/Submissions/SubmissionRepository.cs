@@ -17,8 +17,8 @@ namespace RaqamliAvlod.DataAccess.Repositories.Submissions
         }
         public async Task<Submission> CreateAsync(Submission entity)
         {
-            await _dbSet.Submissions.AddAsync(entity); 
-            await _dbSet.SaveChangesAsync();    
+            await _dbSet.Submissions.AddAsync(entity);
+            await _dbSet.SaveChangesAsync();
 
             return entity;
         }
