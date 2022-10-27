@@ -6,11 +6,18 @@ using RaqamliAvlod.DataAccess.Interfaces.ProblemSets;
 using RaqamliAvlod.DataAccess.Interfaces.Questions;
 using RaqamliAvlod.DataAccess.Interfaces.Submissions;
 using RaqamliAvlod.DataAccess.Interfaces.Users;
+using RaqamliAvlod.DataAccess.Repositories.Contests;
+using RaqamliAvlod.DataAccess.Repositories.Courses;
+using RaqamliAvlod.DataAccess.Repositories.ProblemSets;
+using RaqamliAvlod.DataAccess.Repositories.Questions;
+using RaqamliAvlod.DataAccess.Repositories.Submissions;
+using RaqamliAvlod.DataAccess.Repositories.Users;
 
 namespace RaqamliAvlod.DataAccess.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {
+        private readonly AppDbContext _dbContext;
         public IContestRepository Contests { get; }
         public IContestStandingsRepository ContestStandings { get; }
         public ICourseCommentRepository CourseComments { get; }
@@ -21,25 +28,20 @@ namespace RaqamliAvlod.DataAccess.Repositories
         public IQuestionRepository Questions { get; }
         public ISubmissionRepository Submissions { get; }
         public IUserRepository Users { get; }
-        public AppDbContext dbContext { get; }
 
-        public UnitOfWork(IContestRepository contests, IContestStandingsRepository contestStandings,
-            ICourseCommentRepository courseComments, ICourseRepository courses, IProblemSetRepository problemSets,
-            IProblemSetTestRepository problemSetTests, IQuestionAnswerRepository questionAnswers,
-            IQuestionRepository questions, ISubmissionRepository submissions, IUserRepository users,
-            AppDbContext dbContext)
+        public UnitOfWork(AppDbContext appDbContext)
         {
-            Contests = contests;
-            ContestStandings = contestStandings;
-            CourseComments = courseComments;
-            Courses = courses;
-            ProblemSets = problemSets;
-            ProblemSetTests = problemSetTests;
-            QuestionAnswers = questionAnswers;
-            Questions = questions;
-            Submissions = submissions;
-            Users = users;
-            this.dbContext = dbContext;
+            _dbContext = appDbContext;
+            Contests = new ContestRepository(_dbContext);
+            ContestStandings = new ContestStandingsRepository(_dbContext);
+            Courses = new CourseRepository(_dbContext);
+            CourseComments = new CourseCommentRepository(_dbContext);
+            ProblemSets = new ProblemSetRepository(_dbContext);
+            ProblemSetTests = new ProblemSetTestRepository(_dbContext);
+            QuestionAnswers = new QuestionAnswerRepository(_dbContext);
+            Questions = new QuestionRepository(_dbContext);
+            Submissions = new SubmissionRepository(_dbContext);
+            Users = new UserRepository(_dbContext);
         }
         public void Dispose()
         {
