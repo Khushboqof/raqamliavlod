@@ -31,14 +31,6 @@ namespace RaqamliAvlod.DataAccess.DbContexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>()
-                .HasIndex(user => user.Email)
-                .IsUnique();
-
-            modelBuilder.Entity<User>()
-                .HasIndex(user => user.PhoneNumber)
-                .IsUnique();
-
             modelBuilder.ApplyConfiguration(new UserConfiguration());
         }
     }
