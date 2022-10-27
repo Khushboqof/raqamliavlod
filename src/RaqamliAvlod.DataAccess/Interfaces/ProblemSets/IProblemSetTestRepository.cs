@@ -3,7 +3,7 @@
 namespace RaqamliAvlod.DataAccess.Interfaces.ProblemSets
 {
     public interface IProblemSetTestRepository
-        : IRepository<ProblemSet>
+        : IRepository<ProblemSetTest>
     {
         public Task<IEnumerable<ProblemSetTest>> GetAllByProblemSetId(long problemSetId);
     }
