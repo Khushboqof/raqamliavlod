@@ -1,12 +1,11 @@
-﻿using CodePower.DataAccess.Common.Interfaces;
-using RaqamliAvlod.DataAccess.Common.Interfaces;
+﻿using CodePower.DataAccess.Common;
 using RaqamliAvlod.Domain.Entities.Courses;
 
 namespace RaqamliAvlod.DataAccess.Interfaces.Courses
 {
     public interface ICourseCommentRepository 
-        : ICreateable<CourseComment>, IUpdateable<CourseComment>, IDeleteable<CourseComment>, IFindable<CourseComment>
+        : IRepository<CourseComment>
     {
-
+        public Task<PagedList<CourseComment>> GetAllByCourseIdAsync(long courseId);
     }
 }
