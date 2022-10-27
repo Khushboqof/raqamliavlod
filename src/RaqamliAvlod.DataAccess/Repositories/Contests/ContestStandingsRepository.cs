@@ -10,7 +10,7 @@ namespace RaqamliAvlod.DataAccess.Repositories.Contests
     {
         public ContestStandingsRepository(AppDbContext context) : base(context)
         {
-            
+
         }
 
         public async Task<PagedList<ContestStandings>> GetAllByContestIdAsync(long contestId, PaginationParams @params)

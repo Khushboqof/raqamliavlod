@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RaqamliAvlod.Application.Utils;
 using RaqamliAvlod.Application.ViewModels.Questions.Commands;
@@ -39,6 +38,4 @@ public class QuestionsController : ControllerBase
     {
         return Ok();
     }
-
-
 }

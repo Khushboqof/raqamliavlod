@@ -1,5 +1,4 @@
-﻿using RaqamliAvlod.DataAccess.DbContexts;
-using RaqamliAvlod.DataAccess.Interfaces.Contests;
+﻿using RaqamliAvlod.DataAccess.Interfaces.Contests;
 using RaqamliAvlod.DataAccess.Interfaces.Courses;
 using RaqamliAvlod.DataAccess.Interfaces.ProblemSets;
 using RaqamliAvlod.DataAccess.Interfaces.Questions;
