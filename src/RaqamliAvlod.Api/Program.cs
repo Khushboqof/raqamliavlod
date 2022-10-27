@@ -1,5 +1,5 @@
-using Microsoft.AspNetCore.Diagnostics;
 using RaqamliAvlod.Api.Configurations.Dependencies;
+using RaqamliAvlod.Api.Middlewares;
 
 //-> Services
 var builder = WebApplication.CreateBuilder(args);

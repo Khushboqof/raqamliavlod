@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RaqamliAvlod.Service", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RaqamliAvlod.UnitTest", "test\RaqamliAvlod.UnitTest\RaqamliAvlod.UnitTest.csproj", "{851E67BC-8F6F-4CFF-B6C2-08210ED95635}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaqamliAvlod.IntegrationTest", "test\RaqamliAvlod.IntegrationTest\RaqamliAvlod.IntegrationTest.csproj", "{9DACA4E5-3C1D-47B8-B23E-4908EC800E45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RaqamliAvlod.IntegrationTest", "test\RaqamliAvlod.IntegrationTest\RaqamliAvlod.IntegrationTest.csproj", "{9DACA4E5-3C1D-47B8-B23E-4908EC800E45}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
