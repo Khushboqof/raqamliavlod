@@ -1,7 +1,4 @@
-﻿using CodePower.DataAccess.Common;
-using RaqamliAvlod.Application.Utils;
-using RaqamliAvlod.DataAccess.DbContexts;
-using RaqamliAvlod.DataAccess.Interfaces.Submissions;
+﻿using RaqamliAvlod.DataAccess.DbContexts;
 using RaqamliAvlod.Domain.Entities.Submissions;
 
 
