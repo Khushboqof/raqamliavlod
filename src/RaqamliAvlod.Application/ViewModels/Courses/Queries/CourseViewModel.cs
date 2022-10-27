@@ -1,13 +1,12 @@
-﻿using RaqamliAvlod.Domain.Entities.Users;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RaqamliAvlod.Application.ViewModels.Courses.Commands
+namespace RaqamliAvlod.Application.ViewModels.Courses.Queries
 {
-    public class CourseCreateViewModel
+    public class CourseViewModel
     {
         public string Title { get; set; } = string.Empty;
         public string Info { get; set; } = string.Empty;
@@ -15,6 +14,6 @@ namespace RaqamliAvlod.Application.ViewModels.Courses.Commands
         public string ImagePath { get; set; } = string.Empty;
         public float Price { get; set; }
 
-        public long OwnerId { get; set; }
+        public string OwnerName { get; set; } = string.Empty;
     }
 }
