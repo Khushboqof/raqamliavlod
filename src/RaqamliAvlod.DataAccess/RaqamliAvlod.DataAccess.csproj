@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Repositories\Users\" />
     <Folder Include="Repositories\Contests\" />
     <Folder Include="Repositories\Courses\" />
     <Folder Include="Repositories\Submissions\" />
