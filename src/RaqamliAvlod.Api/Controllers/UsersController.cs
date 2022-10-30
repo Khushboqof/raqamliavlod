@@ -9,25 +9,25 @@ namespace RaqamliAvlod.Api.Controllers;
 [ApiController]
 public class UsersController : ControllerBase
 {
-    [HttpGet, AllowAnonymous]
+    [HttpGet]
     public async Task<IActionResult> GetAllAsync([FromBody] PaginationParams @params)
     {
         return Ok();
     }
 
-    [HttpGet("{id}"), AllowAnonymous]
+    [HttpGet("{id}")]
     public async Task<IActionResult> GetAsync(long id)
     {
         return Ok();
     }
 
-    [HttpPut("{id}"), Authorize(Roles = "User, Admin")]
+    [HttpPut("{id}")]
     public async Task<IActionResult> UpdateAsync(long id, [FromForm] UserUpdateViewModel userUpdateViewModel)
     {
         return Ok();
     }
 
-    [HttpPost, Authorize(Roles = "User, Admin")]
+    [HttpPost]
     public async Task<IActionResult> CreateAsync([FromForm] UserCreateViewModel userCreateViewModel)
     {
         return Ok();
