@@ -1,9 +1,14 @@
 ﻿using Microsoft.AspNetCore.Http;
 using RaqamliAvlod.Domain.Entities.Users;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace RaqamliAvlod.Application.ViewModels.Users.Commands
 {
-    public class UserUpdateViewModel
+    public class UserPatchViewModel
     {
         public string Firstname { get; set; } = string.Empty;
         public string Lastname { get; set; } = string.Empty;
@@ -12,9 +17,9 @@ namespace RaqamliAvlod.Application.ViewModels.Users.Commands
         public string Password { get; set; } = string.Empty;
         public IFormFile? Image { get; set; }
 
-        public static implicit operator UserUpdateViewModel(User user)
+        public static implicit operator UserPatchViewModel(User user)
         {
-            return new UserUpdateViewModel()
+            return new UserPatchViewModel()
             {
                 Firstname = user.FirstName,
                 Lastname = user.LastName,
@@ -24,6 +29,4 @@ namespace RaqamliAvlod.Application.ViewModels.Users.Commands
             };
         }
     }
-
-
 }
