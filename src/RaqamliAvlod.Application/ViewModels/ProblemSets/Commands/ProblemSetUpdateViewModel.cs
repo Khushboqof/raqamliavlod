@@ -1,4 +1,6 @@
-﻿namespace RaqamliAvlod.Application.ViewModels.ProblemSets.Commands
+﻿using RaqamliAvlod.Domain.Entities.ProblemSets;
+
+namespace RaqamliAvlod.Application.ViewModels.ProblemSets.Commands
 {
     public class ProblemSetUpdateViewModel
     {
@@ -15,5 +17,23 @@
         public long OwnerId { get; set; }
 
         public long? ContestId { get; set; }
+
+        public static implicit operator ProblemSetUpdateViewModel(ProblemSet problemSet)
+        {
+            return new ProblemSetUpdateViewModel()
+            {
+                Name = problemSet.Name,
+                Description = problemSet.Description,
+                Type = problemSet.Type,
+                InputDescription = problemSet.InputDescription,
+                OutputDescription = problemSet.OutputDescription,
+                TimeLimit = problemSet.TimeLimit,
+                MemoryLimit = problemSet.MemoryLimit,
+                Difficulty = problemSet.Difficulty,
+                IsPublic = problemSet.IsPublic,
+                OwnerId = problemSet.OwnerId,
+                ContestId = problemSet.ContestId,
+            };
+        }
     }
 }
