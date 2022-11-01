@@ -81,7 +81,7 @@ public class CoursesController : ControllerBase
         return Ok();
     }
     [HttpPost("videos/views")]
-    public async Task<IActionResult> CreateViews(long id)
+    public async Task<IActionResult> CreateViewsAsync(long id)
     {
         return Ok();
     }
