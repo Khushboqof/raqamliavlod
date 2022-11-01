@@ -1,10 +1,14 @@
 ﻿using RaqamliAvlod.Domain.Entities.ProblemSets;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace RaqamliAvlod.Application.ViewModels.ProblemSets.Queries
+namespace RaqamliAvlod.Application.ViewModels.ProblemSets.Commands
 {
-    public class ProblemSetViewModel
+    public class ProblemSetPatchViewModel
     {
-        public long Id { get; set; }
         public string Name { get; set; } = String.Empty;
         public string Description { get; set; } = String.Empty;
         public string Type { get; set; } = String.Empty;
@@ -15,13 +19,14 @@ namespace RaqamliAvlod.Application.ViewModels.ProblemSets.Queries
         public byte Difficulty { get; set; }
         public bool IsPublic { get; set; }
 
-        public string OwnerName { get; set; } = string.Empty;
+        public long OwnerId { get; set; }
 
-        public static implicit operator ProblemSetViewModel(ProblemSet problemSet)
+        public long? ContestId { get; set; }
+
+        public static implicit operator ProblemSetPatchViewModel(ProblemSet problemSet)
         {
-            return new ProblemSetViewModel()
+            return new ProblemSetPatchViewModel()
             {
-                Id = problemSet.Id,
                 Name = problemSet.Name,
                 Description = problemSet.Description,
                 Type = problemSet.Type,
@@ -31,6 +36,8 @@ namespace RaqamliAvlod.Application.ViewModels.ProblemSets.Queries
                 MemoryLimit = problemSet.MemoryLimit,
                 Difficulty = problemSet.Difficulty,
                 IsPublic = problemSet.IsPublic,
+                OwnerId = problemSet.OwnerId,
+                ContestId = problemSet.ContestId,
             };
         }
     }
