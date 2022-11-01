@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using RaqamliAvlod.Application.Utils;
 using RaqamliAvlod.Application.ViewModels.Contests.Commands;
 using RaqamliAvlod.Application.ViewModels.Submissions.Commands;
-#pragma warning disable
 namespace RaqamliAvlod.Api.Controllers;
 
 [Route("api/contests")]
@@ -53,7 +52,7 @@ public class ContestsController : ControllerBase
         return Ok();
     }
 
-    [HttpPost("standings")]
+    [HttpPost("standings/calculate")]
     public async Task<IActionResult> StandingsAsync(long contestId)
     {
         return Ok();

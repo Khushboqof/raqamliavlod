@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RaqamliAvlod.Application.Utils;
 using RaqamliAvlod.Application.ViewModels.ProblemSets.Commands;
+using RaqamliAvlod.Application.ViewModels.Submissions.Commands;
 
 namespace RaqamliAvlod.Api.Controllers;
 
@@ -28,7 +29,7 @@ public class ProblemSetsController : ControllerBase
     }
 
     [HttpPut("{problemSetId}")]
-    public async Task<IActionResult> UpdateAsync(long problemSetId, [FromForm] ProblemSetUpdateViewModel problemSetUpdateViewModel)
+    public async Task<IActionResult> UpdateAsync(long problemSetId, [FromForm] ProblemSetCreateViewModel problemSetCreateViewModel)
     {
         return Ok();
     }
@@ -39,8 +40,8 @@ public class ProblemSetsController : ControllerBase
         return Ok();
     }
 
-    [HttpGet("search/{search}")]
-    public async Task<IActionResult> Search([FromQuery] PaginationParams @params, string search)
+    [HttpGet("search")]
+    public async Task<IActionResult> SearchAsync(string search, [FromQuery] PaginationParams @params)
     {
         return Ok();
     }
@@ -57,14 +58,34 @@ public class ProblemSetsController : ControllerBase
         return Ok();
     }
 
+    [HttpPost("tests")]
+    public async Task<IActionResult> CreateProblemSetsTest(long testId, 
+        [FromForm] ProblemSetTestCreateViewModel problemSetTestCreateViewModel)
+    {
+        return Ok();
+    }
+
     [HttpPut("tests/{testId}")]
-    public async Task<IActionResult> UpdateProblemSetsTest(long testId, [FromBody] ProblemSetUpdateViewModel problemSetUpdateViewModel)
+    public async Task<IActionResult> UpdateProblemSetsTestAsync(long testId, 
+        [FromForm] ProblemSetTestCreateViewModel problemSetTestCreateViewModel)
     {
         return Ok();
     }
 
     [HttpDelete("tests/{testId}")]
-    public async Task<IActionResult> DeleteProblemSetsTest(long testId)
+    public async Task<IActionResult> DeleteProblemSetsTestAsync(long testId)
+    {
+        return Ok();
+    }
+
+    [HttpPost("submissions")]
+    public async Task<IActionResult> CreateSubmissionAsync(ProblemSetSubmissionCreateViewModel viewModel)
+    {
+        return Ok();
+    }
+
+    [HttpGet("{problemSetId}/submissions")]
+    public async Task<IActionResult> GetAllSubmissions(long problemSetId)
     {
         return Ok();
     }
