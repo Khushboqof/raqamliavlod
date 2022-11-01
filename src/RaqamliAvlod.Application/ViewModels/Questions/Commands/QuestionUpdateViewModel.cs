@@ -22,7 +22,6 @@ namespace RaqamliAvlod.Application.ViewModels.Questions.Commands
             {
                 Title = question.Title,
                 Description = question.Description,
-                Tags = question.Tags,
             };
         }
     }
