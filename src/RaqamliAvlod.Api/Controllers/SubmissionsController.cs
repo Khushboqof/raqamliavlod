@@ -20,7 +20,8 @@ public class SubmissionsController : ControllerBase
     }
 
     [HttpGet("{problemSetId}/{userId}")]
-    public async Task<IActionResult> GetSubmissionUserAsync(long problemsetId, long userId, [FromQuery] PaginationParams @params)
+    public async Task<IActionResult> GetSubmissionUserAsync(long problemsetId, 
+        long userId, [FromQuery] PaginationParams @params)
     {
         return Ok();
     }

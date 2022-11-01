@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RaqamliAvlod.Application.Utils;
 using RaqamliAvlod.Application.ViewModels.Contests.Commands;
 using RaqamliAvlod.Application.ViewModels.Submissions.Commands;
@@ -65,14 +64,14 @@ public class ContestsController : ControllerBase
     }
 
     [HttpGet("{contestId}/users/{userId}/submissions")]
-    public async Task<IActionResult> GetSubmissionAsync([FromQuery] PaginationParams @params, 
+    public async Task<IActionResult> GetSubmissionsAsync([FromQuery] PaginationParams @params, 
         long contestId, long userId)
     {
         return Ok();
     }
 
     [HttpGet("{contestId}/problemsets")]
-    public async Task<IActionResult> GetAllProblemSetsAsync([FromQuery] PaginationParams @params, long contestId)
+    public async Task<IActionResult> GetAllProblemSetsAsync(long contestId)
     {
         return Ok();
     }
@@ -84,7 +83,7 @@ public class ContestsController : ControllerBase
     }
 
     [HttpGet("{contestId}/participants")]
-    public async Task<IActionResult> ParticipantsAsync([FromQuery] PaginationParams @params, long contestId)
+    public async Task<IActionResult> GetParticipantsAsync([FromQuery] PaginationParams @params, long contestId)
     {
         return Ok();
     }
