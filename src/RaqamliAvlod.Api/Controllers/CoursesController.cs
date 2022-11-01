@@ -15,8 +15,8 @@ public class CoursesController : ControllerBase
         return Ok();
     }
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetAsync(long id)
+    [HttpGet("{courseId}")]
+    public async Task<IActionResult> GetAsync(long courseId)
     {
         return Ok();
     }
@@ -27,32 +27,32 @@ public class CoursesController : ControllerBase
         return Ok();
     }
 
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteAsync(long id)
+    [HttpDelete("{courseId}")]
+    public async Task<IActionResult> DeleteAsync(long courseId)
     {
         return Ok();
     }
 
-    [HttpPatch("{id}")]
-    public async Task<IActionResult> UpdateAsync(long id, [FromForm] CourseCreateViewModel courseUpdateViewModel)
+    [HttpPatch("{courseId}")]
+    public async Task<IActionResult> UpdateAsync(long courseId, [FromForm] CourseCreateViewModel courseUpdateViewModel)
     {
         return Ok();
     }
 
-    [HttpPost("{id}/comments")]
-    public async Task<IActionResult> CreateCommentAsync(long id, [FromBody] CourseCommentCreateViewModel courseCommentCreateViewModel)
+    [HttpPost("{courseId}/comments")]
+    public async Task<IActionResult> CreateCommentAsync(long courseId, [FromBody] CourseCommentCreateViewModel courseCommentCreateViewModel)
     {
         return Ok();
     }
 
-    [HttpGet("{id}/comments")]
-    public async Task<IActionResult> GetAllCommentsAsync([FromQuery] PaginationParams @params, long id)
+    [HttpGet("{courseId}/comments")]
+    public async Task<IActionResult> GetAllCommentsAsync([FromQuery] PaginationParams @params, long courseId)
     {
         return Ok();
     }
 
-    [HttpDelete("{id}/comments/{commentId}")]
-    public async Task<IActionResult> DeleteCommentAsync(long id, long commentId)
+    [HttpDelete("{courseId}/comments/{commentId}")]
+    public async Task<IActionResult> DeleteCommentAsync(long courseId, long commentId)
     {
         return Ok();
     }
