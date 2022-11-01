@@ -52,7 +52,7 @@ public class ContestsController : ControllerBase
         return Ok();
     }
 
-    [HttpPost("standings/calculate"), Authorize(Roles = "Admin")]
+    [HttpPost("standings/calculate")]
     public async Task<IActionResult> StandingsAsync(long contestId)
     {
         return Ok();
