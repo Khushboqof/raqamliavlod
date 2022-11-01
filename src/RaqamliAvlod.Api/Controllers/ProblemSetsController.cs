@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RaqamliAvlod.Application.Utils;
 using RaqamliAvlod.Application.ViewModels.ProblemSets.Commands;
 using RaqamliAvlod.Application.ViewModels.Submissions.Commands;
@@ -65,7 +64,7 @@ public class ProblemSetsController : ControllerBase
     }
 
     [HttpPut("tests/{testId}")]
-    public async Task<IActionResult> UpdateProblemSetsTestAsync(long testId, 
+    public async Task<IActionResult> UpdateProblemSetsTestAsync(long testId,
         [FromForm] ProblemSetTestCreateViewModel problemSetTestCreateViewModel)
     {
         return Ok();
