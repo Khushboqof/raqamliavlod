@@ -4,9 +4,8 @@ namespace RaqamliAvlod.Application.ViewModels.Contests.Queries
 {
     public class ContestStandingsViewModel
     {
-        public byte FixedProblems { get; set; }
-        public int TotalSubmissions { get; set; }
-        public int ErrorSubmissions { get; set; }
+        public int ResultCoins { get; set; }
+        public int Penalty { get; set; }
 
         public string Username { get; set; } = string.Empty;
         public string ContestName { get; set; } = string.Empty;
@@ -14,9 +13,8 @@ namespace RaqamliAvlod.Application.ViewModels.Contests.Queries
         {
             return new ContestStandingsViewModel()
             {
-                FixedProblems = contest.FixedProblems,
-                TotalSubmissions = contest.TotalSubmissions,
-                ErrorSubmissions = contest.ErrorSubmissions,
+                ResultCoins = contest.ResultCoins,
+                Penalty = contest.Penalty,
             };
         }
     }
