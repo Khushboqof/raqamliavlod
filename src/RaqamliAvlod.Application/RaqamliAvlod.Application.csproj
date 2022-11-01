@@ -11,7 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Attributes\" />
     <Folder Include="Validators\" />
     <Folder Include="ViewModels\Accounts\Queries\" />
   </ItemGroup>
