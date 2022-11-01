@@ -6,7 +6,7 @@ namespace RaqamliAvlod.Domain.Entities.Questions
     public class QuestionAnswer : Auditable
     {
         public string Description { get; set; } = String.Empty;
-        public bool HasReplied { get; set; }
+        public bool HasReplied { get; set; } = false;
 
         public long OwnerId { get; set; }
         public virtual User User { get; set; } = null!;
