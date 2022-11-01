@@ -16,7 +16,7 @@ namespace RaqamliAvlod.Application.ViewModels.Submissions.Queries
         public int LengthOfCode { get; set; }
         public string Username { get; set; } = string.Empty;
         public long ProblemSetId { get; set; }
-        public long? ContestId { get; set; }
+        public long ContestId { get; set; }
 
         public static implicit operator ContestSubmissionViewModel(Submission submission)
         {
@@ -28,7 +28,7 @@ namespace RaqamliAvlod.Application.ViewModels.Submissions.Queries
                 MemoryUsage = submission.MemoryUsage,
                 LengthOfCode = submission.LengthOfCode,
                 ProblemSetId = submission.ProblemSetId,
-                ContestId = submission.ContestId
+                ContestId = (long)submission.ContestId!
             };
         }
     }

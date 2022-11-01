@@ -14,18 +14,16 @@ namespace RaqamliAvlod.Application.ViewModels.Users.Commands
         public string Lastname { get; set; } = string.Empty;
         public string Username { get; set; } = string.Empty;
         public string PhoneNumber { get; set; } = string.Empty;
-        public string Password { get; set; } = string.Empty;
         public IFormFile? Image { get; set; }
 
-        public static implicit operator UserPatchViewModel(User user)
+        public static implicit operator User(UserPatchViewModel user)
         {
-            return new UserPatchViewModel()
+            return new User()
             {
-                Firstname = user.FirstName,
-                Lastname = user.LastName,
+                FirstName = user.Firstname,
+                LastName = user.Lastname,
                 Username = user.Username,
                 PhoneNumber = user.PhoneNumber,
-                Password = user.PasswordHash
             };
         }
     }
