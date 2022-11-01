@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RaqamliAvlod.Application.Utils;
 using RaqamliAvlod.Application.ViewModels.Questions.Commands;
-#pragma warning disable
+
 namespace RaqamliAvlod.Api.Controllers;
 
 [Route("api/questions")]
