@@ -8,11 +8,11 @@ namespace RaqamliAvlod.Api.Controllers;
 [ApiController]
 public class AccountsController : ControllerBase
 {
-    [HttpPost("registrate"), AllowAnonymous]
+    [HttpPost("registrate")]
     public async Task<IActionResult> RegistrateAsync([FromForm] AccountCreateViewModel accountCreateViewModel)
         => Ok();
 
-    [HttpPost("login"), AllowAnonymous]
+    [HttpPost("login")]
     public async Task<IActionResult> LoginAsync([FromForm] AccountLoginViewModel accountLoginViewModel)
         => Ok();
 }
