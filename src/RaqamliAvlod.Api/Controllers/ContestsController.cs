@@ -11,55 +11,55 @@ namespace RaqamliAvlod.Api.Controllers;
 public class ContestsController : ControllerBase
 {
 
-    [HttpGet, AllowAnonymous]
+    [HttpGet]
     public async Task<IActionResult> GetAllAsync([FromQuery] PaginationParams @params)
     {
         return Ok();
     }
 
-    [HttpGet("{id}"), AllowAnonymous]
+    [HttpGet("{id}")]
     public async Task<IActionResult> GetAsync(long id)
     {
         return Ok();
     }
 
-    [HttpPost, Authorize(Roles = "User, Admin")]
+    [HttpPost]
     public async Task<IActionResult> CreateAsync([FromBody] ContestCreateViewModel contestCreateViewModel)
     {
         return Ok();
     }
 
-    [HttpPut("{id}"), Authorize(Roles = "User, Admin")]
+    [HttpPut("{id}")]
     public async Task<IActionResult> UpdateAsync(long id, [FromBody] ContestCreateViewModel contestUpdateViewModel)
     {
         return Ok();
     }
 
-    [HttpDelete("{id}"), Authorize(Roles = "Admin")]
+    [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteAsync(long id)
     {
         return Ok();
     }
 
-    [HttpPost("registrate"), Authorize(Roles = "User, Admin")]
+    [HttpPost("registrate")]
     public async Task<IActionResult> RegistrateAsync(long contestId)
     {
         return Ok();
     }
 
-    [HttpPost("submissions"), Authorize(Roles = "User, Admin")]
+    [HttpPost("submissions")]
     public async Task<IActionResult> SubmissionsAsync([FromForm] ContestSubmissionCreateViewModel viewModel)
     {
         return Ok();
     }
 
-    [HttpPost("standings"), Authorize(Roles = "User, Admin")]
+    [HttpPost("standings")]
     public async Task<IActionResult> StandingsAsync(long contestId)
     {
         return Ok();
     }
 
-    [HttpGet("{contestId}/submissions"), AllowAnonymous]
+    [HttpGet("{contestId}/submissions")]
     public async Task<IActionResult> GetAllSubmissionsAsync([FromQuery] PaginationParams @params, long contestId)
     {
         return Ok();
