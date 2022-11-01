@@ -59,8 +59,7 @@ public class ProblemSetsController : ControllerBase
     }
 
     [HttpPost("tests")]
-    public async Task<IActionResult> CreateProblemSetsTest(long testId, 
-        [FromForm] ProblemSetTestCreateViewModel problemSetTestCreateViewModel)
+    public async Task<IActionResult> CreateProblemSetsTest([FromForm] ProblemSetTestCreateViewModel problemSetTestCreateViewModel)
     {
         return Ok();
     }
