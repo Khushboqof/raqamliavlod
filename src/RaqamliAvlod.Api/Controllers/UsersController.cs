@@ -15,14 +15,14 @@ public class UsersController : ControllerBase
         return Ok();
     }
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetAsync(long id)
+    [HttpGet("{userId}")]
+    public async Task<IActionResult> GetAsync(long userId)
     {
         return Ok();
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateAsync(long id, [FromForm] UserUpdateViewModel userUpdateViewModel)
+    [HttpPut("{userId}")]
+    public async Task<IActionResult> UpdateAsync(long userId, [FromForm] UserUpdateViewModel userUpdateViewModel)
     {
         return Ok();
     }
@@ -44,6 +44,4 @@ public class UsersController : ControllerBase
     {
         return Ok();
     }
-
-    //[HttpPatch("password/{id")]
 }

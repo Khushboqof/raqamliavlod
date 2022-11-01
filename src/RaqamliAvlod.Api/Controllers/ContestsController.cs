@@ -17,8 +17,8 @@ public class ContestsController : ControllerBase
         return Ok();
     }
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetAsync(long id)
+    [HttpGet("{contestId}")]
+    public async Task<IActionResult> GetAsync(long contestId)
     {
         return Ok();
     }
@@ -29,14 +29,14 @@ public class ContestsController : ControllerBase
         return Ok();
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateAsync(long id, [FromBody] ContestCreateViewModel contestUpdateViewModel)
+    [HttpPut("{contestId}")]
+    public async Task<IActionResult> UpdateAsync(long contestId, [FromBody] ContestCreateViewModel contestUpdateViewModel)
     {
         return Ok();
     }
 
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteAsync(long id)
+    [HttpDelete("{contestId}")]
+    public async Task<IActionResult> DeleteAsync(long contestId)
     {
         return Ok();
     }
