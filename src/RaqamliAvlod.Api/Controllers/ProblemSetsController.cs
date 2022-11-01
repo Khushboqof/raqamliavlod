@@ -16,8 +16,8 @@ public class ProblemSetsController : ControllerBase
         return Ok();
     }
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetAsync(long id)
+    [HttpGet("{problemSetId}")]
+    public async Task<IActionResult> GetAsync(long problemSetId)
     {
         return Ok();
     }
@@ -28,14 +28,14 @@ public class ProblemSetsController : ControllerBase
         return Ok();
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateAsync(long id, [FromForm] ProblemSetCreateViewModel problemSetCreateViewModel)
+    [HttpPut("{problemSetId}")]
+    public async Task<IActionResult> UpdateAsync(long problemSetId, [FromForm] ProblemSetCreateViewModel problemSetCreateViewModel)
     {
         return Ok();
     }
 
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteAsync(long id)
+    [HttpDelete("{problemSetId}")]
+    public async Task<IActionResult> DeleteAsync(long problemSetId)
     {
         return Ok();
     }
