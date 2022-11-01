@@ -1,28 +1,29 @@
 ﻿using RaqamliAvlod.Domain.Entities.Courses;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace RaqamliAvlod.Application.ViewModels.Courses.Queries
+namespace RaqamliAvlod.Application.ViewModels.Courses.Commands
 {
-    public class CourseVideoViewModel
+    public class CouseVideoUpdateViewModel
     {
-        public long Id { get; set; }
         public string Title { get; set; } = string.Empty;
         public string YouTubeThumbnail { get; set; } = string.Empty;
-        public int ViewCount { get; set; }
         public string YouTubeLink { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
+        public long CourseId { get; set; }
 
-        public string CourseName { get; set; } = string.Empty;
-
-        public static implicit operator CourseVideoViewModel(CourseVideo courseVideo)
+        public static implicit operator CouseVideoUpdateViewModel(CourseVideo courseVideo)
         {
-            return new CourseVideoViewModel()
+            return new CouseVideoUpdateViewModel()
             {
-                Id = courseVideo.Id,
                 Title = courseVideo.Title,
                 YouTubeThumbnail = courseVideo.YouTubeThumbnail,
-                ViewCount = courseVideo.ViewCount,
                 YouTubeLink = courseVideo.YouTubeLink,
                 Description = courseVideo.Description,
+                CourseId = courseVideo.CourseId
             };
         }
     }
