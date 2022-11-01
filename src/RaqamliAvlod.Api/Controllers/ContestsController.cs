@@ -71,6 +71,7 @@ public class ContestsController : ControllerBase
     }
 
     [HttpGet("{contestId}/users/{userId}/submissions")]
+
     public async Task<IActionResult> GetSubmissionsAsync([FromQuery] PaginationParams @params, 
         long contestId, long userId)
     {
