@@ -18,7 +18,6 @@ namespace RaqamliAvlod.Application.ViewModels.Questions.Queries
                 Title = question.Title,
                 Description = question.Description,
                 ViewCount = question.ViewCount,
-                Tags = question.Tags,
             };
         }
     }

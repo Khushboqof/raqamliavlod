@@ -37,8 +37,6 @@ namespace RaqamliAvlod.Application.ViewModels.ProblemSets.Commands
         [Required]
         public long OwnerId { get; set; }
 
-        public long? ContestId { get; set; }
-
         public static implicit operator ProblemSet(ProblemSetCreateViewModel problemSetCreateViewModel)
         {
             return new ProblemSet()
@@ -53,7 +51,6 @@ namespace RaqamliAvlod.Application.ViewModels.ProblemSets.Commands
                 Difficulty = problemSetCreateViewModel.Difficulty,
                 IsPublic = problemSetCreateViewModel.IsPublic,
                 OwnerId = problemSetCreateViewModel.OwnerId,
-                ContestId = problemSetCreateViewModel.ContestId
             };
         }
     }

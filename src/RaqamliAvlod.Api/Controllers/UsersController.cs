@@ -9,7 +9,7 @@ namespace RaqamliAvlod.Api.Controllers;
 public class UsersController : ControllerBase
 {
     [HttpGet]
-    public async Task<IActionResult> GetAllAsync([FromBody] PaginationParams @params)
+    public async Task<IActionResult> GetAllAsync([FromQuery] PaginationParams @params)
     {
         return Ok();
     }
@@ -26,14 +26,8 @@ public class UsersController : ControllerBase
         return Ok();
     }
 
-    [HttpPost]
-    public async Task<IActionResult> CreateAsync([FromForm] UserCreateViewModel userCreateViewModel)
-    {
-        return Ok();
-    }
-
-    [HttpGet("search/{search}")]
-    public async Task<IActionResult> SearchAsync([FromQuery] PaginationParams @params, string search)
+    [HttpGet("search")]
+    public async Task<IActionResult> SearchAsync(string search, [FromQuery] PaginationParams @params)
     {
         return Ok();
     }

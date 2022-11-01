@@ -45,20 +45,20 @@ public class ProblemSetsController : ControllerBase
         return Ok();
     }
 
-    [HttpGet("{problemSetId}/Tests")]
-    public async Task<IActionResult> GetProblemSetTests(long problemSetId)
+    [HttpGet("{problemSetId}/tests")]
+    public async Task<IActionResult> GetProblemSetTestsAsync(long problemSetId)
     {
         return Ok();
     }
 
     [HttpGet("tests/{testId}")]
-    public async Task<IActionResult> GetProblemSetsTest(long testId)
+    public async Task<IActionResult> GetProblemSetsTestAsync(long testId)
     {
         return Ok();
     }
 
     [HttpPost("tests")]
-    public async Task<IActionResult> CreateProblemSetsTest([FromForm] ProblemSetTestCreateViewModel problemSetTestCreateViewModel)
+    public async Task<IActionResult> CreateProblemSetsTestAsync([FromForm] ProblemSetTestCreateViewModel viewModel)
     {
         return Ok();
     }
@@ -83,7 +83,7 @@ public class ProblemSetsController : ControllerBase
     }
 
     [HttpGet("{problemSetId}/submissions")]
-    public async Task<IActionResult> GetAllSubmissions(long problemSetId)
+    public async Task<IActionResult> GetAllSubmissions([FromQuery] PaginationParams @params, long problemSetId)
     {
         return Ok();
     }
