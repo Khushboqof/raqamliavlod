@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RaqamliAvlod.Application.Utils;
 using RaqamliAvlod.Application.ViewModels.Contests.Commands;
+using RaqamliAvlod.Application.ViewModels.ProblemSets.Commands;
 using RaqamliAvlod.Application.ViewModels.Submissions.Commands;
 namespace RaqamliAvlod.Api.Controllers;
 
@@ -46,7 +47,13 @@ public class ContestsController : ControllerBase
     }
 
     [HttpPost("submissions")]
-    public async Task<IActionResult> SubmissionsAsync([FromForm] ContestSubmissionCreateViewModel viewModel)
+    public async Task<IActionResult> CreateSubmissionsAsync([FromForm] ContestSubmissionCreateViewModel viewModel)
+    {
+        return Ok();
+    }
+
+    [HttpPost("problemsets")]
+    public async Task<IActionResult> CreateProblemSetAsync([FromForm] ContestProblemSetCreateViewModel createViewModel)
     {
         return Ok();
     }
