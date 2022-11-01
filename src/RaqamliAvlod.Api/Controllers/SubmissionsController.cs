@@ -8,7 +8,7 @@ namespace RaqamliAvlod.Api.Controllers;
 public class SubmissionsController : ControllerBase
 {
     [HttpGet]
-    public async Task<IActionResult> GetAllAsync([FromBody] PaginationParams @params)
+    public async Task<IActionResult> GetAllAsync([FromQuery] PaginationParams @params)
     {
         return Ok();
     }
@@ -20,7 +20,7 @@ public class SubmissionsController : ControllerBase
     }
 
     [HttpGet("{problemSetId}/{userId}")]
-    public async Task<IActionResult> GetSubmissionUserAsync(long problemsetId, long userId, [FromBody] PaginationParams @params)
+    public async Task<IActionResult> GetSubmissionUserAsync(long problemsetId, long userId, [FromQuery] PaginationParams @params)
     {
         return Ok();
     }
