@@ -58,7 +58,7 @@ public class ProblemSetsController : ControllerBase
     }
 
     [HttpPut("tests/{testId}")]
-    public async Task<IActionResult> UpdateProblemSetsTest(long testId, [FromBody] )
+    public async Task<IActionResult> UpdateProblemSetsTest(long testId, [FromBody] ProblemSetUpdateViewModel problemSetUpdateViewModel)
     {
         return Ok();
     }
