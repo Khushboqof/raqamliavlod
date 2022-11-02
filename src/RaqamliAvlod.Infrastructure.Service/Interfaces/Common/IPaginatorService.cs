@@ -5,10 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RaqamliAvlod.Infrastructure.Service.Interfaces.Common
+namespace RaqamliAvlod.Infrastructure.Service.Interfaces.Common;
+
+public interface IPaginatorService
 {
-    public interface IPaginatorService
-    {
-        Task ToPagenatorAsync(PaginationMetaData metaData);
-    }
+    void ToPagenator(PaginationMetaData metaData);
 }
