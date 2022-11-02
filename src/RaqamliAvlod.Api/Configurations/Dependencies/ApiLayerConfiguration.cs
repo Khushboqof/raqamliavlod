@@ -1,4 +1,5 @@
-﻿using RaqamliAvlod.Infrastructure.Service.Interfaces.Common;
+﻿
+using RaqamliAvlod.Infrastructure.Service.Interfaces.Common;
 using RaqamliAvlod.Infrastructure.Service.Services.Common;
 
 namespace RaqamliAvlod.Api.Configurations.Dependencies
