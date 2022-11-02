@@ -10,6 +10,6 @@ namespace RaqamliAvlod.Domain.Entities.Questions
         public int ViewCount { get; set; }
 
         public long OwnerId { get; set; }
-        public virtual User User { get; set; } = null!;
+        public virtual User Owner { get; set; } = null!;
     }
 }

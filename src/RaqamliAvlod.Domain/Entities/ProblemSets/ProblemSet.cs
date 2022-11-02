@@ -20,7 +20,7 @@ namespace RaqamliAvlod.Domain.Entities.ProblemSets
         public char ContestIdentifier { get; set; }
 
         public long OwnerId { get; set; }
-        public virtual User User { get; set; } = null!;
+        public virtual User Owner { get; set; } = null!;
 
         public long? ContestId { get; set; }
         public virtual Contest Contest { get; set; } = null!;
