@@ -20,12 +20,16 @@ namespace RaqamliAvlod.DataAccess.Repositories
         private readonly AppDbContext _dbContext;
         public IContestRepository Contests { get; }
         public IContestStandingsRepository ContestStandings { get; }
+        public IContestSubmissionInfoRepository ContestSubmissionInfo { get; }
         public ICourseCommentRepository CourseComments { get; }
         public ICourseRepository Courses { get; }
+        public ICourseVideoRepository CourseVideos { get; }
         public IProblemSetRepository ProblemSets { get; }
         public IProblemSetTestRepository ProblemSetTests { get; }
         public IQuestionAnswerRepository QuestionAnswers { get; }
         public IQuestionRepository Questions { get; }
+        public IQuestionTagRepository QuestionTags { get; }
+        public ITagRepository Tags { get; }
         public ISubmissionRepository Submissions { get; }
         public IUserRepository Users { get; }
 
@@ -34,12 +38,16 @@ namespace RaqamliAvlod.DataAccess.Repositories
             _dbContext = appDbContext;
             Contests = new ContestRepository(_dbContext);
             ContestStandings = new ContestStandingsRepository(_dbContext);
+            ContestSubmissionInfo = new ContestSubmissionInfoRepository(_dbContext);
             Courses = new CourseRepository(_dbContext);
             CourseComments = new CourseCommentRepository(_dbContext);
+            CourseVideos = new CourseVideoRepository(_dbContext);
             ProblemSets = new ProblemSetRepository(_dbContext);
             ProblemSetTests = new ProblemSetTestRepository(_dbContext);
             QuestionAnswers = new QuestionAnswerRepository(_dbContext);
             Questions = new QuestionRepository(_dbContext);
+            QuestionTags = new QuestionTagRepository(_dbContext);
+            Tags = new TagRepository(_dbContext);
             Submissions = new SubmissionRepository(_dbContext);
             Users = new UserRepository(_dbContext);
         }
