@@ -19,6 +19,7 @@ namespace RaqamliAvlod.DataAccess.DbContexts
 
         public virtual DbSet<Contest> Contests { get; set; } = null!;
         public virtual DbSet<ContestStandings> ContestStandings { get; set; } = null!;
+        public virtual DbSet<ContestSubmissionsInfo> ContestSubmissionsInfos { get; set; } = null!;
         public virtual DbSet<Course> Courses { get; set; } = null!;
         public virtual DbSet<CourseComment> CourseComments { get; set; } = null!;
         public virtual DbSet<CourseVideo> CourseVideos { get; set; } = null!;
@@ -26,6 +27,8 @@ namespace RaqamliAvlod.DataAccess.DbContexts
         public virtual DbSet<ProblemSetTest> ProblemSetTests { get; set; } = null!;
         public virtual DbSet<Question> Questions { get; set; } = null!;
         public virtual DbSet<QuestionAnswer> QuestionAnswers { get; set; } = null!;
+        public virtual DbSet<QuestionTag> QuestionTags { get; set; } = null!;
+        public virtual DbSet<Tag> Tags { get; set; } = null!;
         public virtual DbSet<Submission> Submissions { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
 
