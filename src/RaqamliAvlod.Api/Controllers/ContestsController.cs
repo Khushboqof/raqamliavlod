@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RaqamliAvlod.Application.Utils;
 using RaqamliAvlod.Application.ViewModels.Contests.Commands;
+using RaqamliAvlod.Application.ViewModels.ProblemSets.Commands;
 using RaqamliAvlod.Application.ViewModels.Submissions.Commands;
 namespace RaqamliAvlod.Api.Controllers;
 
@@ -16,8 +16,8 @@ public class ContestsController : ControllerBase
         return Ok();
     }
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetAsync(long id)
+    [HttpGet("{contestId}")]
+    public async Task<IActionResult> GetAsync(long contestId)
     {
         return Ok();
     }
@@ -28,14 +28,14 @@ public class ContestsController : ControllerBase
         return Ok();
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateAsync(long id, [FromBody] ContestCreateViewModel contestUpdateViewModel)
+    [HttpPut("{contestId}")]
+    public async Task<IActionResult> UpdateAsync(long contestId, [FromBody] ContestCreateViewModel contestUpdateViewModel)
     {
         return Ok();
     }
 
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteAsync(long id)
+    [HttpDelete("{contestId}")]
+    public async Task<IActionResult> DeleteAsync(long contestId)
     {
         return Ok();
     }
@@ -47,7 +47,13 @@ public class ContestsController : ControllerBase
     }
 
     [HttpPost("submissions")]
-    public async Task<IActionResult> SubmissionsAsync([FromForm] ContestSubmissionCreateViewModel viewModel)
+    public async Task<IActionResult> CreateSubmissionsAsync([FromForm] ContestSubmissionCreateViewModel viewModel)
+    {
+        return Ok();
+    }
+
+    [HttpPost("problemsets")]
+    public async Task<IActionResult> CreateProblemSetAsync([FromForm] ContestProblemSetCreateViewModel createViewModel)
     {
         return Ok();
     }
@@ -65,14 +71,15 @@ public class ContestsController : ControllerBase
     }
 
     [HttpGet("{contestId}/users/{userId}/submissions")]
-    public async Task<IActionResult> GetSubmissionAsync([FromQuery] PaginationParams @params, 
+
+    public async Task<IActionResult> GetSubmissionsAsync([FromQuery] PaginationParams @params, 
         long contestId, long userId)
     {
         return Ok();
     }
 
     [HttpGet("{contestId}/problemsets")]
-    public async Task<IActionResult> GetAllProblemSetsAsync([FromQuery] PaginationParams @params, long contestId)
+    public async Task<IActionResult> GetAllProblemSetsAsync(long contestId)
     {
         return Ok();
     }
@@ -84,7 +91,7 @@ public class ContestsController : ControllerBase
     }
 
     [HttpGet("{contestId}/participants")]
-    public async Task<IActionResult> ParticipantsAsync([FromQuery] PaginationParams @params, long contestId)
+    public async Task<IActionResult> GetParticipantsAsync([FromQuery] PaginationParams @params, long contestId)
     {
         return Ok();
     }

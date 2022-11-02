@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RaqamliAvlod.Application.Utils;
 using RaqamliAvlod.Application.ViewModels.Users.Commands;
 
@@ -10,31 +9,25 @@ namespace RaqamliAvlod.Api.Controllers;
 public class UsersController : ControllerBase
 {
     [HttpGet]
-    public async Task<IActionResult> GetAllAsync([FromBody] PaginationParams @params)
+    public async Task<IActionResult> GetAllAsync([FromQuery] PaginationParams @params)
     {
         return Ok();
     }
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetAsync(long id)
+    [HttpGet("{userId}")]
+    public async Task<IActionResult> GetAsync(long userId)
     {
         return Ok();
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateAsync(long id, [FromForm] UserUpdateViewModel userUpdateViewModel)
+    [HttpPut("{userId}")]
+    public async Task<IActionResult> UpdateAsync(long userId, [FromForm] UserUpdateViewModel userUpdateViewModel)
     {
         return Ok();
     }
 
-    [HttpPost]
-    public async Task<IActionResult> CreateAsync([FromForm] UserCreateViewModel userCreateViewModel)
-    {
-        return Ok();
-    }
-
-    [HttpGet("search/{search}")]
-    public async Task<IActionResult> SearchAsync([FromQuery] PaginationParams @params, string search)
+    [HttpGet("search")]
+    public async Task<IActionResult> SearchAsync(string search, [FromQuery] PaginationParams @params)
     {
         return Ok();
     }
@@ -44,6 +37,4 @@ public class UsersController : ControllerBase
     {
         return Ok();
     }
-
-    //[HttpPatch("password/{id")]
 }

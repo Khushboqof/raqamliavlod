@@ -1,75 +1,74 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RaqamliAvlod.Application.Utils;
 using RaqamliAvlod.Application.ViewModels.Questions.Commands;
-#pragma warning disable
+
 namespace RaqamliAvlod.Api.Controllers;
 
 [Route("api/questions")]
 [ApiController]
 public class QuestionsController : ControllerBase
 {
-    [HttpGet, AllowAnonymous]
+    [HttpGet]
     public async Task<IActionResult> GetAllAsync([FromQuery] PaginationParams @params)
     {
         return Ok();
     }
 
-    [HttpGet("{id}"), AllowAnonymous]
-    public async Task<IActionResult> GetAsync(long id)
+    [HttpGet("{questionId}")]
+    public async Task<IActionResult> GetAsync(long questionId)
     {
         return Ok();
     }
 
-    [HttpPost, AllowAnonymous]
+    [HttpPost]
     public async Task<IActionResult> CreateAsync([FromForm] QuestionCreateViewModel questionCreateViewModel)
     {
         return Ok();
     }
 
-    [HttpPatch("{id}"), Authorize(Roles = "User, Admin")]
-    public async Task<IActionResult> UpdateAsync(long id, [FromBody] QuestionCreateViewModel questionUpdateViewModel)
+    [HttpPatch("{questionId}")]
+    public async Task<IActionResult> UpdateAsync(long questionId, [FromBody] QuestionCreateViewModel questionUpdateViewModel)
     {
         return Ok();
     }
 
-    [HttpDelete("{id}"), Authorize(Roles = "User, Admin")]
-    public async Task<IActionResult> DeleteAsync(long id)
+    [HttpDelete("{questionId}")]
+    public async Task<IActionResult> DeleteAsync(long questionId)
     {
         return Ok();
     }
 
-    [HttpPost("{id}/views"), Authorize(Roles = "Admin")]
-    public async Task<IActionResult> CreateViewsAsync(long id)
+    [HttpPost("{questionId}/views")]
+    public async Task<IActionResult> CreateViewsAsync(long questionId)
     {
         return Ok();
     }
 
-    [HttpPost("{id}/answers"), Authorize(Roles = "User, Admin")]
-    public async Task<IActionResult> CreateAnswerAsync(long id)
+    [HttpPost("{questionId}/answers")]
+    public async Task<IActionResult> CreateAnswerAsync(long questionId)
     {
         return Ok();
     }
 
-    [HttpGet("answers/{answerId}"), AllowAnonymous]
+    [HttpGet("answers/{answerId}")]
     public async Task<IActionResult> GetAnswerAsync(long answerId)
     {
         return Ok();
     }
 
-    [HttpPut("answers/{answerId}"), Authorize(Roles = "User, Admin")]
+    [HttpPut("answers/{answerId}")]
     public async Task<IActionResult> UpdateAnswerAsync(long answerId)
     {
         return Ok();
     }
 
-    [HttpDelete("answers/{answerId}"), Authorize(Roles = "User, Admin")]
+    [HttpDelete("answers/{answerId}")]
     public async Task<IActionResult> DeleteAsnwerAsync(long answerId)
     {
         return Ok();
     }
 
-    [HttpGet("search/{search}"), AllowAnonymous]
+    [HttpGet("search/{search}")]
     public async Task<IActionResult> GetSearchAsync(string search)
     {
         return Ok();

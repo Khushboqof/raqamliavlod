@@ -13,13 +13,12 @@ namespace RaqamliAvlod.Application.ViewModels.Questions.Commands
         public string Description { get; set; } = String.Empty;
         public string[]? Tags { get; set; }
 
-        public static implicit operator QuestionPatchViewModel(Question question)
+        public static implicit operator Question(QuestionPatchViewModel question)
         {
-            return new QuestionPatchViewModel()
+            return new Question()
             {
                 Title = question.Title,
                 Description = question.Description,
-                Tags = question.Tags,
             };
         }
     }
