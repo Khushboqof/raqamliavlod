@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RaqamliAvlod.Application.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,6 @@ namespace RaqamliAvlod.Infrastructure.Service.Interfaces.Common
 {
     public interface IPaginatorService
     {
+        Task ToPagenatorAsync(PaginationMetaData metaData);
     }
 }
