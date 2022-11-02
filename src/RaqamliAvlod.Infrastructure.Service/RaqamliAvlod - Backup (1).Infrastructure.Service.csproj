@@ -9,7 +9,6 @@
   <ItemGroup>
     <PackageReference Include="MailKit" Version="3.4.2" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
-    <PackageReference Include="MimeKit" Version="3.4.2" />
   </ItemGroup>
 
   <ItemGroup>
