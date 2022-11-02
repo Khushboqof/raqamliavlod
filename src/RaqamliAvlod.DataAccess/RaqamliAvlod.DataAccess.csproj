@@ -13,7 +13,6 @@
   <ItemGroup>
     <Folder Include="Repositories\Users\" />
     <Folder Include="Repositories\Submissions\" />
-    <Folder Include="Repositories\Questions\" />
     <Folder Include="Repositories\ProblemSets\" />
   </ItemGroup>
 
