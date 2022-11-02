@@ -15,7 +15,7 @@ namespace RaqamliAvlod.Domain.Entities.Questions
         public virtual Question Question { get; set; } = null!;
 
         public long? ParentId { get; set; }
-        public virtual QuestionAnswer? Answer { get; set; }
+        public virtual QuestionAnswer? Parent { get; set; }
 
     }
 }
