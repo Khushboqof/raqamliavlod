@@ -1,16 +1,12 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 using RaqamliAvlod.Domain.Entities.Users;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Common;
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
 
-namespace RaqamliAvlod.Infrastructure.Service.Services.Common
+namespace RaqamliAvlod.Infrastructure.Service.Security
 {
     public class AuthManager : IAuthManager
     {

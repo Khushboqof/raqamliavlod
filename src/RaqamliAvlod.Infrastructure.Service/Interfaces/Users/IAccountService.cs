@@ -1,5 +1,4 @@
-﻿using RaqamliAvlod.Application.ViewModels.Accounts.Commands;
-using RaqamliAvlod.Infrastructure.Service.Dtos;
+﻿using RaqamliAvlod.Infrastructure.Service.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
