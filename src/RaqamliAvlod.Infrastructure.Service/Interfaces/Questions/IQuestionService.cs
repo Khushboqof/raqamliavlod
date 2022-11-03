@@ -13,6 +13,6 @@ namespace RaqamliAvlod.Infrastructure.Service.Interfaces.Questions;
 
 public interface IQuestionService
 {
-    Task<QuestionViewModel> UpdateAsync(QuestionUpdateViewModel questionUpdateViewModel);
+    Task<bool> UpdateAsync(QuestionUpdateViewModel questionUpdateViewModel);
     Task<bool> DeleteAsync(Expression<Func<Question, bool>> expression);
 }
