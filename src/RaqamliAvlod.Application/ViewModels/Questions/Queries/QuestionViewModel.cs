@@ -1,4 +1,5 @@
-﻿using RaqamliAvlod.Domain.Entities.Questions;
+﻿using RaqamliAvlod.Application.ViewModels.Users.Queries;
+using RaqamliAvlod.Domain.Entities.Questions;
 
 namespace RaqamliAvlod.Application.ViewModels.Questions.Queries
 {
@@ -9,7 +10,8 @@ namespace RaqamliAvlod.Application.ViewModels.Questions.Queries
         public string Description { get; set; } = String.Empty;
         public int ViewCount { get; set; }
         public string[]? Tags { get; set; }
-
+        public OwnerViewModel Owner { get; set; } = null!;
+        
         public static implicit operator QuestionViewModel(Question question)
         {
             return new QuestionViewModel()

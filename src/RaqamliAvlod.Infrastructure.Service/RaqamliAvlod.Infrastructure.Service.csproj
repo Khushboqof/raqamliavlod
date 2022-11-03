@@ -16,4 +16,9 @@
     <ProjectReference Include="..\RaqamliAvlod.Infrastructure.Core\RaqamliAvlod.Infrastructure.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Attributes\" />
+    <Folder Include="Dtos\" />
+  </ItemGroup>
+
 </Project>
