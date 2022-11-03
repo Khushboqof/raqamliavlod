@@ -2,6 +2,7 @@
 using RaqamliAvlod.Application.ViewModels.Accounts.Commands;
 using RaqamliAvlod.DataAccess.Interfaces.Users;
 using RaqamliAvlod.DataAccess.Repositories.Users;
+using RaqamliAvlod.Infrastructure.Service.Dtos;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Common;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Users;
 using System;
@@ -30,12 +31,12 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
             _emailService = emailService;
         }
 
-        public async Task<string> LogInAsync(AccountLoginViewModel accountLogin)
+        public async Task<string> LogInAsync(AccountLoginDto accountLogin)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> RegisterAsync(AccountCreateViewModel accountCreate)
+        public Task<bool> RegisterAsync(AccountCreateDto accountCreate)
         {
             throw new NotImplementedException();
         }

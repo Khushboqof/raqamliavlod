@@ -1,4 +1,4 @@
-﻿using RaqamliAvlod.Application.Attributes;
+﻿using RaqamliAvlod.Attributes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

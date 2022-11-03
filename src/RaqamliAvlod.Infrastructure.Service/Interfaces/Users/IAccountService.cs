@@ -1,4 +1,5 @@
 ﻿using RaqamliAvlod.Application.ViewModels.Accounts.Commands;
+using RaqamliAvlod.Infrastructure.Service.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,9 @@ namespace RaqamliAvlod.Infrastructure.Service.Interfaces.Users
 {
     public interface IAccountService
     {
-        Task<string> LogInAsync(AccountLoginViewModel accountLogin);
+        Task<string> LogInAsync(AccountLoginDto accountLogin);
 
-        Task<bool> RegisterAsync(AccountCreateViewModel accountCreate);
+        Task<bool> RegisterAsync(AccountCreateDto accountCreate);
 
         Task<bool> VerifyEmailAsync(VerifyEmailViewModel verifyEmail);
 
