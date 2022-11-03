@@ -5,7 +5,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-namespace RaqamliAvlod.Application.Attributes
+
+namespace RaqamliAvlod.Attributes
 {
     [AttributeUsage(AttributeTargets.Property)]
     public class AllowedFilesAttribute : ValidationAttribute

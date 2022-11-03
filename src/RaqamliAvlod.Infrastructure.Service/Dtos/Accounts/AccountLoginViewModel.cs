@@ -1,4 +1,4 @@
-﻿using RaqamliAvlod.Application.Attributes;
+﻿using RaqamliAvlod.Attributes;
 using System.ComponentModel.DataAnnotations;
 
 namespace RaqamliAvlod.Application.ViewModels.Accounts.Commands

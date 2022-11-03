@@ -1,6 +1,6 @@
 ﻿using RaqamliAvlod.Domain.Entities.ProblemSets;
 
-namespace RaqamliAvlod.Application.ViewModels.ProblemSets.Queries
+namespace RaqamliAvlod.Application.ViewModels.ProblemSets
 {
     public class ProblemSetViewModel
     {

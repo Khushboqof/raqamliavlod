@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace RaqamliAvlod.Application.Attributes
+namespace RaqamliAvlod.Attributes
 {
     [AttributeUsage(AttributeTargets.Property)]
     public class NameAttribute : ValidationAttribute
