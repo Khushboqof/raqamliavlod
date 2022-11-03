@@ -1,16 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using RaqamliAvlod.Attributes;
 using RaqamliAvlod.Domain.Entities.Courses;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace RaqamliAvlod.Application.ViewModels.Courses.Commands
+namespace RaqamliAvlod.Infrastructure.Service.Dtos
 {
-    public class CourseUpdateViewModel
+    public class CourseUpdateDto
     {
         [Required]
         public string Title { get; set; } = string.Empty;
@@ -26,7 +21,7 @@ namespace RaqamliAvlod.Application.ViewModels.Courses.Commands
         [Required]
         public long OwnerId { get; set; }
 
-        public static implicit operator Course(CourseUpdateViewModel course)
+        public static implicit operator Course(CourseUpdateDto course)
         {
             return new Course()
             {

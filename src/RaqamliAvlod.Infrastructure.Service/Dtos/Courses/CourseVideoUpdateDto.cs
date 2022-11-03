@@ -1,14 +1,9 @@
 ﻿using RaqamliAvlod.Domain.Entities.Courses;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace RaqamliAvlod.Application.ViewModels.Courses.Commands
+namespace RaqamliAvlod.Infrastructure.Service.Dtos
 {
-    public class CourseVideoUpdateViewModel
+    public class CourseVideoUpdateDto
     {
         [Required, MinLength(5)]
         public string Title { get; set; } = string.Empty;
@@ -21,9 +16,9 @@ namespace RaqamliAvlod.Application.ViewModels.Courses.Commands
         [Required]
         public long CourseId { get; set; }
 
-        public static implicit operator CourseVideoUpdateViewModel(CourseVideo courseVideo)
+        public static implicit operator CourseVideoUpdateDto(CourseVideo courseVideo)
         {
-            return new CourseVideoUpdateViewModel()
+            return new CourseVideoUpdateDto()
             {
                 Title = courseVideo.Title,
                 YouTubeThumbnail = courseVideo.YouTubeThumbnail,

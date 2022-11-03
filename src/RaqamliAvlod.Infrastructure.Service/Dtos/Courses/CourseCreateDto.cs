@@ -3,9 +3,9 @@ using RaqamliAvlod.Attributes;
 using RaqamliAvlod.Domain.Entities.Courses;
 using System.ComponentModel.DataAnnotations;
 
-namespace RaqamliAvlod.Application.ViewModels.Courses.Commands
+namespace RaqamliAvlod.Infrastructure.Service.Dtos
 {
-    public class CourseCreateViewModel
+    public class CourseCreateDto
     {
         [Required, MinLength(5)]
         public string Title { get; set; } = string.Empty;
@@ -24,16 +24,16 @@ namespace RaqamliAvlod.Application.ViewModels.Courses.Commands
         [Required]
         public long OwnerId { get; set; }
 
-        public static implicit operator Course(CourseCreateViewModel courseCreateViewModel)
+        public static implicit operator Course(CourseCreateDto courseCreateDto)
         {
             return new Course()
             {
-                Title = courseCreateViewModel.Title,
-                Info = courseCreateViewModel.Info,
-                Type = courseCreateViewModel.Type,
-                ImagePath = courseCreateViewModel.Image.ToString()!,
-                Price = courseCreateViewModel.Price,
-                OwnerId = courseCreateViewModel.OwnerId
+                Title = courseCreateDto.Title,
+                Info = courseCreateDto.Info,
+                Type = courseCreateDto.Type,
+                ImagePath = courseCreateDto.Image.ToString()!,
+                Price = courseCreateDto.Price,
+                OwnerId = courseCreateDto.OwnerId
             };
         }
     }

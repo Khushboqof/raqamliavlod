@@ -2,9 +2,10 @@
 using RaqamliAvlod.Attributes;
 using RaqamliAvlod.Domain.Entities.Submissions;
 using System.ComponentModel.DataAnnotations;
-namespace RaqamliAvlod.Application.ViewModels.Submissions.Commands
+
+namespace RaqamliAvlod.Infrastructure.Service.Dtos
 {
-    public class ProblemSetSubmissionCreateViewModel
+    public class ProblemSetSubmissionCreateDto
     {
         [Required]
         public long ProblemSetId { get; set; }
@@ -16,12 +17,12 @@ namespace RaqamliAvlod.Application.ViewModels.Submissions.Commands
         [AllowedFiles(new string[] { ".c", ".cpp", ".py", ".java" })]
         public IFormFile Code { get; set; } = null!;
 
-        public static implicit operator Submission(ProblemSetSubmissionCreateViewModel submissionCreateViewModel)
+        public static implicit operator Submission(ProblemSetSubmissionCreateDto submissionCreateDto)
         {
             return new Submission()
             {
-                ProblemSetId = submissionCreateViewModel.ProblemSetId,
-                Language = submissionCreateViewModel.Language
+                ProblemSetId = submissionCreateDto.ProblemSetId,
+                Language = submissionCreateDto.Language
             };
         }
     }

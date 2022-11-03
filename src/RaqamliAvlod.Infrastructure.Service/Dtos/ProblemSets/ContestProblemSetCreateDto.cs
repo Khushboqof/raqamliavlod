@@ -1,9 +1,8 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace RaqamliAvlod.Application.ViewModels.ProblemSets.Commands
+namespace RaqamliAvlod.Infrastructure.Service.Dtos
 {
-    public class ContestProblemSetCreateViewModel : ProblemSetCreateViewModel
+    public class ContestProblemSetCreateDto : ProblemSetCreateDto
     {
         [Required]
         public short ContestCoins { get; set; }

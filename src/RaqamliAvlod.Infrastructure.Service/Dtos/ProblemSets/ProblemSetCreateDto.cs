@@ -1,9 +1,9 @@
 ﻿using RaqamliAvlod.Domain.Entities.ProblemSets;
 using System.ComponentModel.DataAnnotations;
 
-namespace RaqamliAvlod.Application.ViewModels.ProblemSets.Commands
+namespace RaqamliAvlod.Infrastructure.Service.Dtos
 {
-    public class ProblemSetCreateViewModel
+    public class ProblemSetCreateDto
     {
         [Required]
         public string Name { get; set; } = String.Empty;
@@ -37,20 +37,20 @@ namespace RaqamliAvlod.Application.ViewModels.ProblemSets.Commands
         [Required]
         public long OwnerId { get; set; }
 
-        public static implicit operator ProblemSet(ProblemSetCreateViewModel problemSetCreateViewModel)
+        public static implicit operator ProblemSet(ProblemSetCreateDto problemSetCreateDto)
         {
             return new ProblemSet()
             {
-                Name = problemSetCreateViewModel.Name,
-                Description = problemSetCreateViewModel.Description,
-                Type = problemSetCreateViewModel.Type,
-                InputDescription = problemSetCreateViewModel.InputDescription,
-                OutputDescription = problemSetCreateViewModel.OutputDescription,
-                TimeLimit = problemSetCreateViewModel.TimeLimit,
-                MemoryLimit = problemSetCreateViewModel.MemoryLimit,
-                Difficulty = problemSetCreateViewModel.Difficulty,
-                IsPublic = problemSetCreateViewModel.IsPublic,
-                OwnerId = problemSetCreateViewModel.OwnerId,
+                Name = problemSetCreateDto.Name,
+                Description = problemSetCreateDto.Description,
+                Type = problemSetCreateDto.Type,
+                InputDescription = problemSetCreateDto.InputDescription,
+                OutputDescription = problemSetCreateDto.OutputDescription,
+                TimeLimit = problemSetCreateDto.TimeLimit,
+                MemoryLimit = problemSetCreateDto.MemoryLimit,
+                Difficulty = problemSetCreateDto.Difficulty,
+                IsPublic = problemSetCreateDto.IsPublic,
+                OwnerId = problemSetCreateDto.OwnerId,
             };
         }
     }

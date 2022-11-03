@@ -1,19 +1,14 @@
 ﻿using RaqamliAvlod.Domain.Entities.Questions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace RaqamliAvlod.Application.ViewModels.Questions.Commands
+namespace RaqamliAvlod.Infrastructure.Service.Dtos
 {
-    public class QuestionPatchViewModel
+    public class QuestionPatchDto
     {
         public string Title { get; set; } = String.Empty;
         public string Description { get; set; } = String.Empty;
         public string[]? Tags { get; set; }
 
-        public static implicit operator Question(QuestionPatchViewModel question)
+        public static implicit operator Question(QuestionPatchDto question)
         {
             return new Question()
             {

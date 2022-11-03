@@ -1,5 +1,4 @@
 ﻿using RaqamliAvlod.Domain.Entities.Submissions;
-using RaqamliAvlod.Domain.Entities.Users;
 
 namespace RaqamliAvlod.Application.ViewModels.Submissions
 {

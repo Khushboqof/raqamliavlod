@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace RaqamliAvlod.Application.ViewModels.Accounts
+﻿namespace RaqamliAvlod.Application.ViewModels.Accounts
 {
     public class AccountViewModel
     {

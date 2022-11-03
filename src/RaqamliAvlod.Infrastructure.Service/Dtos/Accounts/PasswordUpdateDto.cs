@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace RaqamliAvlod.Application.ViewModels.Common.Commands
+namespace RaqamliAvlod.Infrastructure.Service.Dtos
 {
-    public class PasswordUpdateViewModel
+    public class PasswordUpdateDto
     {
         [Required]
         public string OldPassword { get; set; } = string.Empty;

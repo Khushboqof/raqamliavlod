@@ -11,7 +11,7 @@ namespace RaqamliAvlod.Application.ViewModels.Questions
         public int ViewCount { get; set; }
         public string[]? Tags { get; set; }
         public OwnerViewModel Owner { get; set; } = null!;
-        
+
         public static implicit operator QuestionViewModel(Question question)
         {
             return new QuestionViewModel()
