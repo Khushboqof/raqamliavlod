@@ -1,6 +1,6 @@
 ﻿using RaqamliAvlod.Domain.Entities.Contests;
 
-namespace RaqamliAvlod.Application.ViewModels.Contests.Queries
+namespace RaqamliAvlod.Application.ViewModels.Contests
 {
     public class ContestStandingsViewModel
     {

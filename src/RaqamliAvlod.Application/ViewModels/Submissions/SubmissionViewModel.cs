@@ -1,13 +1,9 @@
 ﻿using RaqamliAvlod.Domain.Entities.Submissions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using RaqamliAvlod.Domain.Entities.Users;
 
-namespace RaqamliAvlod.Application.ViewModels.Submissions.Queries
+namespace RaqamliAvlod.Application.ViewModels.Submissions
 {
-    public class ContestSubmissionViewModel
+    public class SubmissionViewModel
     {
         public string Result { get; set; } = String.Empty;
         public string Language { get; set; } = String.Empty;
@@ -16,11 +12,11 @@ namespace RaqamliAvlod.Application.ViewModels.Submissions.Queries
         public int LengthOfCode { get; set; }
         public string Username { get; set; } = string.Empty;
         public long ProblemSetId { get; set; }
-        public long ContestId { get; set; }
+        public DateTime CreatedAt { get; set; }
 
-        public static implicit operator ContestSubmissionViewModel(Submission submission)
+        public static implicit operator SubmissionViewModel(Submission submission)
         {
-            return new ContestSubmissionViewModel()
+            return new SubmissionViewModel()
             {
                 Result = submission.Result,
                 Language = submission.Language,
@@ -28,7 +24,7 @@ namespace RaqamliAvlod.Application.ViewModels.Submissions.Queries
                 MemoryUsage = submission.MemoryUsage,
                 LengthOfCode = submission.LengthOfCode,
                 ProblemSetId = submission.ProblemSetId,
-                ContestId = (long)submission.ContestId!
+                CreatedAt = submission.CreatedAt,
             };
         }
     }

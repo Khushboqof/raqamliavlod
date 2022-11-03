@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-using RaqamliAvlod.Application.Attributes;
+using RaqamliAvlod.Attributes;
 using RaqamliAvlod.Domain.Entities.Submissions;
 using System.ComponentModel.DataAnnotations;
 namespace RaqamliAvlod.Application.ViewModels.Submissions.Commands

@@ -1,6 +1,6 @@
 ﻿using RaqamliAvlod.Application.Utils;
 using RaqamliAvlod.Application.ViewModels.Questions.Commands;
-using RaqamliAvlod.Application.ViewModels.Questions.Queries;
+using RaqamliAvlod.Application.ViewModels.Questions;
 using RaqamliAvlod.Domain.Entities.Questions;
 using System;
 using System.Collections.Generic;

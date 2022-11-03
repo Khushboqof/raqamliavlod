@@ -1,6 +1,6 @@
 ﻿using RaqamliAvlod.Domain.Entities.Users;
 
-namespace RaqamliAvlod.Application.ViewModels.Users.Queries
+namespace RaqamliAvlod.Application.ViewModels.Users
 {
     public class UserViewModel
     {

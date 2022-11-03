@@ -1,6 +1,6 @@
 ﻿using RaqamliAvlod.Domain.Entities.Courses;
 
-namespace RaqamliAvlod.Application.ViewModels.Courses.Queries
+namespace RaqamliAvlod.Application.ViewModels.Courses
 {
     public class CourseVideoViewModel
     {

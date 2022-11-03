@@ -1,4 +1,4 @@
-﻿namespace RaqamliAvlod.Application.ViewModels.Users.Queries
+﻿namespace RaqamliAvlod.Application.ViewModels.Users
 {
     public class OwnerViewModel
     {
