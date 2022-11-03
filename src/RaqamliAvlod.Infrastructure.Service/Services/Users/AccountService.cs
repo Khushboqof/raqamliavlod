@@ -8,7 +8,6 @@ using RaqamliAvlod.Infrastructure.Service.Interfaces.Users;
 using RaqamliAvlod.Infrastructure.Service.Security;
 using System.Net;
 
-
 namespace RaqamliAvlod.Infrastructure.Service.Services.Users
 {
     public class AccountService : IAccountService
@@ -30,53 +29,39 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
         public async Task<string> LogInAsync(AccountLoginDto accountLogin)
         {
             var user = await _repositroy.GetByEmailAsync(accountLogin.Email);
-
-            if (user is not null)
-            {
-                if (PasswordHasher.Verify(accountLogin.Password, user.Salt, user.PasswordHash))
-                { 
-                    return _authManager.GenerateToken(user);
-                }
-                throw new StatusCodeException(HttpStatusCode.BadRequest, message: "password is wrong");
-            }
-            throw new StatusCodeException(HttpStatusCode.NotFound, message: "email is wrong");
+            if(user is null) throw new StatusCodeException(HttpStatusCode.NotFound, message: "email is wrong");
 
             if (user.EmailConfirmed is false)
-            {
                 throw new StatusCodeException(HttpStatusCode.BadRequest, message: "email did not verified");
-            }
+
+            if (PasswordHasher.Verify(accountLogin.Password, user.Salt, user.PasswordHash))
+                return _authManager.GenerateToken(user);
+            else throw new StatusCodeException(HttpStatusCode.BadRequest, message: "password is wrong");
         }
 
         public async Task<bool> RegisterAsync(AccountCreateDto accountCreate)
         {
             var user = await _repositroy.GetByEmailAsync(accountCreate.Email);
+            if(user is not null) throw new StatusCodeException(HttpStatusCode.BadRequest, message: "user already exist");
+            
+            var newUser = (User)accountCreate;
+            var hashResult = PasswordHasher.Hash(accountCreate.Password);
+            newUser.Salt = hashResult.Salt;
+            newUser.PasswordHash = hashResult.Hash;
 
-            if (user is null)
-            {
-                var user1 = (User)accountCreate;
+            await _repositroy.CreateAsync(newUser);
 
-                var hashResult = PasswordHasher.Hash(accountCreate.Password);
-                user.Salt = hashResult.Salt;
-                user.PasswordHash = hashResult.Hash;
+            var email = new SendToEmailDto();
+            email.Email = accountCreate.Email;
+            
+            await SendCodeAsync(email);
 
-                await _repositroy.CreateAsync(user1);
-
-                var email = new SendToEmailDto()
-                {
-                    Email = accountCreate.Email
-                };
-
-                await SendCodeAsync(email);
-
-                return true;
-            }
-            else
-                throw new StatusCodeException(HttpStatusCode.BadRequest, message: "user already exist");
+            return true;
         }
 
         public async Task SendCodeAsync(SendToEmailDto sendToEmail)
         {
-            int code = new Random().Next(1000, 99999);
+            int code = new Random().Next(10000, 99999);
 
             _cache.Set(sendToEmail.Email, code, TimeSpan.FromMinutes(10));
 
@@ -97,19 +82,15 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
             if (user is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, message: "User not found");
 
-            if (_cache.TryGetValue(verifyEmail.Email, out int expectedCode))
-            {
-                if (expectedCode != verifyEmail.Code)
-                    throw new StatusCodeException(HttpStatusCode.BadRequest, message: "Code is wrong");
-
-                user.EmailConfirmed = true;
-
-                await _repositroy.UpdateAsync(user.Id, user);
-
-                return true;
-            }
-            else
+            if (_cache.TryGetValue(verifyEmail.Email, out int expectedCode) is false)
                 throw new StatusCodeException(HttpStatusCode.BadRequest, message: "Code is expired");
+            
+            if (expectedCode != verifyEmail.Code)
+                throw new StatusCodeException(HttpStatusCode.BadRequest, message: "Code is wrong");
+
+            user.EmailConfirmed = true;
+            await _repositroy.UpdateAsync(user.Id, user);
+            return true;
         }
 
         public async Task<bool> VerifyPasswordAsync(UserResetPasswordDto userResetPassword)
@@ -122,7 +103,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
             if (user.EmailConfirmed is false)
                 throw new StatusCodeException(HttpStatusCode.BadRequest, message: "Email did not verified");
 
-            var changedPassword = PasswordHasher.ChangePassword(userResetPassword.Password, user.Salt);
+            var changedPassword = PasswordHasher.Hash(userResetPassword.Password, user.Salt);
 
             user.PasswordHash = changedPassword;
 
