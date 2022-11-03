@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-
-namespace RaqamliAvlod.Infrastructure.Service.Security
+﻿namespace RaqamliAvlod.Infrastructure.Service.Security
 {
     public class PasswordHasher
     {
