@@ -8,7 +8,6 @@ using RaqamliAvlod.Infrastructure.Service.Interfaces.Users;
 using RaqamliAvlod.Infrastructure.Service.Security;
 using System.Net;
 
-
 namespace RaqamliAvlod.Infrastructure.Service.Services.Users
 {
     public class AccountService : IAccountService
@@ -122,7 +121,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
             if (user.EmailConfirmed is false)
                 throw new StatusCodeException(HttpStatusCode.BadRequest, message: "Email did not verified");
 
-            var changedPassword = PasswordHasher.ChangePassword(userResetPassword.Password, user.Salt);
+            var changedPassword = PasswordHasher.Hash(userResetPassword.Password, user.Salt);
 
             user.PasswordHash = changedPassword;
 
