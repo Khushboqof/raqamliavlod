@@ -17,7 +17,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Security
             return BCrypt.Net.BCrypt.Verify(salt + password + _key, hash);
         }
 
-        public static string ChangePassword(string password, string salt)
+        public static string Hash(string password, string salt)
         {
             return BCrypt.Net.BCrypt.HashPassword(salt + password + _key);
         }
