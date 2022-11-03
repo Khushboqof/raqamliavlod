@@ -1,15 +1,9 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
-using RaqamliAvlod.Application.ViewModels.Accounts.Commands;
 using RaqamliAvlod.DataAccess.Interfaces.Users;
 using RaqamliAvlod.DataAccess.Repositories.Users;
 using RaqamliAvlod.Infrastructure.Service.Dtos;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Common;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Users;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RaqamliAvlod.Infrastructure.Service.Services.Users
 {
