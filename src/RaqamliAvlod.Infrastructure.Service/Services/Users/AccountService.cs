@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
-using RaqamliAvlod.Application.ViewModels.Accounts.Commands;
 using RaqamliAvlod.DataAccess.Interfaces.Users;
 using RaqamliAvlod.DataAccess.Repositories.Users;
 using RaqamliAvlod.Infrastructure.Service.Dtos;
