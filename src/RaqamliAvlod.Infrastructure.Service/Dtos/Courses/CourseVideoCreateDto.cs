@@ -1,9 +1,9 @@
 ﻿using RaqamliAvlod.Domain.Entities.Courses;
 using System.ComponentModel.DataAnnotations;
 
-namespace RaqamliAvlod.Application.ViewModels.Courses.Commands
+namespace RaqamliAvlod.Infrastructure.Service.Dtos
 {
-    public class CourseVideoCreateViewModel
+    public class CourseVideoCreateDto
     {
         [Required, MinLength(5)]
         public string Title { get; set; } = string.Empty;
@@ -20,15 +20,15 @@ namespace RaqamliAvlod.Application.ViewModels.Courses.Commands
         [Required]
         public long CourseId { get; set; }
 
-        public static implicit operator CourseVideo(CourseVideoCreateViewModel courseVideoCreateViewModel)
+        public static implicit operator CourseVideo(CourseVideoCreateDto courseVideoCreateDto)
         {
             return new CourseVideo()
             {
-                Title = courseVideoCreateViewModel.Title,
-                YouTubeThumbnail = courseVideoCreateViewModel.YouTubeThumbnail,
-                YouTubeLink = courseVideoCreateViewModel.YouTubeLink,
-                Description = courseVideoCreateViewModel.Description,
-                CourseId = courseVideoCreateViewModel.CourseId,
+                Title = courseVideoCreateDto.Title,
+                YouTubeThumbnail = courseVideoCreateDto.YouTubeThumbnail,
+                YouTubeLink = courseVideoCreateDto.YouTubeLink,
+                Description = courseVideoCreateDto.Description,
+                CourseId = courseVideoCreateDto.CourseId,
             };
         }
     }

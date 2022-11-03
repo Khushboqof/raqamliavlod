@@ -1,9 +1,9 @@
 ﻿using RaqamliAvlod.Domain.Entities.Contests;
 using System.ComponentModel.DataAnnotations;
 
-namespace RaqamliAvlod.Application.ViewModels.Contests.Commands
+namespace RaqamliAvlod.Infrastructure.Service.Dtos
 {
-    public class ContestCreateViewModel
+    public class ContestCreateDto
     {
         [Required, MinLength(5)]
         public string Title { get; set; } = String.Empty;
@@ -13,18 +13,18 @@ namespace RaqamliAvlod.Application.ViewModels.Contests.Commands
         public DateTime StartDate { get; set; }
         [Required]
         public DateTime EndDate { get; set; }
-        [Required]  
+        [Required]
         public bool IsPublic { get; set; }
 
-        public static implicit operator Contest(ContestCreateViewModel contestCreateViewModel)
+        public static implicit operator Contest(ContestCreateDto contestCreateDto)
         {
             return new Contest()
             {
-                Title = contestCreateViewModel.Title,
-                Description = contestCreateViewModel.Description,
-                StartDate = contestCreateViewModel.StartDate,
-                EndDate = contestCreateViewModel.EndDate,
-                IsPublic = contestCreateViewModel.IsPublic,
+                Title = contestCreateDto.Title,
+                Description = contestCreateDto.Description,
+                StartDate = contestCreateDto.StartDate,
+                EndDate = contestCreateDto.EndDate,
+                IsPublic = contestCreateDto.IsPublic,
             };
         }
     }

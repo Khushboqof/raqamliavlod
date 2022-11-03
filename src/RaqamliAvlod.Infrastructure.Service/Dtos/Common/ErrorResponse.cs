@@ -1,6 +1,6 @@
-﻿namespace RaqamliAvlod.Application.ViewModels.Common
+﻿namespace RaqamliAvlod.Infrastructure.Service.Dtos
 {
-    public class ErrorResponseViewModel
+    public class ErrorResponse
     {
         public int StatusCode { get; set; }
 

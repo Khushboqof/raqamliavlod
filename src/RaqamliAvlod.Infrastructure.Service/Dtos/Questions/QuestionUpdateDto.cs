@@ -1,9 +1,9 @@
 ﻿using RaqamliAvlod.Domain.Entities.Questions;
 using System.ComponentModel.DataAnnotations;
 
-namespace RaqamliAvlod.Application.ViewModels.Questions.Commands
+namespace RaqamliAvlod.Infrastructure.Service.Dtos
 {
-    public class QuestionCreateViewModel
+    public class QuestionUpdateDto
     {
         [Required, MinLength(5)]
         public string Title { get; set; } = String.Empty;
@@ -11,12 +11,12 @@ namespace RaqamliAvlod.Application.ViewModels.Questions.Commands
         public string Description { get; set; } = String.Empty;
         public string[]? Tags { get; set; }
 
-        public static implicit operator Question(QuestionCreateViewModel questionCreateViewModel)
+        public static implicit operator QuestionUpdateDto(Question question)
         {
-            return new Question()
+            return new QuestionUpdateDto()
             {
-                Title = questionCreateViewModel.Title,
-                Description = questionCreateViewModel.Description,
+                Title = question.Title,
+                Description = question.Description,
             };
         }
     }

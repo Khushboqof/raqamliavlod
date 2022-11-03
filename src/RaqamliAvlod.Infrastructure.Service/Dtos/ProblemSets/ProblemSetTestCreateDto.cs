@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace RaqamliAvlod.Application.ViewModels.ProblemSets.Commands
+namespace RaqamliAvlod.Infrastructure.Service.Dtos
 {
-    public class ProblemSetTestCreateViewModel
+    public class ProblemSetTestCreateDto
     {
         [Required]
         public string Input { get; set; } = String.Empty;

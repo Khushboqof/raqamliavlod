@@ -1,9 +1,9 @@
 ﻿using RaqamliAvlod.Attributes;
 using System.ComponentModel.DataAnnotations;
 
-namespace RaqamliAvlod.Application.ViewModels.Accounts.Commands
+namespace RaqamliAvlod.Infrastructure.Service.Dtos
 {
-    public class AccountLoginViewModel
+    public class AccountLoginDto
     {
         [Required, Email]
         public string Email { get; set; } = string.Empty;

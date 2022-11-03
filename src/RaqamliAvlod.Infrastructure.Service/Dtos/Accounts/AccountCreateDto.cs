@@ -2,9 +2,9 @@
 using RaqamliAvlod.Domain.Entities.Users;
 using System.ComponentModel.DataAnnotations;
 
-namespace RaqamliAvlod.Application.ViewModels.Accounts.Commands
+namespace RaqamliAvlod.Infrastructure.Service.Dtos
 {
-    public class AccountCreateViewModel
+    public class AccountCreateDto
     {
         [Required, MinLength(3), Name]
         public string Firstname { get; set; } = string.Empty;
@@ -17,14 +17,14 @@ namespace RaqamliAvlod.Application.ViewModels.Accounts.Commands
         [Required, StrongPassword]
         public string Password { get; set; } = string.Empty;
 
-        public static implicit operator User(AccountCreateViewModel accountCreateViewModel)
+        public static implicit operator User(AccountCreateDto accountCreateDto)
         {
             return new User()
             {
-                FirstName = accountCreateViewModel.Firstname,
-                LastName = accountCreateViewModel.Lastname,
-                PhoneNumber = accountCreateViewModel.PhoneNumber,
-                Email = accountCreateViewModel.Email,
+                FirstName = accountCreateDto.Firstname,
+                LastName = accountCreateDto.Lastname,
+                PhoneNumber = accountCreateDto.PhoneNumber,
+                Email = accountCreateDto.Email,
             };
         }
     }
