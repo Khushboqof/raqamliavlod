@@ -41,17 +41,17 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
             throw new NotImplementedException();
         }
 
-        public Task SendCodeAsync(SendToEmailViewModel sendToEmail)
+        public Task SendCodeAsync(SendToEmailDto sendToEmail)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> VerifyEmailAsync(VerifyEmailViewModel verifyEmail)
+        public Task<bool> VerifyEmailAsync(VerifyEmailDto verifyEmail)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> VerifyPasswordAsync(UserResetPasswordViewModel userResetPassword)
+        public Task<bool> VerifyPasswordAsync(UserResetPasswordDto userResetPassword)
         {
             throw new NotImplementedException();
         }

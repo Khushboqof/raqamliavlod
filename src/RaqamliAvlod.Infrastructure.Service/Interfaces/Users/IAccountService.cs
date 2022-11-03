@@ -14,10 +14,10 @@ namespace RaqamliAvlod.Infrastructure.Service.Interfaces.Users
 
         Task<bool> RegisterAsync(AccountCreateDto accountCreate);
 
-        Task<bool> VerifyEmailAsync(VerifyEmailViewModel verifyEmail);
+        Task<bool> VerifyEmailAsync(VerifyEmailDto verifyEmail);
 
-        Task SendCodeAsync(SendToEmailViewModel sendToEmail);
+        Task SendCodeAsync(SendToEmailDto sendToEmail);
 
-        Task<bool> VerifyPasswordAsync(UserResetPasswordViewModel userResetPassword);
+        Task<bool> VerifyPasswordAsync(UserResetPasswordDto userResetPassword);
     }
 }
