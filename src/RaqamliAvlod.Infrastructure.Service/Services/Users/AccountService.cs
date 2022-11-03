@@ -14,16 +14,14 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
     public class AccountService : IAccountService
     {
         private readonly IUserRepository _repositroy;
-        private readonly IFileService _fileservice;
         private readonly IAuthManager _authManager;
         private readonly IMemoryCache _cache;
         private readonly IEmailService _emailService;
 
-        public AccountService(IUserRepository userRepository, IFileService fileService, IAuthManager authManager,
+        public AccountService(IUserRepository userRepository, IAuthManager authManager,
             IMemoryCache cache, IEmailService emailService)
         {
             _repositroy = userRepository;
-            _fileservice = fileService;
             _authManager = authManager;
             _cache = cache;
             _emailService = emailService;
@@ -130,7 +128,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
 
             await _repositroy.UpdateAsync(user.Id, user);
 
-            throw new StatusCodeException(HttpStatusCode.OK, message: "True");
+            return true;
         }
     }
 }
