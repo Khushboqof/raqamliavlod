@@ -119,17 +119,18 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Courses
             throw new NotImplementedException();
         }
 
-        public async Task<bool> UpdatePutAsync(long ownerId, CourseUpdateDto dto)
+        public async Task<bool> UpdatePutAsync(long courseId, CourseUpdateDto dto)
         {
-            var owner = _unitOfWork.Users.FindByIdAsync(ownerId);
+            var course = _unitOfWork.Courses.FindByIdAsync(courseId);
 
-            if (owner is null)
-                throw new StatusCodeException(HttpStatusCode.BadRequest, "Owner not found!");
+            if (course is null)
+                throw new StatusCodeException(HttpStatusCode.BadRequest, "Course not found!");
 
-            var course = (Course)dto;
-            course.ImagePath = await _fileService.SaveImageAsync(dto.Image);
+            var updadetCourse = (Course)dto;
+            updadetCourse.Id = courseId;
+            updadetCourse.ImagePath = await _fileService.SaveImageAsync(dto.Image);
 
-            var res = await _unitOfWork.Courses.UpdateAsync(course.Id, course);
+            var res = await _unitOfWork.Courses.UpdateAsync(courseId, updadetCourse);
 
             return res is not null ? true : false;
         }
