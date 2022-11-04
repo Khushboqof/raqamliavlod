@@ -17,7 +17,6 @@ namespace RaqamliAvlod.DataAccess.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly AppDbContext _dbContext;
         public IContestRepository Contests { get; }
         public IContestStandingsRepository ContestStandings { get; }
         public IContestSubmissionInfoRepository ContestSubmissionInfo { get; }
@@ -35,21 +34,20 @@ namespace RaqamliAvlod.DataAccess.Repositories
 
         public UnitOfWork(AppDbContext appDbContext)
         {
-            _dbContext = appDbContext;
-            Contests = new ContestRepository(_dbContext);
-            ContestStandings = new ContestStandingsRepository(_dbContext);
-            ContestSubmissionInfo = new ContestSubmissionInfoRepository(_dbContext);
-            Courses = new CourseRepository(_dbContext);
-            CourseComments = new CourseCommentRepository(_dbContext);
-            CourseVideos = new CourseVideoRepository(_dbContext);
-            ProblemSets = new ProblemSetRepository(_dbContext);
-            ProblemSetTests = new ProblemSetTestRepository(_dbContext);
-            QuestionAnswers = new QuestionAnswerRepository(_dbContext);
-            Questions = new QuestionRepository(_dbContext);
-            QuestionTags = new QuestionTagRepository(_dbContext);
-            Tags = new TagRepository(_dbContext);
-            Submissions = new SubmissionRepository(_dbContext);
-            Users = new UserRepository(_dbContext);
+            Contests = new ContestRepository(appDbContext);
+            ContestStandings = new ContestStandingsRepository(appDbContext);
+            ContestSubmissionInfo = new ContestSubmissionInfoRepository(appDbContext);
+            Courses = new CourseRepository(appDbContext);
+            CourseComments = new CourseCommentRepository(appDbContext);
+            CourseVideos = new CourseVideoRepository(appDbContext);
+            ProblemSets = new ProblemSetRepository(appDbContext);
+            ProblemSetTests = new ProblemSetTestRepository(appDbContext);
+            QuestionAnswers = new QuestionAnswerRepository(appDbContext);
+            Questions = new QuestionRepository(appDbContext);
+            QuestionTags = new QuestionTagRepository(appDbContext);
+            Tags = new TagRepository(appDbContext);
+            Submissions = new SubmissionRepository(appDbContext);
+            Users = new UserRepository(appDbContext);
         }
         public void Dispose()
         {
