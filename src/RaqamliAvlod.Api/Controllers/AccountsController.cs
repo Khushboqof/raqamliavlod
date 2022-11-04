@@ -22,4 +22,8 @@ public class AccountsController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> LoginAsync([FromForm] AccountLoginDto accountLoginViewModel)
         => Ok(await _accountService.LogInAsync(accountLoginViewModel));
+
+    [HttpPost("verifyemail")]
+    public async Task<IActionResult> VerifyEmail([FromBody] VerifyEmailDto verifyEmail)
+        => Ok(await _accountService.VerifyEmailAsync(verifyEmail));
 }
