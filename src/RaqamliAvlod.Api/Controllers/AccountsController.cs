@@ -10,18 +10,16 @@ namespace RaqamliAvlod.Api.Controllers;
 public class AccountsController : ControllerBase
 {
     private readonly IAccountService _accountService;
-    private readonly ILogger _logger;
-    public AccountsController(IAccountService accountService, ILogger logger)
+    public AccountsController(IAccountService accountService)
     {
         _accountService = accountService;
-        _logger = logger;
     }
 
     [HttpPost("registrate"), AllowAnonymous]
     public async Task<IActionResult> RegistrateAsync([FromForm] AccountCreateDto accountCreateViewModel)
         => Ok(await _accountService.RegisterAsync(accountCreateViewModel));
 
-    [HttpPost("login")]
+    [HttpPost("login"), AllowAnonymous]
     public async Task<IActionResult> LoginAsync([FromForm] AccountLoginDto accountLoginViewModel)
         => Ok(await _accountService.LogInAsync(accountLoginViewModel));
 }
