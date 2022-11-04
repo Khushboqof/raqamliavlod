@@ -1,4 +1,5 @@
-﻿using RaqamliAvlod.Domain.Entities.Courses;
+﻿using RaqamliAvlod.Application.ViewModels.Users;
+using RaqamliAvlod.Domain.Entities.Courses;
 
 namespace RaqamliAvlod.Application.ViewModels.Courses
 {
@@ -10,7 +11,7 @@ namespace RaqamliAvlod.Application.ViewModels.Courses
         public string ImagePath { get; set; } = string.Empty;
         public float Price { get; set; }
 
-        public string OwnerName { get; set; } = string.Empty;
+        public OwnerViewModel OwnerViewModel { get; set; } = null!;
 
         public static implicit operator CourseViewModel(Course course)
         {

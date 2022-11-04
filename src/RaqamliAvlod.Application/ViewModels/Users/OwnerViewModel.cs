@@ -1,4 +1,6 @@
-﻿namespace RaqamliAvlod.Application.ViewModels.Users
+﻿using RaqamliAvlod.Domain.Entities.Users;
+
+namespace RaqamliAvlod.Application.ViewModels.Users
 {
     public class OwnerViewModel
     {
@@ -7,5 +9,16 @@
         public string FullName { get; set; } = default!;
 
         public string ImagePath { get; set; } = default!;
+
+
+        public static implicit operator OwnerViewModel(User user)
+        {
+            return new OwnerViewModel()
+            {
+                UserId = user.Id,
+                FullName = user.FirstName + " " + user.LastName,
+                ImagePath = user.ImagePath
+            };
+        }
     }
 }

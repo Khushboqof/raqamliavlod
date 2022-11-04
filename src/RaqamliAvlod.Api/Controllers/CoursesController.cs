@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RaqamliAvlod.Application.Utils;
 using RaqamliAvlod.Infrastructure.Service.Dtos;
+using RaqamliAvlod.Infrastructure.Service.Interfaces.Courses;
 
 namespace RaqamliAvlod.Api.Controllers;
 
@@ -8,6 +9,12 @@ namespace RaqamliAvlod.Api.Controllers;
 [ApiController]
 public class CoursesController : ControllerBase
 {
+    private readonly ICourseService _courseService;
+
+    public CoursesController(ICourseService courseService)
+    {
+        _courseService = courseService;
+    }
     [HttpGet]
     public async Task<IActionResult> GetAllAsync([FromQuery] PaginationParams @params, string searchText)
     {
@@ -21,9 +28,12 @@ public class CoursesController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateAsync([FromForm] CourseCreateDto courseCreateViewModel)
+    public async Task<IActionResult> CreateAsync([FromForm] CourseCreateDto courseCreateDto)
     {
-        return Ok();
+        //var userId = long.Parse(HttpContext.User.FindFirst("Id")?.Value ?? "0");
+        var res = _courseService.CreateAsync(1, courseCreateDto);
+
+        return Ok(res);
     }
 
     [HttpDelete("{courseId}")]
