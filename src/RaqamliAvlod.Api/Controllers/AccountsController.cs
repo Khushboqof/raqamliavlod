@@ -19,7 +19,23 @@ public class AccountsController : ControllerBase
     public async Task<IActionResult> RegistrateAsync([FromForm] AccountCreateDto accountCreateViewModel)
         => Ok(await _accountService.RegisterAsync(accountCreateViewModel));
 
-    [HttpPost("login"), AllowAnonymous]
+    [HttpPost("login")]
     public async Task<IActionResult> LoginAsync([FromForm] AccountLoginDto accountLoginViewModel)
         => Ok(await _accountService.LogInAsync(accountLoginViewModel));
+
+    [HttpPost("verifyemail")]
+    public async Task<IActionResult> VerifyEmail([FromBody] VerifyEmailDto verifyEmail)
+        => Ok(await _accountService.VerifyEmailAsync(verifyEmail));
+
+    [HttpPost("reset-password")]
+    public async Task<IActionResult> ForgotPasswordAsync([FromQuery] UserResetPasswordDto userReset)
+        => Ok(await _accountService.VerifyPasswordAsync(userReset));
+
+    [HttpPost("sendcode")]
+    public async Task<IActionResult> SendToEmail([FromBody] SendToEmailDto sendTo)
+    {
+        await _accountService.SendCodeAsync(sendTo);
+        
+        return Ok();
+    }
 }
