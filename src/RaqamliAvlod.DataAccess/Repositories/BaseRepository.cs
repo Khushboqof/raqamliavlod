@@ -25,7 +25,7 @@ namespace RaqamliAvlod.DataAccess.Repositories
 
         public virtual async Task<T> DeleteAsync(long id)
         {
-            var entity = await _dbSet.FindAsync(id);
+            var entity = await _dbSet.FirstOrDefaultAsync(x=>x.Id==id);
             if (entity is not null)
             {
                 _dbSet.Remove(entity);
@@ -37,7 +37,7 @@ namespace RaqamliAvlod.DataAccess.Repositories
 
         public virtual async Task<T?> FindByIdAsync(long id)
         {
-            return await _dbSet.FindAsync(id);
+            return await _dbSet.FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public virtual async Task<T> UpdateAsync(long id, T entity)
