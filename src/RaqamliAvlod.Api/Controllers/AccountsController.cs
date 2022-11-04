@@ -19,7 +19,7 @@ public class AccountsController : ControllerBase
     public async Task<IActionResult> RegistrateAsync([FromForm] AccountCreateDto accountCreateViewModel)
         => Ok(await _accountService.RegisterAsync(accountCreateViewModel));
 
-    [HttpPost("login")]
+    [HttpPost("login"), AllowAnonymous]
     public async Task<IActionResult> LoginAsync([FromForm] AccountLoginDto accountLoginViewModel)
         => Ok(await _accountService.LogInAsync(accountLoginViewModel));
 }

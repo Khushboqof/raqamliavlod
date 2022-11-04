@@ -568,7 +568,6 @@ namespace RaqamliAvlod.DataAccess.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Username")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -576,13 +575,7 @@ namespace RaqamliAvlod.DataAccess.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.HasIndex("ImagePath")
-                        .IsUnique();
-
                     b.HasIndex("PhoneNumber")
-                        .IsUnique();
-
-                    b.HasIndex("Salt")
                         .IsUnique();
 
                     b.HasIndex("Username")
