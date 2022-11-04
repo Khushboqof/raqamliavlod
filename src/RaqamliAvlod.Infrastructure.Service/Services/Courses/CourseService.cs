@@ -1,0 +1,137 @@
+﻿using RaqamliAvlod.Application.Exceptions;
+using RaqamliAvlod.Application.Utils;
+using RaqamliAvlod.Application.ViewModels.Courses;
+using RaqamliAvlod.Application.ViewModels.Users;
+using RaqamliAvlod.DataAccess.Interfaces;
+using RaqamliAvlod.DataAccess.Interfaces.Courses;
+using RaqamliAvlod.DataAccess.Interfaces.Users;
+using RaqamliAvlod.Domain.Entities.Courses;
+using RaqamliAvlod.Infrastructure.Service.Dtos;
+using RaqamliAvlod.Infrastructure.Service.Interfaces.Common;
+using RaqamliAvlod.Infrastructure.Service.Interfaces.Courses;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace RaqamliAvlod.Infrastructure.Service.Services.Courses
+{
+    public class CourseService : ICourseService
+    {
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IFileService _fileService;
+
+        public CourseService(IUnitOfWork unitOfWork,
+            IFileService fileService)
+        {
+            _unitOfWork = unitOfWork;
+            _fileService = fileService;
+        }
+        public async Task<bool> CreateAsync(long ownerId, CourseCreateDto dto)
+        {
+            var user = await _unitOfWork.Users.FindByIdAsync(ownerId);
+
+            if (user is null)
+                throw new StatusCodeException(HttpStatusCode.BadRequest, "Owner not found!");
+            var course = (Course)dto;
+            course.ImagePath = await _fileService.SaveImageAsync(dto.Image);
+
+            var res = await _unitOfWork.Courses.CreateAsync(course);
+
+            return res is not null ? true : false;
+        }
+
+        public async Task<bool> DeleteAsync(long id)
+        {
+            var course = _unitOfWork.Courses.FindByIdAsync(id);
+
+            if (course is null)
+                throw new StatusCodeException(HttpStatusCode.BadRequest, "Course not found!");
+
+            var res = await _unitOfWork.Courses.DeleteAsync(id);
+
+            return res is not null ? true : false;
+        }
+
+        public async Task<IEnumerable<CourseViewModel>> GetAllAsync(PaginationParams @params)
+        {
+            var courses = await _unitOfWork.Courses.GetAllAsync(@params);
+
+            var courseViews = new List<CourseViewModel>();
+
+            foreach(var course in courses)
+            {
+                var owner = (await _unitOfWork.Users.FindByIdAsync(course.OwnerId))!;
+                var ownerView = (OwnerViewModel)owner;
+
+                var courseView = (CourseViewModel)course;
+                courseView.OwnerViewModel = ownerView;
+
+                courseViews.Add(courseView);
+            }
+
+            return courseViews;
+        }
+
+        public async Task<IEnumerable<CourseViewModel>> SearchByTitleAsync(string text, PaginationParams @params)
+        {
+            var courses = await _unitOfWork.Courses.SearchAsync(text, @params);
+            var courseViews = new List<CourseViewModel>();
+
+            foreach (var course in courses)
+            {
+                var owner = (await _unitOfWork.Users.FindByIdAsync(course.OwnerId))!;
+                var ownerView = (OwnerViewModel)owner;
+
+                var courseView = (CourseViewModel)course;
+                courseView.OwnerViewModel = ownerView;
+
+                courseViews.Add(courseView);
+            }
+
+            return courseViews;
+        }
+        public async Task<CourseViewModel> GetAsync(long id)
+        {
+            var course = await _unitOfWork.Courses.FindByIdAsync(id);
+
+            if (course is null)
+                throw new StatusCodeException(HttpStatusCode.BadRequest, "Course not found!");
+
+            var owner = await _unitOfWork.Users.FindByIdAsync(course.OwnerId);
+
+            if (owner is null)
+                throw new StatusCodeException(HttpStatusCode.BadRequest, "Owner not found!");
+
+            var ownerView = (OwnerViewModel)owner;
+
+            var courseView = (CourseViewModel)course;
+
+            courseView.OwnerViewModel = ownerView;
+
+            return courseView;
+        }
+
+        public Task<bool> UpdatePatchAsync(long ownerId, CourseUpdateDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<bool> UpdatePutAsync(long ownerId, CourseUpdateDto dto)
+        {
+            var owner = _unitOfWork.Users.FindByIdAsync(ownerId);
+
+            if (owner is null)
+                throw new StatusCodeException(HttpStatusCode.BadRequest, "Owner not found!");
+
+            var course = (Course)dto;
+            course.ImagePath = await _fileService.SaveImageAsync(dto.Image);
+
+            var res = await _unitOfWork.Courses.UpdateAsync(course.Id, course);
+
+            return res is not null ? true : false;
+        }
+    }
+}

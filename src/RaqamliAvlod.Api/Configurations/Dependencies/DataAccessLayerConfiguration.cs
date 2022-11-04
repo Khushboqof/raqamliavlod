@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RaqamliAvlod.DataAccess.DbContexts;
+using RaqamliAvlod.DataAccess.Interfaces;
+using RaqamliAvlod.DataAccess.Repositories;
 
 namespace RaqamliAvlod.Api.Configurations.Dependencies
 {
@@ -13,6 +15,8 @@ namespace RaqamliAvlod.Api.Configurations.Dependencies
                 options.UseNpgsql(connectionString);
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
+
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
     }
 }
