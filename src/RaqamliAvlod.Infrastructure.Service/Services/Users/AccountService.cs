@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Caching.Memory;
 using RaqamliAvlod.Application.Exceptions;
+using RaqamliAvlod.DataAccess.Interfaces;
 using RaqamliAvlod.DataAccess.Interfaces.Users;
 using RaqamliAvlod.Domain.Entities.Users;
 using RaqamliAvlod.Infrastructure.Service.Dtos;
@@ -12,15 +13,15 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
 {
     public class AccountService : IAccountService
     {
-        private readonly IUserRepository _repositroy;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IAuthManager _authManager;
         private readonly IMemoryCache _cache;
         private readonly IEmailService _emailService;
 
-        public AccountService(IUserRepository userRepository, IAuthManager authManager,
+        public AccountService(IUnitOfWork unitOfWork, IAuthManager authManager,
             IMemoryCache cache, IEmailService emailService)
         {
-            _repositroy = userRepository;
+            _unitOfWork = unitOfWork;
             _authManager = authManager;
             _cache = cache;
             _emailService = emailService;
@@ -28,7 +29,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
 
         public async Task<string> LogInAsync(AccountLoginDto accountLogin)
         {
-            var user = await _repositroy.GetByEmailAsync(accountLogin.Email);
+            var user = await _unitOfWork.Users.GetByEmailAsync(accountLogin.Email);
             if(user is null) throw new StatusCodeException(HttpStatusCode.NotFound, message: "email is wrong");
 
             if (user.EmailConfirmed is false)
@@ -41,7 +42,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
 
         public async Task<bool> RegisterAsync(AccountCreateDto accountCreate)
         {
-            var user = await _repositroy.GetByEmailAsync(accountCreate.Email);
+            var user = await _unitOfWork.Users.GetByEmailAsync(accountCreate.Email);
             if(user is not null) throw new StatusCodeException(HttpStatusCode.BadRequest, message: "user already exist");
             
             var newUser = (User)accountCreate;
@@ -49,7 +50,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
             newUser.Salt = hashResult.Salt;
             newUser.PasswordHash = hashResult.Hash;
 
-            await _repositroy.CreateAsync(newUser);
+            await _unitOfWork.Users.CreateAsync(newUser);
 
             var email = new SendToEmailDto();
             email.Email = accountCreate.Email;
@@ -77,7 +78,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
 
         public async Task<bool> VerifyEmailAsync(VerifyEmailDto verifyEmail)
         {
-            var user = await _repositroy.GetByEmailAsync(verifyEmail.Email);
+            var user = await _unitOfWork.Users.GetByEmailAsync(verifyEmail.Email);
 
             if (user is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, message: "User not found");
@@ -89,13 +90,13 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
                 throw new StatusCodeException(HttpStatusCode.BadRequest, message: "Code is wrong");
 
             user.EmailConfirmed = true;
-            await _repositroy.UpdateAsync(user.Id, user);
+            await _unitOfWork.Users.UpdateAsync(user.Id, user);
             return true;
         }
 
         public async Task<bool> VerifyPasswordAsync(UserResetPasswordDto userResetPassword)
         {
-            var user = await _repositroy.GetByEmailAsync(userResetPassword.Email);
+            var user = await _unitOfWork.Users.GetByEmailAsync(userResetPassword.Email);
 
             if (user is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, message: "User not found");
@@ -107,7 +108,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
 
             user.PasswordHash = changedPassword;
 
-            await _repositroy.UpdateAsync(user.Id, user);
+            await _unitOfWork.Users.UpdateAsync(user.Id, user);
 
             return true;
         }
