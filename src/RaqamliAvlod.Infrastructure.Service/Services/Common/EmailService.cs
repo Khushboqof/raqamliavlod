@@ -21,7 +21,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Common
         public async Task SendAsync(EmailMessage message)
         {
             var email = new MimeMessage();
-            email.From.Add(MailboxAddress.Parse(_config["MailAddress"]));
+            email.From.Add(MailboxAddress.Parse(_config["EmailAddress"]));
             email.To.Add(MailboxAddress.Parse(message.To));
             email.Subject = message.Subject;
             email.Body = new TextPart(TextFormat.Html) { Text = message.Body.ToString() };
