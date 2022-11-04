@@ -78,7 +78,7 @@ namespace RaqamliAvlod.DataAccess.DbContexts
             #region Users
             modelBuilder.Entity<User>().HasIndex(x => x.Email).IsUnique();
             modelBuilder.Entity<User>().HasIndex(x => x.PhoneNumber).IsUnique();
-            //modelBuilder.Entity<User>().HasIndex(x => x.Username).IsUnique();
+            modelBuilder.Entity<User>().HasIndex(x => x.Username).IsUnique();
             #endregion
         }
     }
