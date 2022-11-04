@@ -17,8 +17,8 @@ namespace RaqamliAvlod.Api.Configurations.Dependencies
             builder.Services.AddScoped<IFileService, FileService>();
             builder.Services.AddScoped<IEmailService, EmailService>();
             builder.Services.AddScoped<IAuthManager, AuthManager>();
-            builder.Services.AddMemoryCache();
             builder.Services.AddScoped<IAccountService, AccountService>();
+            builder.Services.AddMemoryCache();
         }
     }
 }
