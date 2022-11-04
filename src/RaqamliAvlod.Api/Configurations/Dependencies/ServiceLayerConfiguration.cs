@@ -1,5 +1,6 @@
 ﻿using RaqamliAvlod.Infrastructure.Service.Interfaces.Common;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Courses;
+using RaqamliAvlod.Infrastructure.Service.Security;
 using RaqamliAvlod.Infrastructure.Service.Services.Common;
 using RaqamliAvlod.Infrastructure.Service.Services.Courses;
 
