@@ -14,9 +14,4 @@
     <ProjectReference Include="..\RaqamliAvlod.DataAccess\RaqamliAvlod.DataAccess.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Interfaces\NewFolder\" />
-    <Folder Include="Services\" />
-  </ItemGroup>
-
 </Project>
