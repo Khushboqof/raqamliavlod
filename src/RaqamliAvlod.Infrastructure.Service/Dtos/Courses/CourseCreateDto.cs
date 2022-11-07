@@ -17,7 +17,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Dtos
         public string Type { get; set; } = string.Empty;
 
         [AllowedFiles(new string[] { ".jpg", ".png", ".jpeg" })]
-        public IFormFile Image { get; set; }
+        public IFormFile? Image { get; set; }
 
         public float Price { get; set; }
 
@@ -31,7 +31,6 @@ namespace RaqamliAvlod.Infrastructure.Service.Dtos
                 Title = courseCreateDto.Title,
                 Info = courseCreateDto.Info,
                 Type = courseCreateDto.Type,
-                ImagePath = courseCreateDto.Image.ToString()!,
                 Price = courseCreateDto.Price,
                 OwnerId = courseCreateDto.OwnerId
             };

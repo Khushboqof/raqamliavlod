@@ -7,6 +7,7 @@ using RaqamliAvlod.DataAccess.Interfaces.Courses;
 using RaqamliAvlod.DataAccess.Interfaces.Users;
 using RaqamliAvlod.Domain.Entities.Courses;
 using RaqamliAvlod.Infrastructure.Service.Dtos;
+using RaqamliAvlod.Infrastructure.Service.Helpers;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Common;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Courses;
 using System;
@@ -29,14 +30,17 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Courses
             _unitOfWork = unitOfWork;
             _fileService = fileService;
         }
-        public async Task<bool> CreateAsync(long ownerId, CourseCreateDto dto)
+        public async Task<bool> CreateAsync(CourseCreateDto dto)
         {
-            var user = await _unitOfWork.Users.FindByIdAsync(ownerId);
+            var user = await _unitOfWork.Users.FindByIdAsync(dto.OwnerId);
 
             if (user is null)
                 throw new StatusCodeException(HttpStatusCode.BadRequest, "Owner not found!");
             var course = (Course)dto;
-            course.ImagePath = await _fileService.SaveImageAsync(dto.Image);
+
+            course.ImagePath = await _fileService.SaveImageAsync(dto.Image!);        
+            course.CreatedAt = TimeHelper.GetCurrentDateTime();
+            course.UpdatedAt = TimeHelper.GetCurrentDateTime();
 
             var res = await _unitOfWork.Courses.CreateAsync(course);
 
@@ -45,7 +49,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Courses
 
         public async Task<bool> DeleteAsync(long id)
         {
-            var course = _unitOfWork.Courses.FindByIdAsync(id);
+            var course = await _unitOfWork.Courses.FindByIdAsync(id);
 
             if (course is null)
                 throw new StatusCodeException(HttpStatusCode.BadRequest, "Course not found!");
@@ -114,7 +118,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Courses
             return courseView;
         }
 
-        public Task<bool> UpdatePatchAsync(long ownerId, CourseUpdateDto dto)
+        public Task<bool> UpdatePatchAsync(long courseId, CourseUpdateDto dto)
         {
             throw new NotImplementedException();
         }

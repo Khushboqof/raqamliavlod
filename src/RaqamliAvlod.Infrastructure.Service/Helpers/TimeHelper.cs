@@ -2,6 +2,6 @@
 
 public class TimeHelper
 {
-    public DateTime GetCurrentDateTime()
+    public static DateTime GetCurrentDateTime()
         => DateTime.UtcNow;
 }

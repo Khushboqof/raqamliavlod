@@ -2,9 +2,6 @@
 using Microsoft.AspNetCore.Http;
 using RaqamliAvlod.Infrastructure.Service.Helpers;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RaqamliAvlod.Infrastructure.Service.Services.Common
 {
@@ -16,31 +13,49 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Common
         public FileService(IWebHostEnvironment webHost)
         {
             _basePath = webHost.WebRootPath;
+        }
+
+        public async Task<string> SaveImageAsync(IFormFile image)
+        {
+            if(image is null)
+                return "";
+
             if (!Directory.Exists(_basePath))
             {
                 Directory.CreateDirectory(_basePath);
             }
-            string imagepath = Path.Combine(_basePath, _imageFolderName);
-            if (!Directory.Exists(imagepath))
-            {
-                Directory.CreateDirectory(imagepath);
-            }
-        }
 
-        ///<summary>
-        ///this method th file save
-        ///<summary>
-        public async Task<string> SaveImageAsync(IFormFile file)
-        {
-            string fileName = ImageHelper.MakeImageName(file.FileName);
+            if (!Directory.Exists(Path.Combine(_basePath, _imageFolderName)))
+            {
+                Directory.CreateDirectory(Path.Combine(_basePath, _imageFolderName));
+            }
+
+            string fileName = ImageHelper.MakeImageName(image.FileName);
             string partPath = Path.Combine(_imageFolderName, fileName);
             string path = Path.Combine(_basePath, partPath);
 
             var stream = File.Create(path);
-            await file.CopyToAsync(stream);
+            await image.CopyToAsync(stream);
             stream.Close();
 
             return partPath;
+        }
+
+        public Task<bool> DeleteImageAsync(string relativeFilePath)
+        {
+            string absoluteFilePath = Path.Combine(_basePath, relativeFilePath);
+
+            if (!File.Exists(absoluteFilePath)) return Task.FromResult(false);
+
+            try
+            {
+                File.Delete(absoluteFilePath);
+                return Task.FromResult(true);
+            }
+            catch
+            {
+                return Task.FromResult(false);
+            }
         }
     }
 }

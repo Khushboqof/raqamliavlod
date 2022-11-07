@@ -14,7 +14,7 @@ namespace RaqamliAvlod.DataAccess.Repositories.Courses
 
         public async Task<PagedList<Course>> SearchAsync(string text, PaginationParams @params)
         {
-            return await PagedList<Course>.ToPagedListAsync(_dbSet.Where(course => course.Title.Contains(text)), @params.PageNumber, @params.PageSize);
+            return await PagedList<Course>.ToPagedListAsync(_dbSet.Where(course => course.Title.ToLower().Contains(text.ToLower())), @params.PageNumber, @params.PageSize);
         }
     }
 }
