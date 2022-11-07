@@ -40,7 +40,7 @@ public class QuestionsController : ControllerBase
         return Ok(result);
     }
 
-    [HttpPatch("{questionId}")]
+    [HttpPut("{questionId}")]
     public async Task<IActionResult> UpdateAsync(long questionId, [FromBody] QuestionCreateDto questionUpdateViewModel)
     {
         var result = await _questionService.UpdateAsync(questionId, questionUpdateViewModel);
