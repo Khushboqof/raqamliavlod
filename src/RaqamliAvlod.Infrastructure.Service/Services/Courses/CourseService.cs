@@ -3,19 +3,12 @@ using RaqamliAvlod.Application.Utils;
 using RaqamliAvlod.Application.ViewModels.Courses;
 using RaqamliAvlod.Application.ViewModels.Users;
 using RaqamliAvlod.DataAccess.Interfaces;
-using RaqamliAvlod.DataAccess.Interfaces.Courses;
-using RaqamliAvlod.DataAccess.Interfaces.Users;
 using RaqamliAvlod.Domain.Entities.Courses;
 using RaqamliAvlod.Infrastructure.Service.Dtos;
 using RaqamliAvlod.Infrastructure.Service.Helpers;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Common;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Courses;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RaqamliAvlod.Infrastructure.Service.Services.Courses
 {
@@ -68,10 +61,10 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Courses
             foreach(var course in courses)
             {
                 var owner = (await _unitOfWork.Users.FindByIdAsync(course.OwnerId))!;
-                var ownerView = (Owner)owner;
+                var ownerView = (OwnerViewModel)owner;
 
                 var courseView = (CourseViewModel)course;
-                courseView.OwnerViewModel = ownerView;
+                courseView.Owner = ownerView;
 
                 courseViews.Add(courseView);
             }
@@ -87,10 +80,10 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Courses
             foreach (var course in courses)
             {
                 var owner = (await _unitOfWork.Users.FindByIdAsync(course.OwnerId))!;
-                var ownerView = (Owner)owner;
+                var ownerView = (OwnerViewModel)owner;
 
                 var courseView = (CourseViewModel)course;
-                courseView.OwnerViewModel = ownerView;
+                courseView.Owner = ownerView;
 
                 courseViews.Add(courseView);
             }
@@ -109,11 +102,11 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Courses
             if (owner is null)
                 throw new StatusCodeException(HttpStatusCode.BadRequest, "Owner not found!");
 
-            var ownerView = (Owner)owner;
+            var ownerView = (OwnerViewModel)owner;
 
             var courseView = (CourseViewModel)course;
 
-            courseView.OwnerViewModel = ownerView;
+            courseView.Owner = ownerView;
 
             return courseView;
         }
