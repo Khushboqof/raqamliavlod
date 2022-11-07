@@ -13,7 +13,7 @@ namespace RaqamliAvlod.DataAccess.Repositories.Courses
         }
         public async Task<PagedList<CourseVideo>> GetAllByCourseIdAsync(long courseId, PaginationParams @params)
         {
-            var courseVideos = _dbSet.Where(video => video.CourseId == courseId);
+            var courseVideos = _dbSet.Where(video => video.CourseId == courseId).OrderBy(x=>x.Id);
             return await PagedList<CourseVideo>.ToPagedListAsync(courseVideos, @params.PageNumber, @params.PageSize);
         }
     }

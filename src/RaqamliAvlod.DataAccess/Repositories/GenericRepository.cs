@@ -15,7 +15,8 @@ namespace RaqamliAvlod.DataAccess.Repositories
 
         public virtual async Task<PagedList<T>> GetAllAsync(PaginationParams @params)
         {
-            return await PagedList<T>.ToPagedListAsync(_dbSet, @params.PageNumber, @params.PageSize);
+            return await PagedList<T>.ToPagedListAsync(_dbSet.OrderBy(x=>x.Id), 
+                @params.PageNumber, @params.PageSize);
         }
     }
 }

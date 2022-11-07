@@ -14,7 +14,7 @@ namespace RaqamliAvlod.DataAccess.Repositories.Questions
 
         public async Task<PagedList<QuestionTag>> GetAllTagsFromQuestionAsync(long questionId, PaginationParams @params)
         {
-            var questionTags = _dbSet.Where(tag => tag.QuestionId == questionId);
+            var questionTags = _dbSet.Where(tag => tag.QuestionId == questionId).OrderBy(x=>x.Id);
 
             return await PagedList<QuestionTag>.ToPagedListAsync(questionTags, @params.PageNumber, @params.PageSize);
         }
