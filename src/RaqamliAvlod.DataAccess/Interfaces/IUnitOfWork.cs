@@ -7,7 +7,7 @@ using RaqamliAvlod.DataAccess.Interfaces.Users;
 
 namespace RaqamliAvlod.DataAccess.Interfaces
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork : IDisposable
     {
         public IContestRepository Contests { get; }
         public IContestStandingsRepository ContestStandings { get; }
