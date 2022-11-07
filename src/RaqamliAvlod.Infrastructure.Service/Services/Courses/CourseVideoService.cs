@@ -1,4 +1,4 @@
-﻿using RaqamliAvlod.Application.Exceptions;
+using RaqamliAvlod.Application.Exceptions;
 using RaqamliAvlod.Application.Utils;
 using RaqamliAvlod.Application.ViewModels.Courses;
 using RaqamliAvlod.DataAccess.Interfaces;
@@ -41,7 +41,9 @@ public class CourseVideoService : ICourseVideoService
         courseVideoCreate.Duration = video.Duration!.Value.Minutes;
         courseVideoCreate.YouTubeThumbnail = video.Thumbnails.OrderByDescending(p => p.Resolution.Height).FirstOrDefault()!.Url;
 
-        return true;
+        var res = await _unitOfWork.CourseVideos.CreateAsync(courseVideoCreate);
+
+        return res is not null ? true : false;
     }
 
     public Task<bool> DeleteAsync(long courseVideoId)
