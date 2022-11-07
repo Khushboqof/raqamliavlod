@@ -35,7 +35,6 @@ public class AccountsController : ControllerBase
     public async Task<IActionResult> SendToEmail([FromBody] SendToEmailDto sendTo)
     {
         await _accountService.SendCodeAsync(sendTo);
-        
         return Ok();
     }
 }

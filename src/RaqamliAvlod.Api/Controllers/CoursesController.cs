@@ -16,62 +16,29 @@ public class CoursesController : ControllerBase
         _courseService = courseService;
     }
 
-    /*    [HttpGet]
-        public async Task<IActionResult> GetAllAsync([FromQuery] PaginationParams @params, string searchText)
-        {
-            var res = await _courseService.SearchByTitleAsync(searchText, @params);
-
-            return Ok(res);
-        }*/
-
     [HttpPost]
     public async Task<IActionResult> CreateAsync([FromForm] CourseCreateDto courseCreateDto)
-    {
-        var res = await _courseService.CreateAsync(courseCreateDto);
-
-        return Ok(res);
-    }
+        => Ok(await _courseService.CreateAsync(courseCreateDto));
 
     [HttpGet]
     public async Task<IActionResult> GetAllAsync([FromQuery] PaginationParams @params)
-    {
-        var res = await _courseService.GetAllAsync(@params);
-
-        return Ok(res);
-    }
+        => Ok(await _courseService.GetAllAsync(@params));
 
     [HttpGet("{courseId}")]
     public async Task<IActionResult> GetAsync(long courseId)
-    {
-        var res = await _courseService.GetAsync(courseId);
-
-        return Ok(res);
-    }
+        => Ok(await _courseService.GetAsync(courseId));
 
     [HttpPut("{courseId}")]
     public async Task<IActionResult> UpdateAsync(long courseId, [FromForm] CourseUpdateDto updateDto)
-    {
-        var res = await _courseService.UpdateAsync(courseId, updateDto);
-
-        return Ok(res);
-    }
+        => Ok(await _courseService.UpdateAsync(courseId, updateDto));
 
     [HttpDelete("{courseId}")]
     public async Task<IActionResult> DeleteAsync(long courseId)
-    {
-        var res = await _courseService.DeleteAsync(courseId);
-
-        return Ok(res);
-    }
-
-
-
-
-
-
+        => Ok(await _courseService.DeleteAsync(courseId));
 
     [HttpPost("{courseId}/comments")]
-    public async Task<IActionResult> CreateCommentAsync(long courseId, [FromBody] CourseCommentCreateDto courseCommentCreateViewModel)
+    public async Task<IActionResult> CreateCommentAsync(long courseId, 
+        [FromBody] CourseCommentCreateDto courseCommentCreateViewModel)
     {
         return Ok();
     }
