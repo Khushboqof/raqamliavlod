@@ -7,6 +7,8 @@
             builder.ConfigureLogger();
             builder.Services.ConfigureCorsPolicy();
             builder.Services.AddHttpContextAccessor();
+            builder.ConfigureJwt();
+            builder.Services.ConfigureSwaggerAuthorize();
         }
     }
 }
