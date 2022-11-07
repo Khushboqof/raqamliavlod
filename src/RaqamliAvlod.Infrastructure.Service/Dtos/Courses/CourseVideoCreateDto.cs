@@ -5,17 +5,8 @@ namespace RaqamliAvlod.Infrastructure.Service.Dtos
 {
     public class CourseVideoCreateDto
     {
-        [Required, MinLength(5)]
-        public string Title { get; set; } = string.Empty;
-
         [Required]
-        public string YouTubeThumbnail { get; set; } = string.Empty;
-
-        [Required]
-        public string YouTubeLink { get; set; } = string.Empty;
-
-        [Required]
-        public string Description { get; set; } = string.Empty;
+        public string Link { get; set; } = string.Empty;
 
         [Required]
         public long CourseId { get; set; }
@@ -24,11 +15,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Dtos
         {
             return new CourseVideo()
             {
-                Title = courseVideoCreateDto.Title,
-                YouTubeThumbnail = courseVideoCreateDto.YouTubeThumbnail,
-                YouTubeLink = courseVideoCreateDto.YouTubeLink,
-                Description = courseVideoCreateDto.Description,
-                CourseId = courseVideoCreateDto.CourseId,
+                CourseId = courseVideoCreateDto.CourseId
             };
         }
     }
