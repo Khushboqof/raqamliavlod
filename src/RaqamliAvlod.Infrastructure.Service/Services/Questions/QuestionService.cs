@@ -1,7 +1,11 @@
 ﻿using RaqamliAvlod.Application.Exceptions;
 using RaqamliAvlod.Application.Utils;
+using RaqamliAvlod.Application.ViewModels.Courses;
 using RaqamliAvlod.Application.ViewModels.Questions;
+using RaqamliAvlod.Application.ViewModels.Users;
+using RaqamliAvlod.DataAccess.Interfaces;
 using RaqamliAvlod.DataAccess.Interfaces.Questions;
+using RaqamliAvlod.Domain.Entities.Questions;
 using RaqamliAvlod.Infrastructure.Service.Dtos;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Questions;
 using System.Net;
@@ -11,45 +15,101 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Questions;
 public class QuestionService : IQuestionService
 {
     private readonly IQuestionRepository _questionRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public QuestionService(IQuestionRepository questionRepository)
+    public QuestionService(IQuestionRepository questionRepository, IUnitOfWork unitOfWork)
     {
         _questionRepository = questionRepository;
-
+        _unitOfWork = unitOfWork;
     }
-    public async Task<bool> CreateAsync(long questionId, QuestionCreateDto dto)
+    public async Task<bool> CreateAsync(long userId, QuestionCreateDto dto)
     {
-        QuestionViewModel question = await _questionRepository.CreateAsync(dto);
+        var user = await _unitOfWork.Questions.FindByIdAsync(userId);
 
-        return true;
+        if (user is null)
+        {
+            throw new StatusCodeException(HttpStatusCode.BadRequest, "Question Not Found!");
+        }
+        var question = (Question)dto;
+
+        var result = await _unitOfWork.Questions.CreateAsync(question);
+
+        return result is not null ? true : false;
     }
 
     public async Task<bool> DeleteAsync(long questionId)
     {
-        QuestionViewModel question = await _questionRepository.FindByIdAsync(questionId);
+        var question = await _questionRepository.FindByIdAsync(questionId);
 
-        if (question == null)
+        if (question is null)
         {
-            throw new StatusCodeException(HttpStatusCode.BadRequest, message:"Question Not Found!");
+            throw new StatusCodeException(HttpStatusCode.BadRequest, "Question Not Found!");
         }
-        else
+
+        var result = await _unitOfWork.Questions.DeleteAsync(questionId);
+
+        return result is not null ? true : false;
+    }
+
+    public async Task<IEnumerable<QuestionViewModel>> GetAllAsync(PaginationParams @params)
+    {
+        var questions = await _unitOfWork.Questions.GetAllAsync(@params);
+
+        var questionViewModels = new List<QuestionViewModel>();
+
+        foreach (var question in questions)
         {
-            await _questionRepository.DeleteAsync(questionId);
+            var owner = (await _unitOfWork.Users.FindByIdAsync(question.OwnerId))!;
+            var ownerViewModel = (OwnerViewModel)owner;
+
+            var questionViewModel = (QuestionViewModel)question;
+            questionViewModel.Owner = ownerViewModel;
+
+            questionViewModels.Add(questionViewModel);
         }
+
+        return questionViewModels;
     }
 
-    public Task<IEnumerable<QuestionViewModel>> GetAllAsync(PaginationParams @params)
+    public async Task<QuestionViewModel> GetAsync(long questionId)
     {
-        throw new NotImplementedException();
+        var question = await _unitOfWork.Questions.FindByIdAsync(questionId);
+
+        if (question is null)
+        {
+            throw new StatusCodeException(HttpStatusCode.BadRequest, "Question Not Found!");
+        }
+
+        var owner = await _unitOfWork.Users.FindByIdAsync(question.OwnerId);
+
+        if (owner is null)
+        {
+            throw new StatusCodeException(HttpStatusCode.BadRequest, "Question Owner Not Found!");
+        }
+
+        var ownerViewModel = (OwnerViewModel)owner;
+
+        var questionViewModel = (QuestionViewModel)question;
+
+        questionViewModel.Owner = ownerViewModel;
+
+        return questionViewModel;
     }
 
-    public Task<QuestionViewModel> GetAsync(long questionId)
+    public async Task<bool> UpdateAsync(long questionId, QuestionCreateDto dto)
     {
-        throw new NotImplementedException();
-    }
+        var question = _unitOfWork.Questions.FindByIdAsync(questionId);
 
-    public Task<bool> UpdateAsync(long questionId, QuestionCreateDto dto)
-    {
-        throw new NotImplementedException();
+        if (question is null)
+        {
+            throw new StatusCodeException(HttpStatusCode.BadRequest, "Question Not Found!");
+        }
+
+        var editedQuestion = (Question)dto;
+        editedQuestion.Id = question.Id;
+
+        var result = await _unitOfWork.Questions.UpdateAsync(questionId, editedQuestion);
+
+        return result is not null ? true : false;
     }
 }
