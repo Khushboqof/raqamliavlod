@@ -4,6 +4,7 @@ using RaqamliAvlod.DataAccess.Interfaces;
 using RaqamliAvlod.DataAccess.Interfaces.Users;
 using RaqamliAvlod.Domain.Entities.Users;
 using RaqamliAvlod.Infrastructure.Service.Dtos;
+using RaqamliAvlod.Infrastructure.Service.Helpers;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Common;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Users;
 using RaqamliAvlod.Infrastructure.Service.Security;
@@ -49,6 +50,8 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
             var hashResult = PasswordHasher.Hash(accountCreate.Password);
             newUser.Salt = hashResult.Salt;
             newUser.PasswordHash = hashResult.Hash;
+            newUser.CreatedAt = TimeHelper.GetCurrentDateTime();
+            newUser.UpdatedAt = TimeHelper.GetCurrentDateTime();
 
             await _unitOfWork.Users.CreateAsync(newUser);
 
