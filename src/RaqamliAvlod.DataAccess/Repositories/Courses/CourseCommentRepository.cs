@@ -14,7 +14,7 @@ namespace RaqamliAvlod.DataAccess.Repositories.Courses
         }
         public async Task<PagedList<CourseComment>> GetAllByCourseIdAsync(long courseId, PaginationParams @params)
         {
-            var coursecomments = _dbSet.Where(courses => courses.CourseId == courseId);
+            var coursecomments = _dbSet.Where(courses => courses.CourseId == courseId).OrderBy(x=>x.Id);
 
             return await PagedList<CourseComment>.ToPagedListAsync(coursecomments, @params.PageNumber, @params.PageSize);
         }
