@@ -17,7 +17,7 @@ namespace RaqamliAvlod.Api.Configurations
                         ValidateIssuer = true,
                         ValidIssuer = _config["Issuer"],
                         ValidateAudience = false,
-                        ValidateLifetime = true,
+                        //ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Key"]))
                     };
