@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RaqamliAvlod.Application.Utils;
 using RaqamliAvlod.Infrastructure.Service.Dtos;
-using RaqamliAvlod.Infrastructure.Service.Interfaces.Common;
 
 namespace RaqamliAvlod.Api.Controllers;
 
@@ -9,16 +8,11 @@ namespace RaqamliAvlod.Api.Controllers;
 [ApiController]
 public class ContestsController : ControllerBase
 {
-    private readonly IIdentityHelperService _service;
 
-    public ContestsController(IIdentityHelperService service)
-    {
-        _service = service;
-    }
     [HttpGet]
     public async Task<IActionResult> GetAllAsync([FromQuery] PaginationParams @params)
     {
-        return Ok(_service.GetUserEmail());
+        return Ok();
     }
 
     [HttpGet("{contestId}")]

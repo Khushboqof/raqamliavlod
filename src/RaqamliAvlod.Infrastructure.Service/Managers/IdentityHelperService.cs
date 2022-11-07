@@ -1,11 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using RaqamliAvlod.Domain.Enums;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RaqamliAvlod.Infrastructure.Service.Managers
 {
@@ -42,3 +37,4 @@ namespace RaqamliAvlod.Infrastructure.Service.Managers
             return Enum.Parse<UserRole>(res);
         }
     }
+}
