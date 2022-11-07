@@ -49,9 +49,5 @@ namespace RaqamliAvlod.DataAccess.Repositories
             Submissions = new SubmissionRepository(appDbContext);
             Users = new UserRepository(appDbContext);
         }
-        public void Dispose()
-        {
-            GC.SuppressFinalize(this);
-        }
     }
 }
