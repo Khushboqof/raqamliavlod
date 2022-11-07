@@ -15,16 +15,15 @@ namespace RaqamliAvlod.Infrastructure.Service.Dtos
         public string Username { get; set; } = string.Empty;
         [Required]
         public string PhoneNumber { get; set; } = string.Empty;
-        public IFormFile? Image { get; set; }
 
-        public static implicit operator UserUpdateDto(User user)
+        public static implicit operator User(UserUpdateDto userUpdate)
         {
-            return new UserUpdateDto()
+            return new User()
             {
-                Firstname = user.FirstName,
-                Lastname = user.LastName,
-                Username = user.Username,
-                PhoneNumber = user.PhoneNumber,
+                FirstName = userUpdate.Firstname,
+                LastName = userUpdate.Lastname,
+                Username = userUpdate.Username,
+                PhoneNumber = userUpdate.PhoneNumber,
             };
         }
     }
