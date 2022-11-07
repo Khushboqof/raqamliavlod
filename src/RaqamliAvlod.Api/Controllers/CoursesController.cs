@@ -10,10 +10,13 @@ namespace RaqamliAvlod.Api.Controllers;
 public class CoursesController : ControllerBase
 {
     private readonly ICourseService _courseService;
+    private readonly ICourseVideoService _courseVideoService;
 
-    public CoursesController(ICourseService courseService)
+    public CoursesController(ICourseService courseService,
+        ICourseVideoService courseVideoService)
     {
         _courseService = courseService;
+        _courseVideoService = courseVideoService;
     }
 
     [HttpPost]
@@ -68,10 +71,8 @@ public class CoursesController : ControllerBase
     }
 
     [HttpPost("videos")]
-    public async Task<IActionResult> CreateCourseVideoAsync([FromForm] CourseVideoCreateDto courseVideoCreateViewModel)
-    {
-        return Ok();
-    }
+    public async Task<IActionResult> CreateCourseVideoAsync([FromForm] CourseVideoCreateDto dto)
+        => Ok(await _courseVideoService.CreateAsync(dto));
 
     [HttpPatch("videos")]
     public async Task<IActionResult> UpdateCourseVideoAsync(long id, string link)
