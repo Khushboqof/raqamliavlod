@@ -68,7 +68,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Courses
             foreach(var course in courses)
             {
                 var owner = (await _unitOfWork.Users.FindByIdAsync(course.OwnerId))!;
-                var ownerView = (OwnerViewModel)owner;
+                var ownerView = (Owner)owner;
 
                 var courseView = (CourseViewModel)course;
                 courseView.OwnerViewModel = ownerView;
@@ -87,7 +87,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Courses
             foreach (var course in courses)
             {
                 var owner = (await _unitOfWork.Users.FindByIdAsync(course.OwnerId))!;
-                var ownerView = (OwnerViewModel)owner;
+                var ownerView = (Owner)owner;
 
                 var courseView = (CourseViewModel)course;
                 courseView.OwnerViewModel = ownerView;
@@ -109,7 +109,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Courses
             if (owner is null)
                 throw new StatusCodeException(HttpStatusCode.BadRequest, "Owner not found!");
 
-            var ownerView = (OwnerViewModel)owner;
+            var ownerView = (Owner)owner;
 
             var courseView = (CourseViewModel)course;
 
