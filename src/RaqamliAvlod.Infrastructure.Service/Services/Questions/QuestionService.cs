@@ -1,10 +1,8 @@
 ﻿using RaqamliAvlod.Application.Exceptions;
 using RaqamliAvlod.Application.Utils;
-using RaqamliAvlod.Application.ViewModels.Courses;
 using RaqamliAvlod.Application.ViewModels.Questions;
 using RaqamliAvlod.Application.ViewModels.Users;
 using RaqamliAvlod.DataAccess.Interfaces;
-using RaqamliAvlod.DataAccess.Interfaces.Questions;
 using RaqamliAvlod.Domain.Entities.Questions;
 using RaqamliAvlod.Infrastructure.Service.Dtos;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Questions;
@@ -14,12 +12,10 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Questions;
 
 public class QuestionService : IQuestionService
 {
-    private readonly IQuestionRepository _questionRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public QuestionService(IQuestionRepository questionRepository, IUnitOfWork unitOfWork)
+    public QuestionService(IUnitOfWork unitOfWork)
     {
-        _questionRepository = questionRepository;
         _unitOfWork = unitOfWork;
     }
     public async Task<bool> CreateAsync(long userId, QuestionCreateDto dto)
@@ -28,7 +24,7 @@ public class QuestionService : IQuestionService
 
         if (user is null)
         {
-            throw new StatusCodeException(HttpStatusCode.BadRequest, "Question Not Found!");
+            throw new StatusCodeException(HttpStatusCode.BadRequest, "User Not Found!");
         }
         var question = (Question)dto;
 
@@ -39,7 +35,7 @@ public class QuestionService : IQuestionService
 
     public async Task<bool> DeleteAsync(long questionId)
     {
-        var question = await _questionRepository.FindByIdAsync(questionId);
+        var question = await _unitOfWork.Questions.FindByIdAsync(questionId);
 
         if (question is null)
         {
