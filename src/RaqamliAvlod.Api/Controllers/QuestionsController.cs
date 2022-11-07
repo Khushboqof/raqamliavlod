@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RaqamliAvlod.Application.Utils;
 using RaqamliAvlod.Infrastructure.Service.Dtos;
+using RaqamliAvlod.Infrastructure.Service.Interfaces.Questions;
 
 namespace RaqamliAvlod.Api.Controllers;
 
@@ -8,34 +9,51 @@ namespace RaqamliAvlod.Api.Controllers;
 [ApiController]
 public class QuestionsController : ControllerBase
 {
+    private readonly IQuestionService _questionService;
+
+    public QuestionsController(IQuestionService questionService)
+    {
+        _questionService = questionService;
+    }
+
     [HttpGet]
     public async Task<IActionResult> GetAllAsync([FromQuery] PaginationParams @params)
     {
-        return Ok();
+        var result = await _questionService.GetAllAsync(@params);
+
+        return Ok(result);
     }
 
     [HttpGet("{questionId}")]
     public async Task<IActionResult> GetAsync(long questionId)
     {
-        return Ok();
+        var result = await _questionService.GetAsync(questionId);
+
+        return Ok(result);
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateAsync([FromForm] QuestionCreateDto questionCreateViewModel)
+    public async Task<IActionResult> CreateAsync(long userId, [FromForm] QuestionCreateDto questionCreateViewModel)
     {
-        return Ok();
+        var result = await _questionService.CreateAsync(userId, questionCreateViewModel);
+
+        return Ok(result);
     }
 
     [HttpPatch("{questionId}")]
     public async Task<IActionResult> UpdateAsync(long questionId, [FromBody] QuestionCreateDto questionUpdateViewModel)
     {
-        return Ok();
+        var result = await _questionService.UpdateAsync(questionId, questionUpdateViewModel);
+
+        return Ok(result);
     }
 
     [HttpDelete("{questionId}")]
     public async Task<IActionResult> DeleteAsync(long questionId)
     {
-        return Ok();
+        var result = await _questionService.DeleteAsync(questionId);
+
+        return Ok(result);
     }
 
     [HttpPost("{questionId}/views")]
