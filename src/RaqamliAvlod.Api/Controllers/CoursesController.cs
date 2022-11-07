@@ -15,10 +15,27 @@ public class CoursesController : ControllerBase
     {
         _courseService = courseService;
     }
-    [HttpGet]
-    public async Task<IActionResult> GetAllAsync([FromQuery] PaginationParams @params, string searchText)
+
+    /*    [HttpGet]
+        public async Task<IActionResult> GetAllAsync([FromQuery] PaginationParams @params, string searchText)
+        {
+            var res = await _courseService.SearchByTitleAsync(searchText, @params);
+
+            return Ok(res);
+        }*/
+
+    [HttpPost]
+    public async Task<IActionResult> CreateAsync([FromForm] CourseCreateDto courseCreateDto)
     {
-        var res = await _courseService.SearchByTitleAsync(searchText, @params);
+        var res = await _courseService.CreateAsync(courseCreateDto);
+
+        return Ok(res);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAllAsync([FromQuery] PaginationParams @params)
+    {
+        var res = await _courseService.GetAllAsync(@params);
 
         return Ok(res);
     }
@@ -31,10 +48,10 @@ public class CoursesController : ControllerBase
         return Ok(res);
     }
 
-    [HttpPost]
-    public async Task<IActionResult> CreateAsync([FromForm] CourseCreateDto courseCreateDto)
+    [HttpPut("{courseId}")]
+    public async Task<IActionResult> UpdateAsync(long courseId, [FromForm] CourseUpdateDto updateDto)
     {
-        var res = await _courseService.CreateAsync(courseCreateDto);
+        var res = await _courseService.UpdateAsync(courseId, updateDto);
 
         return Ok(res);
     }
@@ -43,22 +60,6 @@ public class CoursesController : ControllerBase
     public async Task<IActionResult> DeleteAsync(long courseId)
     {
         var res = await _courseService.DeleteAsync(courseId);
-
-        return Ok(res);
-    }
-
-    [HttpPatch("{courseId}")]
-    public async Task<IActionResult> UpdatePatchAsync(long courseId, [FromForm]CourseUpdateDto updateDto)
-    {
-        var res = await _courseService.UpdatePatchAsync(courseId, updateDto);
-
-        return Ok(res);
-    }
-
-    [HttpPut("{courseId}")]
-    public async Task<IActionResult> UpdatePutDto(long courseId, [FromForm]CourseUpdateDto updateDto)
-    {
-        var res = await _courseService.UpdatePutAsync(courseId, updateDto);
 
         return Ok(res);
     }

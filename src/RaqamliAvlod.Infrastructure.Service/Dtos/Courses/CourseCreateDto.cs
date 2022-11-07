@@ -16,6 +16,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Dtos
         [Required]
         public string Type { get; set; } = string.Empty;
 
+
         [AllowedFiles(new string[] { ".jpg", ".png", ".jpeg" })]
         public IFormFile? Image { get; set; }
 

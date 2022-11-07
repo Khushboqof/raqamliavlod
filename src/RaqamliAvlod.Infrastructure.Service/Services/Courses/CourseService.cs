@@ -111,25 +111,27 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Courses
             return courseView;
         }
 
-        public Task<bool> UpdatePatchAsync(long courseId, CourseUpdateDto dto)
-        {
-            throw new NotImplementedException();
-        }
 
-        public async Task<bool> UpdatePutAsync(long courseId, CourseUpdateDto dto)
+        public async Task<bool> UpdateAsync(long courseId, CourseUpdateDto dto)
         {
-            var course = _unitOfWork.Courses.FindByIdAsync(courseId);
+            var course = await _unitOfWork.Courses.FindByIdAsync(courseId);
 
             if (course is null)
                 throw new StatusCodeException(HttpStatusCode.BadRequest, "Course not found!");
 
             var updadetCourse = (Course)dto;
+
+            if (dto.Image is not null)
+            {
+                await _fileService.DeleteImageAsync(course.ImagePath);
+                updadetCourse.ImagePath = await _fileService.SaveImageAsync(dto.Image);
+            }
+                
             updadetCourse.Id = courseId;
-            updadetCourse.ImagePath = await _fileService.SaveImageAsync(dto.Image);
+            updadetCourse.UpdatedAt = TimeHelper.GetCurrentDateTime();
 
-            var res = await _unitOfWork.Courses.UpdateAsync(courseId, updadetCourse);
-
-            return res is not null ? true : false;
+            var result = await _unitOfWork.Courses.UpdateAsync(courseId, updadetCourse);
+            return result is not null ? true : false;
         }
     }
 }
