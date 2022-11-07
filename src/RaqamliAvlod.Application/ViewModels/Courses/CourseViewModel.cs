@@ -12,7 +12,7 @@ namespace RaqamliAvlod.Application.ViewModels.Courses
         public string ImagePath { get; set; } = string.Empty;
         public float Price { get; set; }
 
-        public Owner OwnerViewModel { get; set; } = null!;
+        public OwnerViewModel Owner { get; set; } = null!;
 
         public static implicit operator CourseViewModel(Course course)
         {
