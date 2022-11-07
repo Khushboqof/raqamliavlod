@@ -18,20 +18,23 @@ public class CoursesController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAllAsync([FromQuery] PaginationParams @params, string searchText)
     {
-        return Ok();
+        var res = await _courseService.SearchByTitleAsync(searchText, @params);
+
+        return Ok(res);
     }
 
     [HttpGet("{courseId}")]
     public async Task<IActionResult> GetAsync(long courseId)
     {
-        return Ok();
+        var res = await _courseService.GetAsync(courseId);
+
+        return Ok(res);
     }
 
     [HttpPost]
     public async Task<IActionResult> CreateAsync([FromForm] CourseCreateDto courseCreateDto)
     {
-        //var userId = long.Parse(HttpContext.User.FindFirst("Id")?.Value ?? "0");
-        var res = _courseService.CreateAsync(1, courseCreateDto);
+        var res = await _courseService.CreateAsync(courseCreateDto);
 
         return Ok(res);
     }
@@ -39,14 +42,32 @@ public class CoursesController : ControllerBase
     [HttpDelete("{courseId}")]
     public async Task<IActionResult> DeleteAsync(long courseId)
     {
-        return Ok();
+        var res = await _courseService.DeleteAsync(courseId);
+
+        return Ok(res);
     }
 
     [HttpPatch("{courseId}")]
-    public async Task<IActionResult> UpdateAsync(long courseId, [FromForm] CourseCreateDto courseUpdateViewModel)
+    public async Task<IActionResult> UpdatePatchAsync(long courseId, [FromForm]CourseUpdateDto updateDto)
     {
-        return Ok();
+        var res = await _courseService.UpdatePatchAsync(courseId, updateDto);
+
+        return Ok(res);
     }
+
+    [HttpPut("{courseId}")]
+    public async Task<IActionResult> UpdatePutDto(long courseId, [FromForm]CourseUpdateDto updateDto)
+    {
+        var res = await _courseService.UpdatePutAsync(courseId, updateDto);
+
+        return Ok(res);
+    }
+
+
+
+
+
+
 
     [HttpPost("{courseId}/comments")]
     public async Task<IActionResult> CreateCommentAsync(long courseId, [FromBody] CourseCommentCreateDto courseCommentCreateViewModel)
