@@ -1,4 +1,4 @@
-﻿using RaqamliAvlod.Application.Exceptions;
+using RaqamliAvlod.Application.Exceptions;
 using RaqamliAvlod.Application.Utils;
 using RaqamliAvlod.Application.ViewModels.Courses;
 using RaqamliAvlod.DataAccess.Interfaces;
