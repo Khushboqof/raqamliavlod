@@ -7,7 +7,7 @@ namespace RaqamliAvlod.Domain.Entities.Questions
     {
         public string Title { get; set; } = String.Empty;
         public string Description { get; set; } = String.Empty;
-        public int ViewCount { get; set; }
+        public int ViewCount { get; set; } = 0;
 
         public long OwnerId { get; set; }
         public virtual User Owner { get; set; } = null!;
