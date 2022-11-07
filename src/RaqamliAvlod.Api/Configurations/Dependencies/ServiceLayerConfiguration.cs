@@ -2,6 +2,7 @@
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Courses;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Questions;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Users;
+using RaqamliAvlod.Infrastructure.Service.Managers;
 using RaqamliAvlod.Infrastructure.Service.Security;
 using RaqamliAvlod.Infrastructure.Service.Services.Common;
 using RaqamliAvlod.Infrastructure.Service.Services.Courses;
@@ -20,6 +21,7 @@ namespace RaqamliAvlod.Api.Configurations.Dependencies
             builder.Services.AddScoped<IEmailService, EmailService>();
             builder.Services.AddScoped<IAuthManager, AuthManager>();
             builder.Services.AddScoped<IAccountService, AccountService>();
+            builder.Services.AddScoped<IIdentityHelperService, IdentityHelperService>();
             builder.Services.AddScoped<IQuestionService, QuestionService>();
             builder.Services.AddMemoryCache();
         }
