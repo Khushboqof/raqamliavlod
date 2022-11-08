@@ -26,6 +26,8 @@ namespace RaqamliAvlod.Api.Configurations.Dependencies
             builder.Services.AddScoped<IQuestionService, QuestionService>();
             builder.Services.AddScoped<IQuestionAnswerService, QuestionAnswerService>();
             builder.Services.AddScoped<ITagService, TagService>();
+            builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IIdentityHelperService, IdentityHelperService>();
             builder.Services.AddMemoryCache();
         }
     }
