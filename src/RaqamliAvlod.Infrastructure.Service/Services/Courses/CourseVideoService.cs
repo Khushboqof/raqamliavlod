@@ -6,12 +6,7 @@ using RaqamliAvlod.Domain.Entities.Courses;
 using RaqamliAvlod.Infrastructure.Service.Dtos;
 using RaqamliAvlod.Infrastructure.Service.Helpers;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Courses;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using YoutubeExplode;
 
 namespace RaqamliAvlod.Infrastructure.Service.Services.Courses;
@@ -39,7 +34,7 @@ public class CourseVideoService : ICourseVideoService
         courseVideoCreate.YouTubeLink = video.Url;
         courseVideoCreate.Title = video.Title;
         courseVideoCreate.Description = video.Description;
-        courseVideoCreate.Duration = video.Duration!.Value.Minutes;
+        courseVideoCreate.Duration = (video.Duration!.Value.Hours * 3600) + video.Duration.Value.Minutes * 60 + video.Duration.Value.Seconds;
         courseVideoCreate.YouTubeThumbnail = video.Thumbnails.OrderByDescending(p => p.Resolution.Height).FirstOrDefault()!.Url;
         courseVideoCreate.CreatedAt = TimeHelper.GetCurrentDateTime();
 
@@ -48,16 +43,44 @@ public class CourseVideoService : ICourseVideoService
         return res is not null ? true : false;
     }
 
-    public Task<bool> DeleteAsync(long courseVideoId)
+    public async Task<bool> DeleteAsync(long courseVideoId)
     {
-        throw new NotImplementedException();
+        var courseVideo = await _unitOfWork.Courses.FindByIdAsync(courseVideoId);
+
+        if (courseVideo is null)
+            throw new StatusCodeException(HttpStatusCode.BadRequest, "Video not found!");
+
+        var result = await _unitOfWork.CourseVideos.DeleteAsync(courseVideoId);
+
+        return result is not null ? true : false;
     }
 
-    public Task<IEnumerable<CourseVideoViewModel>> GetAllAsync(PaginationParams @params)
+    public async Task<IEnumerable<CourseVideoGetAllViewModel>> GetAllAsync(long courseId, PaginationParams @params)
     {
-        throw new NotImplementedException();
+        var courseVideos = await _unitOfWork.CourseVideos.GetAllByCourseIdAsync(courseId, @params);
+
+        var courseViews = new List<CourseVideoGetAllViewModel>();
+
+        foreach (var courseVideo in courseVideos)
+        {
+            var courseView = (CourseVideoGetAllViewModel)courseVideo;
+            courseViews.Add(courseView);
+        }
+
+        return courseViews;
     }
 
+    public async Task<CourseVideoGetViewModel> GetAsync(long videoId)
+    {
+        var video = await _unitOfWork.CourseVideos.FindByIdAsync(videoId);
+
+        if (video is null)
+            throw new StatusCodeException(HttpStatusCode.BadRequest, "Video not found!");
+
+        var videoView = (CourseVideoGetViewModel)video;
+
+        return videoView;
+    }
     public Task<bool> UpdateAsync(long courseVideoId, CourseVideoUpdateDto dto)
     {
         throw new NotImplementedException();

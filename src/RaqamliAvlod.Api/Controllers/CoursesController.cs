@@ -64,24 +64,25 @@ public class CoursesController : ControllerBase
         return Ok();
     }
 
-    [HttpDelete("videos")]
-    public async Task<IActionResult> DeleteVideosAsync(long id)
-    {
-        return Ok();
-    }
-
     [HttpPost("videos")]
     public async Task<IActionResult> CreateCourseVideoAsync([FromForm] CourseVideoCreateDto dto)
         => Ok(await _courseVideoService.CreateAsync(dto));
 
-    [HttpPatch("videos")]
-    public async Task<IActionResult> UpdateCourseVideoAsync(long id, string link)
+    [HttpGet("{courseId}/videos")]
+    public async Task<IActionResult> GetAllCourseVideoAsync(long courseId, [FromQuery]PaginationParams @params)
+        => Ok(await _courseVideoService.GetAllAsync(courseId, @params));
+    [HttpGet("videos/{videoId}")]
+    public async Task<IActionResult> GetCourseVideoAsync(long courseId)
     {
         return Ok();
     }
-    [HttpPost("videos/views")]
-    public async Task<IActionResult> CreateViewsAsync(long id)
+
+    [HttpPut("videos/{videoId}")]
+    public async Task<IActionResult> UpdateCourseVideoAsync(long videoId, string link)
     {
         return Ok();
     }
+    [HttpDelete("videos/{videoId}")]
+    public async Task<IActionResult> DeleteVideosAsync(long videoId)
+    => Ok(await _courseVideoService.DeleteAsync(videoId));
 }
