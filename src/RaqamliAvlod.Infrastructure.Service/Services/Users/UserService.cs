@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Org.BouncyCastle.Asn1.Cms;
 using RaqamliAvlod.Application.Exceptions;
 using RaqamliAvlod.Application.Utils;
 using RaqamliAvlod.Application.ViewModels.Users;
@@ -8,12 +9,7 @@ using RaqamliAvlod.Infrastructure.Service.Dtos;
 using RaqamliAvlod.Infrastructure.Service.Helpers;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Common;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Users;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RaqamliAvlod.Infrastructure.Service.Services.Users
 {
@@ -21,11 +17,13 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IFileService _fileService;
+        private readonly IPaginatorService _paginatorService;
 
-        public UserService(IUnitOfWork unitOfWork, IFileService fileService)
+        public UserService(IUnitOfWork unitOfWork, IFileService fileService, IPaginatorService paginatorService)
         {
             _unitOfWork = unitOfWork;
             _fileService = fileService;
+            _paginatorService = paginatorService;
         }
 
         public async Task<bool> DeleteAsync(long id)
@@ -33,7 +31,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
             var result = await _unitOfWork.Users.FindByIdAsync(id);
 
             if (result is null)
-                throw new StatusCodeException(HttpStatusCode.BadRequest, message: "User don't exist");
+                throw new StatusCodeException(HttpStatusCode.NotFound, message: "User don't exist");
 
             var user = await _unitOfWork.Users.DeleteAsync(id);
 
@@ -43,6 +41,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
         public async Task<IEnumerable<UserViewModel>> GetAllAsync(PaginationParams @params)
         {
             var users = await _unitOfWork.Users.GetAllAsync(@params);
+            _paginatorService.ToPagenator(users.MetaData);
 
             var userViews = new List<UserViewModel>();
 
@@ -72,7 +71,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
         {
             var user = await _unitOfWork.Users.FindByIdAsync(id);
 
-            if (user.ImagePath is not null)
+            if (user!.ImagePath is not null)
             {
                 await _fileService.DeleteImageAsync(user.ImagePath);
 
@@ -94,6 +93,14 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
             newUser.Id = id;
             newUser.UpdatedAt = TimeHelper.GetCurrentDateTime();
             newUser.ImagePath = user.ImagePath;
+            newUser.PasswordHash = user.PasswordHash;
+            newUser.Salt = user.Salt;
+            newUser.Email = user.Email;
+            newUser.ContestCoins = user.ContestCoins;
+            newUser.Role = user.Role;
+            newUser.ProblemSetCoins = user.ProblemSetCoins;
+            newUser.EmailConfirmed = user.EmailConfirmed;
+            newUser.CreatedAt = user.CreatedAt;
 
             await _unitOfWork.Users.UpdateAsync(id, newUser);
 
