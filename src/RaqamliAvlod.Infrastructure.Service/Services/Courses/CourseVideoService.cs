@@ -78,6 +78,7 @@ public class CourseVideoService : ICourseVideoService
             throw new StatusCodeException(HttpStatusCode.BadRequest, "Video not found!");
 
         var videoView = (CourseVideoGetViewModel)video;
+        videoView.Duration = video.Duration;
 
         return videoView;
     }

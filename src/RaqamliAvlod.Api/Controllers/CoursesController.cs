@@ -71,11 +71,10 @@ public class CoursesController : ControllerBase
     [HttpGet("{courseId}/videos")]
     public async Task<IActionResult> GetAllCourseVideoAsync(long courseId, [FromQuery]PaginationParams @params)
         => Ok(await _courseVideoService.GetAllAsync(courseId, @params));
+
     [HttpGet("videos/{videoId}")]
-    public async Task<IActionResult> GetCourseVideoAsync(long courseId)
-    {
-        return Ok();
-    }
+    public async Task<IActionResult> GetCourseVideoAsync(long videoId)
+        => Ok(await _courseVideoService.GetAsync(videoId));
 
     [HttpPut("videos/{videoId}")]
     public async Task<IActionResult> UpdateCourseVideoAsync(long videoId, string link)
