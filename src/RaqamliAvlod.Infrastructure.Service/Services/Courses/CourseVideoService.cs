@@ -34,7 +34,7 @@ public class CourseVideoService : ICourseVideoService
         courseVideoCreate.YouTubeLink = video.Url;
         courseVideoCreate.Title = video.Title;
         courseVideoCreate.Description = video.Description;
-        courseVideoCreate.Duration = (video.Duration!.Value.Hours * 3600) + video.Duration.Value.Minutes * 60 + video.Duration.Value.Seconds;
+        courseVideoCreate.Duration = DateTime.Parse(video.Duration!.Value.ToString()).ToString("HH:mm:ss");
         courseVideoCreate.YouTubeThumbnail = video.Thumbnails.OrderByDescending(p => p.Resolution.Height).FirstOrDefault()!.Url;
         courseVideoCreate.CreatedAt = TimeHelper.GetCurrentDateTime();
 
@@ -78,7 +78,7 @@ public class CourseVideoService : ICourseVideoService
             throw new StatusCodeException(HttpStatusCode.BadRequest, "Video not found!");
 
         var videoView = (CourseVideoGetViewModel)video;
-        videoView.Duration = video.Duration;
+        videoView.Duration = DateTime.Parse(video.Duration).TimeOfDay;
 
         return videoView;
     }

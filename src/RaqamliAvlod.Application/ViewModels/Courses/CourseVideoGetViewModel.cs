@@ -9,7 +9,7 @@ public class CourseVideoGetViewModel
     public string YouTubeThumbnail { get; set; } = string.Empty;
     public int ViewCount { get; set; }
     public string YouTubeLink { get; set; } = string.Empty;
-    public int Duration { get; set; }
+    public TimeSpan Duration { get; set; }
     public string Description { get; set; } = string.Empty;
 
 
