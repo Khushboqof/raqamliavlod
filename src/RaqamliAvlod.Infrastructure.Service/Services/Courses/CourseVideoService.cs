@@ -20,10 +20,10 @@ public class CourseVideoService : ICourseVideoService
         _unitOfWork = unitOfWork;
     }
     public async Task<bool> CreateAsync(CourseVideoCreateDto dto)
-    { 
+    {
         var course = await _unitOfWork.Courses.FindByIdAsync(dto.CourseId);
 
-        if(course is null)
+        if (course is null)
             throw new StatusCodeException(HttpStatusCode.BadRequest, "Course not found!");
 
         var video = await new YoutubeClient().Videos.GetAsync(YouTubeVideoIdExtractor(dto.Link));

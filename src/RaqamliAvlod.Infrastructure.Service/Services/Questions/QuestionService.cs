@@ -19,7 +19,7 @@ public class QuestionService : IQuestionService
     private readonly ITagService _tagService;
     private readonly IPaginatorService _paginator;
 
-    public QuestionService(IUnitOfWork unitOfWork, IIdentityHelperService identityHelperService, 
+    public QuestionService(IUnitOfWork unitOfWork, IIdentityHelperService identityHelperService,
         IHttpContextAccessor httpContextAccessor, ITagService tagService,
         IPaginatorService paginator)
     {
@@ -88,9 +88,9 @@ public class QuestionService : IQuestionService
         var question = _unitOfWork.Questions.FindByIdAsync(questionId);
         if (question is null)
             throw new StatusCodeException(HttpStatusCode.NotFound, "Question Not Found!");
-        
+
         var user = await _unitOfWork.Users.FindByIdAsync(userId);
-        if (user is null) 
+        if (user is null)
             throw new StatusCodeException(HttpStatusCode.NotFound, "User not found");
 
 

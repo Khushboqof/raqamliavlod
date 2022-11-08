@@ -7,15 +7,12 @@ namespace RaqamliAvlod.Infrastructure.Service.Dtos
     {
         [Required, MinLength(3)]
         public string CommentText { get; set; } = string.Empty;
-        [Required]
-        public long OwnerId { get; set; }
 
         public static implicit operator CourseComment(CourseCommentCreateDto courseCommentCreateDto)
         {
             return new CourseComment()
             {
-                CommentText = courseCommentCreateDto.CommentText,
-                OwnerId = courseCommentCreateDto.OwnerId,
+                CommentText = courseCommentCreateDto.CommentText
             };
         }
 

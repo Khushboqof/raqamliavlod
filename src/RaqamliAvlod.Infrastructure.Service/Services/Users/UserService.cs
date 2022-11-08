@@ -8,12 +8,7 @@ using RaqamliAvlod.Infrastructure.Service.Dtos;
 using RaqamliAvlod.Infrastructure.Service.Helpers;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Common;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Users;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RaqamliAvlod.Infrastructure.Service.Services.Users
 {

@@ -17,7 +17,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Common
 
         public async Task<string> SaveImageAsync(IFormFile image)
         {
-            if(image is null)
+            if (image is null)
                 return "";
 
             if (!Directory.Exists(_basePath))

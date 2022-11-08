@@ -1,11 +1,12 @@
-﻿using RaqamliAvlod.Domain.Entities.Courses;
+﻿using RaqamliAvlod.Application.ViewModels.Users;
+using RaqamliAvlod.Domain.Entities.Courses;
 
 namespace RaqamliAvlod.Application.ViewModels.Courses
 {
     public class CourseCommentViewModel
     {
         public long Id { get; set; }
-        public string Username { get; set; } = string.Empty;
+        public OwnerViewModel Owner { get; set; } = null!;
         public string CommentText { get; set; } = string.Empty;
 
         public long CourseId { get; set; }

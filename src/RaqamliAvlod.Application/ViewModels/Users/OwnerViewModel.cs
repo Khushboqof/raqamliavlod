@@ -10,6 +10,8 @@ namespace RaqamliAvlod.Application.ViewModels.Users
 
         public string ImagePath { get; set; } = default!;
 
+        public string Username { get; set; } = default!;
+
 
         public static implicit operator OwnerViewModel(User user)
         {
@@ -17,7 +19,8 @@ namespace RaqamliAvlod.Application.ViewModels.Users
             {
                 UserId = user.Id,
                 FullName = user.FirstName + " " + user.LastName,
-                ImagePath = user.ImagePath
+                ImagePath = user.ImagePath,
+                Username = user.Username!
             };
         }
     }

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace RaqamliAvlod.Infrastructure.Core.Interfaces.Shared
+﻿namespace RaqamliAvlod.Infrastructure.Core.Interfaces.Shared
 {
     public interface ICheckerConsumer
     {

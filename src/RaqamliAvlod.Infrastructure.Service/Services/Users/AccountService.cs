@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Caching.Memory;
 using RaqamliAvlod.Application.Exceptions;
 using RaqamliAvlod.DataAccess.Interfaces;
-using RaqamliAvlod.DataAccess.Interfaces.Users;
 using RaqamliAvlod.Domain.Entities.Users;
 using RaqamliAvlod.Infrastructure.Service.Dtos;
 using RaqamliAvlod.Infrastructure.Service.Helpers;
@@ -31,7 +30,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
         public async Task<string> LogInAsync(AccountLoginDto accountLogin)
         {
             var user = await _unitOfWork.Users.GetByEmailAsync(accountLogin.Email);
-            if(user is null) throw new StatusCodeException(HttpStatusCode.NotFound, message: "email is wrong");
+            if (user is null) throw new StatusCodeException(HttpStatusCode.NotFound, message: "email is wrong");
 
             if (user.EmailConfirmed is false)
                 throw new StatusCodeException(HttpStatusCode.BadRequest, message: "email did not verified");
@@ -44,8 +43,8 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
         public async Task<bool> RegisterAsync(AccountCreateDto accountCreate)
         {
             var user = await _unitOfWork.Users.GetByEmailAsync(accountCreate.Email);
-            if(user is not null) throw new StatusCodeException(HttpStatusCode.BadRequest, message: "user already exist");
-            
+            if (user is not null) throw new StatusCodeException(HttpStatusCode.BadRequest, message: "user already exist");
+
             var newUser = (User)accountCreate;
             var hashResult = PasswordHasher.Hash(accountCreate.Password);
             newUser.Salt = hashResult.Salt;
@@ -57,7 +56,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
 
             var email = new SendToEmailDto();
             email.Email = accountCreate.Email;
-            
+
             await SendCodeAsync(email);
 
             return true;
@@ -88,7 +87,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
 
             if (_cache.TryGetValue(verifyEmail.Email, out int expectedCode) is false)
                 throw new StatusCodeException(HttpStatusCode.BadRequest, message: "Code is expired");
-            
+
             if (expectedCode != verifyEmail.Code)
                 throw new StatusCodeException(HttpStatusCode.BadRequest, message: "Code is wrong");
 
