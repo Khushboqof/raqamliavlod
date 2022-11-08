@@ -40,23 +40,15 @@ public class QuestionsController : ControllerBase
     public async Task<IActionResult> CreateAsync([FromForm] QuestionCreateDto questionCreateViewModel)
         => Ok(await _questionService.CreateAsync(questionCreateViewModel, _identityHelper.GetUserId()));
 
-    [HttpPut("{questionId}"), Authorize(Roles ="Admin, User, SuperAdmin")]
-    public async Task<IActionResult> UpdateAsync(long questionId, 
-        [FromBody] QuestionCreateDto questionUpdateViewModel)
-    {
-        //var result = await _questionService.UpdateAsync(questionId, questionUpdateViewModel, );
-
-        return Ok();// result);
-    }
+    [HttpPut("{questionId}"), Authorize(Roles = "Admin, User, SuperAdmin")]
+    public async Task<IActionResult> UpdateAsync(long questionId,
+        [FromBody] QuestionCreateDto questionUpdateViewModel) 
+        => Ok(await _questionService.UpdateAsync(questionId, questionUpdateViewModel, _identityHelper.GetUserId()));
 
     [HttpDelete("{questionId}")]
     [Authorize(Roles = "Admin, User, SuperAdmin")]
-    public async Task<IActionResult> DeleteAsync(long questionId)
-    {
-        var result = await _questionService.DeleteAsync(questionId);
-
-        return Ok(result);
-    }
+    public async Task<IActionResult> DeleteAsync(long questionId) 
+        => Ok(await _questionService.DeleteAsync(questionId, _identityHelper.GetUserId(), _identityHelper.GetUserRole()));
 
     [HttpPost("{questionId}/views")]
     public async Task<IActionResult> CreateViewsAsync(long questionId)
