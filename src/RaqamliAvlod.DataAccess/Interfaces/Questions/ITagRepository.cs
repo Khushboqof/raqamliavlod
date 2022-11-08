@@ -4,6 +4,8 @@ namespace RaqamliAvlod.DataAccess.Interfaces.Questions
 {
     public interface ITagRepository : IRepository<Tag>
     {
-        Task<Tag?> FindByNameAsync(string name);
+        public Task<Tag?> FindByNameAsync(string name);
+
+        public Task<IEnumerable<Tag>> AddRangeAsync(IEnumerable<string> tags);
     }
 }

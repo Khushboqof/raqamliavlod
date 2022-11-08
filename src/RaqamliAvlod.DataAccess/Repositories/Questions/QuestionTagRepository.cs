@@ -18,5 +18,11 @@ namespace RaqamliAvlod.DataAccess.Repositories.Questions
 
             return await PagedList<QuestionTag>.ToPagedListAsync(questionTags, @params.PageNumber, @params.PageSize);
         }
+
+        public async Task AddRangeAsync(IEnumerable<QuestionTag> questionTags)
+        {
+            await _dbSet.AddRangeAsync(questionTags);
+            await _dbcontext.SaveChangesAsync();
+        }
     }
 }

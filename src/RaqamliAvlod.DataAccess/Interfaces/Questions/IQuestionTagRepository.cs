@@ -7,5 +7,7 @@ namespace RaqamliAvlod.DataAccess.Interfaces.Questions
     public interface IQuestionTagRepository : IRepository<QuestionTag>
     {
         public Task<PagedList<QuestionTag>> GetAllTagsFromQuestionAsync(long questionId, PaginationParams @params);
+
+        public Task AddRangeAsync(IEnumerable<QuestionTag> questionTags);
     }
 }
