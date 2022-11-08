@@ -5,6 +5,7 @@ using RaqamliAvlod.Application.ViewModels.Users;
 using RaqamliAvlod.DataAccess.Interfaces;
 using RaqamliAvlod.Domain.Entities.Courses;
 using RaqamliAvlod.Infrastructure.Service.Dtos;
+using RaqamliAvlod.Infrastructure.Service.Helpers;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Common;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Courses;
 using RaqamliAvlod.Infrastructure.Service.Services.Common;
@@ -25,27 +26,36 @@ public class CourseCommentService : ICourseCommentService
     {
         _unitOfWork = unitOfWork;
     }
-    public async Task<bool> CreateAsync(long ownerId, CourseCommentCreateDto dto)
+    public async Task<bool> CreateAsync(long courseId, CourseCommentCreateDto dto)
     {
-        var user = await _unitOfWork.Users.FindByIdAsync(ownerId);
+        var user = await _unitOfWork.Users.FindByIdAsync(dto.OwnerId);
+        var course = await _unitOfWork.Courses.FindByIdAsync(courseId);
 
         if (user is null)
             throw new StatusCodeException(HttpStatusCode.BadRequest, "Owner not found!");
+        if (course is null)
+            throw new StatusCodeException(HttpStatusCode.BadRequest, "Course not found!");
+        
         var courseComment = (CourseComment)dto;
-
+        courseComment.CourseId = courseId;
+        courseComment.CreatedAt = TimeHelper.GetCurrentDateTime();
         var res = await _unitOfWork.CourseComments.CreateAsync(courseComment);
 
         return res is not null ? true : false;
 
     }
 
-    public async Task<bool> DeleteAsync(long id)
+    public async Task<bool> DeleteAsync(long courseId, long id)
     {
-        var courseComment = _unitOfWork.Courses.FindByIdAsync(id);
-
+        var course = await _unitOfWork.Courses.FindByIdAsync(courseId);
+        var courseComment = await _unitOfWork.CourseComments.FindByIdAsync(id);
+        
+        if (course is null)
+            throw new StatusCodeException(HttpStatusCode.BadRequest, "Course not found!");
         if (courseComment is null)
             throw new StatusCodeException(HttpStatusCode.BadRequest, "Course comment not found!");
-
+        if (courseComment.CourseId!=courseId)
+            throw new StatusCodeException(HttpStatusCode.BadRequest, "Comment not found in this course!");
         var res = await _unitOfWork.CourseComments.DeleteAsync(id);
 
         return res is not null ? true : false;
@@ -62,7 +72,8 @@ public class CourseCommentService : ICourseCommentService
             var owner  = (await _unitOfWork.Users.FindByIdAsync(courseComment.OwnerId))!;
 
             var courseCommentView = (CourseCommentViewModel)courseComment;
-            courseCommentView.Username = owner.Username;
+
+            courseCommentView.Username = owner.Username!;
 
             courseCommentViews.Add(courseCommentView);
         }
@@ -84,7 +95,7 @@ public class CourseCommentService : ICourseCommentService
 
         var courseCommentView = (CourseCommentViewModel)courseComment;
 
-        courseCommentView.Username = owner.Username;
+        courseCommentView.Username = owner.Username!;
 
         return courseCommentView;
     }
