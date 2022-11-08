@@ -12,7 +12,7 @@ namespace RaqamliAvlod.DataAccess.Repositories.Questions
         {
         }
 
-        public async Task<PagedList<QuestionAnswer>> GetAllByCourseIdAsync(long questionId, PaginationParams @params)
+        public async Task<PagedList<QuestionAnswer>> GetAllByQuestionIdAsync(long questionId, PaginationParams @params)
         {
             var questionAnswers = _dbSet.Where(answers => answers.QuestionId == questionId).OrderBy(x=>x.Id);
 

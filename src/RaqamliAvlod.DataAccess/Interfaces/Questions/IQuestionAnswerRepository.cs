@@ -6,6 +6,6 @@ namespace RaqamliAvlod.DataAccess.Interfaces.Questions
 {
     public interface IQuestionAnswerRepository : IRepository<QuestionAnswer>
     {
-        public Task<PagedList<QuestionAnswer>> GetAllByCourseIdAsync(long questionId, PaginationParams @params);
+        public Task<PagedList<QuestionAnswer>> GetAllByQuestionIdAsync(long questionId, PaginationParams @params);
     }
 }
