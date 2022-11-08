@@ -52,7 +52,7 @@ namespace RaqamliAvlod.DataAccess.Repositories
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            GC.Collect();
         }
     }
 }
