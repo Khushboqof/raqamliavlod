@@ -72,7 +72,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
         {
             var user = await _unitOfWork.Users.FindByIdAsync(id);
 
-            if (user.ImagePath is null)
+            if (user.ImagePath is not null)
             {
                 await _fileService.DeleteImageAsync(user.ImagePath);
 
