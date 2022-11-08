@@ -11,10 +11,7 @@ namespace RaqamliAvlod.DataAccess.Repositories.Questions
         {
         }
 
-        public async Task<bool> FindByTagNameAsync(string tagName)
-        {
-            var tag = await _dbSet.FirstOrDefaultAsync(tag => tag.TagName == tagName);
-            return tag is not null ? true : false;
-        }
+        public async Task<Tag?> FindByNameAsync(string name)
+             => await _dbSet.FirstOrDefaultAsync(tag => tag.TagName == name);
     }
 }
