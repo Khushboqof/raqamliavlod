@@ -15,6 +15,8 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Common
             _basePath = webHost.WebRootPath;
         }
 
+        string IFileService.ImageFolderName => _imageFolderName;
+
         public async Task<string> SaveImageAsync(IFormFile image)
         {
             if(image is null)
