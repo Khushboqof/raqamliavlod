@@ -1,4 +1,5 @@
-﻿using RaqamliAvlod.Application.Exceptions;
+﻿using Microsoft.AspNetCore.Http;
+using RaqamliAvlod.Application.Exceptions;
 using RaqamliAvlod.Application.Utils;
 using RaqamliAvlod.Application.ViewModels.Questions;
 using RaqamliAvlod.Application.ViewModels.Users;
@@ -16,19 +17,21 @@ public class QuestionService : IQuestionService
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IIdentityHelperService _identityHelperService;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly ITagService _tagService;
 
-    public QuestionService(IUnitOfWork unitOfWork, IIdentityHelperService identityHelperService)
+    public QuestionService(IUnitOfWork unitOfWork, IIdentityHelperService identityHelperService, IHttpContextAccessor httpContextAccessor, ITagService tagService)
     {
         _unitOfWork = unitOfWork;
         _identityHelperService = identityHelperService;
+        _httpContextAccessor = httpContextAccessor;
+        _tagService = tagService;
     }
 
     public async Task<bool> CreateAsync(QuestionCreateDto dto)
     {
         var question = (Question)dto;   
-
         question.OwnerId = _identityHelperService.GetUserId();
-
         var result = await _unitOfWork.Questions.CreateAsync(question);
 
         return result is not null;
@@ -36,21 +39,18 @@ public class QuestionService : IQuestionService
 
     public async Task<bool> DeleteAsync(long questionId)
     {
-        var question = await _unitOfWork.Questions.FindByIdAsync(questionId);
-
-        if (question is null)
-        {
+        if (await _unitOfWork.Questions.FindByIdAsync(questionId) is null)
             throw new StatusCodeException(HttpStatusCode.NotFound, "Question Not Found!");
-        }
 
-        var result = await _unitOfWork.Questions.DeleteAsync(questionId);
-
-        return result is not null;
+        return await _unitOfWork.Questions.DeleteAsync(questionId) is not null;
     }
 
     public async Task<IEnumerable<QuestionViewModel>> GetAllAsync(PaginationParams @params)
     {
         var questions = await _unitOfWork.Questions.GetAllAsync(@params);
+        var metaData = questions.MetaData;
+        var data = @$"CurrentPage = { metaData.CurrentPage},TotalCount = {metaData.TotalCount},TotalPages = {metaData.TotalPages}, HasPrevious = {metaData.HasPrevious},HasNext = {metaData.HasNext}";
+        _httpContextAccessor.HttpContext!.Response.Headers.Add("X-Pagination", data);
 
         var questionViewModels = new List<QuestionViewModel>();
 
