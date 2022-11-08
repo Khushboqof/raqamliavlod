@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RaqamliAvlod.Application.Utils;
 using RaqamliAvlod.Infrastructure.Service.Dtos;
 using RaqamliAvlod.Infrastructure.Service.Dtos.Questions;
@@ -10,6 +11,7 @@ namespace RaqamliAvlod.Api.Controllers;
 [ApiController]
 public class QuestionsController : ControllerBase
 {
+#pragma warning disable CS1998
     private readonly IQuestionService _questionService;
     private readonly IQuestionAnswerService _questionAnswerService;
     private readonly ITagService _tagService;
@@ -38,14 +40,16 @@ public class QuestionsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateAsync(long userId, [FromForm] QuestionCreateDto questionCreateViewModel)
+    [Authorize(Roles = "Admin, User, SuperAdmin")]
+    public async Task<IActionResult> CreateAsync([FromForm] QuestionCreateDto questionCreateViewModel)
     {
-        var result = await _questionService.CreateAsync(userId, questionCreateViewModel);
+        var result = await _questionService.CreateAsync(questionCreateViewModel);
 
         return Ok(result);
     }
 
     [HttpPut("{questionId}")]
+    [Authorize(Roles ="Admin, User, SuperAdmin")]
     public async Task<IActionResult> UpdateAsync(long questionId, [FromBody] QuestionCreateDto questionUpdateViewModel)
     {
         var result = await _questionService.UpdateAsync(questionId, questionUpdateViewModel);
@@ -54,6 +58,7 @@ public class QuestionsController : ControllerBase
     }
 
     [HttpDelete("{questionId}")]
+    [Authorize(Roles = "Admin, User, SuperAdmin")]
     public async Task<IActionResult> DeleteAsync(long questionId)
     {
         var result = await _questionService.DeleteAsync(questionId);

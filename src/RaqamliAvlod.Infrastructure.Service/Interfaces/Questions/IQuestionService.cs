@@ -9,7 +9,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Interfaces.Questions;
 
 public interface IQuestionService
 {
-    Task<bool> CreateAsync(long userId, QuestionCreateDto dto);
+    Task<bool> CreateAsync(QuestionCreateDto dto);
     Task<bool> UpdateAsync(long questionId, QuestionCreateDto dto);
     Task<bool> DeleteAsync(long questionId);
     Task<QuestionViewModel> GetAsync(long questionId);
