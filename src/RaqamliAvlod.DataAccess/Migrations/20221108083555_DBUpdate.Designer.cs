@@ -12,8 +12,8 @@ using RaqamliAvlod.DataAccess.DbContexts;
 namespace RaqamliAvlod.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221104125631_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20221108083555_DBUpdate")]
+    partial class DBUpdate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -223,6 +223,10 @@ namespace RaqamliAvlod.DataAccess.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Duration")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -454,6 +458,9 @@ namespace RaqamliAvlod.DataAccess.Migrations
                     b.Property<string>("TagName")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("ViewCount")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 

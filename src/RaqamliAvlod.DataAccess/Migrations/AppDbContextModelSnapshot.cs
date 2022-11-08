@@ -224,8 +224,9 @@ namespace RaqamliAvlod.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("Duration")
-                        .HasColumnType("integer");
+                    b.Property<string>("Duration")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Title")
                         .IsRequired()

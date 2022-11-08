@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace RaqamliAvlod.DataAccess.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class DBUpdate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -37,7 +37,8 @@ namespace RaqamliAvlod.DataAccess.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    TagName = table.Column<string>(type: "text", nullable: false)
+                    TagName = table.Column<string>(type: "text", nullable: false),
+                    ViewCount = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -225,6 +226,7 @@ namespace RaqamliAvlod.DataAccess.Migrations
                     ViewCount = table.Column<int>(type: "integer", nullable: false),
                     YouTubeLink = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
+                    Duration = table.Column<string>(type: "text", nullable: false),
                     CourseId = table.Column<long>(type: "bigint", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
