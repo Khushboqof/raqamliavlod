@@ -78,6 +78,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
 
                 user.ImagePath = await _fileService.SaveImageAsync(formFile);
             }
+            await _unitOfWork.Users.UpdateAsync(id, user);
 
             return true;
         }
