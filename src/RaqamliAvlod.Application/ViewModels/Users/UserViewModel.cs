@@ -20,6 +20,7 @@ namespace RaqamliAvlod.Application.ViewModels.Users
                 Firstname = user.FirstName,
                 Lastname = user.LastName,
                 Username = user.Username,
+                CreatedAt = user.CreatedAt.ToString(),
                 ContestCoins = user.ContestCoins,
                 ProblemSetCoins = user.ProblemSetCoins
             };
