@@ -11,7 +11,22 @@ namespace RaqamliAvlod.DataAccess.Repositories.Questions
         {
         }
 
+        public async Task<IEnumerable<Tag>> AddRangeAsync(IEnumerable<string> tags)
+        {
+            List<Tag> entityTags = new();
+            foreach (var tag in tags)
+            {
+                var entityTag = new Tag() { TagName = tag, ViewCount = 0 };
+                _dbcontext.Add(entityTag);
+                await _dbcontext.SaveChangesAsync();
+                entityTags.Add(entityTag);
+            }
+            return entityTags;
+        }
+
         public async Task<Tag?> FindByNameAsync(string name)
              => await _dbSet.FirstOrDefaultAsync(tag => tag.TagName == name);
+
+
     }
 }

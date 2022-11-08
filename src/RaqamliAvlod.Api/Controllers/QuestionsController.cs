@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using RaqamliAvlod.Application.Utils;
 using RaqamliAvlod.Infrastructure.Service.Dtos;
 using RaqamliAvlod.Infrastructure.Service.Dtos.Questions;
+using RaqamliAvlod.Infrastructure.Service.Interfaces.Common;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Questions;
 
 namespace RaqamliAvlod.Api.Controllers;
@@ -11,50 +12,41 @@ namespace RaqamliAvlod.Api.Controllers;
 [ApiController]
 public class QuestionsController : ControllerBase
 {
-#pragma warning disable CS1998
     private readonly IQuestionService _questionService;
     private readonly IQuestionAnswerService _questionAnswerService;
     private readonly ITagService _tagService;
+    private readonly IIdentityHelperService _identityHelper;
 
-    public QuestionsController(IQuestionService questionService, IQuestionAnswerService questionAnswerService, ITagService tagService)
+    public QuestionsController(IQuestionService questionService, 
+        IQuestionAnswerService questionAnswerService, 
+        ITagService tagService, 
+        IIdentityHelperService identityHelper)
     {
         _questionService = questionService;
         this._questionAnswerService = questionAnswerService;
         this._tagService = tagService;
+        this._identityHelper = identityHelper;
     }
 
-    [HttpGet]
+    [HttpGet, AllowAnonymous]
     public async Task<IActionResult> GetAllAsync([FromQuery] PaginationParams @params)
-    {
-        var result = await _questionService.GetAllAsync(@params);
+        => Ok(await _questionService.GetAllAsync(@params));
 
-        return Ok(result);
-    }
-
-    [HttpGet("{questionId}")]
+    [HttpGet("{questionId}"), AllowAnonymous]
     public async Task<IActionResult> GetAsync(long questionId)
-    {
-        var result = await _questionService.GetAsync(questionId);
+        => Ok(await _questionService.GetAsync(questionId));
 
-        return Ok(result);
-    }
-
-    [HttpPost]
-    [Authorize(Roles = "Admin, User, SuperAdmin")]
+    [HttpPost, Authorize(Roles = "Admin, User, SuperAdmin")]
     public async Task<IActionResult> CreateAsync([FromForm] QuestionCreateDto questionCreateViewModel)
+        => Ok(await _questionService.CreateAsync(questionCreateViewModel, _identityHelper.GetUserId()));
+
+    [HttpPut("{questionId}"), Authorize(Roles ="Admin, User, SuperAdmin")]
+    public async Task<IActionResult> UpdateAsync(long questionId, 
+        [FromBody] QuestionCreateDto questionUpdateViewModel)
     {
-        var result = await _questionService.CreateAsync(questionCreateViewModel);
+        //var result = await _questionService.UpdateAsync(questionId, questionUpdateViewModel, );
 
-        return Ok(result);
-    }
-
-    [HttpPut("{questionId}")]
-    [Authorize(Roles ="Admin, User, SuperAdmin")]
-    public async Task<IActionResult> UpdateAsync(long questionId, [FromBody] QuestionCreateDto questionUpdateViewModel)
-    {
-        var result = await _questionService.UpdateAsync(questionId, questionUpdateViewModel);
-
-        return Ok(result);
+        return Ok();// result);
     }
 
     [HttpDelete("{questionId}")]

@@ -39,7 +39,7 @@ public class ContestsController : ControllerBase
         return Ok();
     }
 
-    [HttpPost("registrate")]
+    [HttpPost("register")]
     public async Task<IActionResult> RegistrateAsync(long contestId)
     {
         return Ok();

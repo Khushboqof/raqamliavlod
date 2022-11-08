@@ -3,14 +3,10 @@ using RaqamliAvlod.Domain.Entities.Questions;
 
 namespace RaqamliAvlod.Application.ViewModels.Questions
 {
-    public class QuestionViewModel
+    public class QuestionViewModel : QuestionBaseViewModel
     {
-        public long Id { get; set; }
-        public string Title { get; set; } = String.Empty;
+        public IEnumerable<string> Tags { get; set; } = default!;
         public string Description { get; set; } = String.Empty;
-        public int ViewCount { get; set; }
-        public string[]? Tags { get; set; }
-        public OwnerViewModel Owner { get; set; } = null!;
 
         public static implicit operator QuestionViewModel(Question question)
         {
@@ -20,6 +16,7 @@ namespace RaqamliAvlod.Application.ViewModels.Questions
                 Title = question.Title,
                 Description = question.Description,
                 ViewCount = question.ViewCount,
+                Owner = question.Owner,
             };
         }
     }
