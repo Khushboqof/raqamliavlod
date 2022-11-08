@@ -17,6 +17,7 @@ namespace RaqamliAvlod.Api.Configurations.Dependencies
         {
             builder.Services.AddScoped<IPaginatorService, PaginatorServcie>();
             builder.Services.AddScoped<ICourseService, CourseService>();
+            builder.Services.AddScoped<ICourseVideoService, CourseVideoService>();
             builder.Services.AddScoped<IFileService, FileService>();
             builder.Services.AddScoped<IEmailService, EmailService>();
             builder.Services.AddScoped<IAuthManager, AuthManager>();

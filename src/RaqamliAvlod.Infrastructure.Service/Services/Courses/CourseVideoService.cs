@@ -1,9 +1,10 @@
-﻿using RaqamliAvlod.Application.Exceptions;
+using RaqamliAvlod.Application.Exceptions;
 using RaqamliAvlod.Application.Utils;
 using RaqamliAvlod.Application.ViewModels.Courses;
 using RaqamliAvlod.DataAccess.Interfaces;
 using RaqamliAvlod.Domain.Entities.Courses;
 using RaqamliAvlod.Infrastructure.Service.Dtos;
+using RaqamliAvlod.Infrastructure.Service.Helpers;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Courses;
 using System;
 using System.Collections.Generic;
@@ -40,8 +41,11 @@ public class CourseVideoService : ICourseVideoService
         courseVideoCreate.Description = video.Description;
         courseVideoCreate.Duration = video.Duration!.Value.Minutes;
         courseVideoCreate.YouTubeThumbnail = video.Thumbnails.OrderByDescending(p => p.Resolution.Height).FirstOrDefault()!.Url;
+        courseVideoCreate.CreatedAt = TimeHelper.GetCurrentDateTime();
 
-        return true;
+        var res = await _unitOfWork.CourseVideos.CreateAsync(courseVideoCreate);
+
+        return res is not null ? true : false;
     }
 
     public Task<bool> DeleteAsync(long courseVideoId)

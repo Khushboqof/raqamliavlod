@@ -43,7 +43,7 @@ public class QuestionsController : ControllerBase
         return Ok(result);
     }
 
-    [HttpPatch("{questionId}")]
+    [HttpPut("{questionId}")]
     [Authorize(Roles ="Admin, User, SuperAdmin")]
     public async Task<IActionResult> UpdateAsync(long questionId, [FromBody] QuestionCreateDto questionUpdateViewModel)
     {
