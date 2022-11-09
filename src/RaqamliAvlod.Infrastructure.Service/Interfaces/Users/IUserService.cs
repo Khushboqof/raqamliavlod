@@ -9,7 +9,8 @@ namespace RaqamliAvlod.Infrastructure.Service.Interfaces.Users
     {
         Task<bool> UpdateAsync(long id, UserUpdateDto viewModel);
         Task<bool> DeleteAsync(long id);
-        Task<UserViewModel> GetAsync(long id);
+        Task<UserViewModel> GetIdAsync(long id);
+        Task<UserViewModel> GetUsernameAsync(string username);
         Task<bool> ImageUpdateAsync(long id, IFormFile formFile);
         Task<IEnumerable<UserViewModel>> GetAllAsync(PaginationParams @params);
     }
