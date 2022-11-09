@@ -18,9 +18,10 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Questions
         {
             this._unitOfWork = unitOfWork;
         }
-        public async Task<bool> CreateAsync(QuestionAnswerCreateDto dto)
+        public async Task<bool> CreateAsync(QuestionAnswerCreateDto dto, long userId)
         {
             var answers = (QuestionAnswer)dto;
+            answers.OwnerId = userId;
 
             if (answers.ParentId is not null)
                 answers.HasReplied = true;

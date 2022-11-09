@@ -1,11 +1,13 @@
 ﻿using RaqamliAvlod.Domain.Entities.Questions;
+using System.ComponentModel.DataAnnotations;
 
 namespace RaqamliAvlod.Infrastructure.Service.Dtos.Questions
 {
     public class QuestionAnswerCreateDto
     {
+        [Required]
         public string Description { get; set; } = String.Empty;
-        public long OwnerId { get; set; }
+        [Required]
         public long QuestionId { get; set; }
         public long? ParentId { get; set; }
 
@@ -14,7 +16,6 @@ namespace RaqamliAvlod.Infrastructure.Service.Dtos.Questions
             return new QuestionAnswer()
             {
                 Description = questionAnswerCreateDto.Description,
-                OwnerId = questionAnswerCreateDto.OwnerId,
                 QuestionId = questionAnswerCreateDto.QuestionId,
                 ParentId = questionAnswerCreateDto.ParentId
             };
