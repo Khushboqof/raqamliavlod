@@ -42,7 +42,7 @@ public class QuestionsController : ControllerBase
 
     [HttpPut("{questionId}"), Authorize(Roles = "Admin, User, SuperAdmin")]
     public async Task<IActionResult> UpdateAsync(long questionId,
-        [FromBody] QuestionCreateDto questionUpdateViewModel) 
+        [FromForm] QuestionCreateDto questionUpdateViewModel) 
         => Ok(await _questionService.UpdateAsync(questionId, questionUpdateViewModel, _identityHelper.GetUserId()));
 
     [HttpDelete("{questionId}")]
