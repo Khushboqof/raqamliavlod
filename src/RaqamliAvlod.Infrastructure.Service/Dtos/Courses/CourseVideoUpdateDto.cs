@@ -6,8 +6,6 @@ namespace RaqamliAvlod.Infrastructure.Service.Dtos
     public class CourseVideoUpdateDto
     {
         [Required]
-        public long CourseId { get; set; }
-        [Required]
         public string Link { get; set; } = string.Empty;
     }
 }

@@ -5,6 +5,7 @@ using RaqamliAvlod.DataAccess.Interfaces;
 using RaqamliAvlod.Domain.Entities.Courses;
 using RaqamliAvlod.Infrastructure.Service.Dtos;
 using RaqamliAvlod.Infrastructure.Service.Helpers;
+using RaqamliAvlod.Infrastructure.Service.Interfaces.Common;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Courses;
 using System.Net;
 using YoutubeExplode;
@@ -14,10 +15,13 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Courses;
 public class CourseVideoService : ICourseVideoService
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IPaginatorService _paginator;
 
-    public CourseVideoService(IUnitOfWork unitOfWork)
+    public CourseVideoService(IUnitOfWork unitOfWork,
+        IPaginatorService paginator)
     {
         _unitOfWork = unitOfWork;
+        _paginator = paginator;
     }
     public async Task<bool> CreateAsync(CourseVideoCreateDto dto)
     {
@@ -40,7 +44,7 @@ public class CourseVideoService : ICourseVideoService
 
         var res = await _unitOfWork.CourseVideos.CreateAsync(courseVideoCreate);
 
-        return res is not null ? true : false;
+        return res is not null;
     }
 
     public async Task<bool> DeleteAsync(long videoId)
@@ -52,18 +56,20 @@ public class CourseVideoService : ICourseVideoService
 
         var result = await _unitOfWork.CourseVideos.DeleteAsync(videoId);
 
-        return result is not null ? true : false;
+        return result is not null;
     }
 
     public async Task<IEnumerable<CourseVideoGetAllViewModel>> GetAllAsync(long courseId, PaginationParams @params)
     {
         var courseVideos = await _unitOfWork.CourseVideos.GetAllByCourseIdAsync(courseId, @params);
+        _paginator.ToPagenator(courseVideos.MetaData);
 
         var courseViews = new List<CourseVideoGetAllViewModel>();
 
         foreach (var courseVideo in courseVideos)
         {
             var courseView = (CourseVideoGetAllViewModel)courseVideo;
+            courseView.Duration = DateTime.Parse(courseVideo.Duration).TimeOfDay;
             courseViews.Add(courseView);
         }
 
@@ -77,6 +83,9 @@ public class CourseVideoService : ICourseVideoService
         if (video is null)
             throw new StatusCodeException(HttpStatusCode.BadRequest, "Video not found!");
 
+        video.ViewCount += 1;
+        await _unitOfWork.CourseVideos.UpdateAsync(videoId, video);
+
         var videoView = (CourseVideoGetViewModel)video;
         videoView.Duration = DateTime.Parse(video.Duration).TimeOfDay;
 
@@ -88,10 +97,6 @@ public class CourseVideoService : ICourseVideoService
         if (video is null)
             throw new StatusCodeException(HttpStatusCode.BadRequest, "Video not found!");
 
-        var course = await _unitOfWork.Courses.FindByIdAsync(dto.CourseId);
-        if (course is null)
-            throw new StatusCodeException(HttpStatusCode.BadRequest, "Course not found!");
-
         var videoLink = await new YoutubeClient().Videos.GetAsync(YouTubeVideoIdExtractor(dto.Link));
 
         video.YouTubeLink = videoLink.Url;
@@ -99,11 +104,10 @@ public class CourseVideoService : ICourseVideoService
         video.Description = videoLink.Description;
         video.YouTubeThumbnail = videoLink.Thumbnails.OrderByDescending(p => p.Resolution.Height).FirstOrDefault()!.Url;
         video.Duration = DateTime.Parse(videoLink.Duration!.Value.ToString()).ToString("HH:mm:ss");
-        video.CourseId = dto.CourseId;
 
         var res = await _unitOfWork.CourseVideos.UpdateAsync(videoId, video);
 
-        return res is not null ? true : false;
+        return res is not null;
     }
 
 

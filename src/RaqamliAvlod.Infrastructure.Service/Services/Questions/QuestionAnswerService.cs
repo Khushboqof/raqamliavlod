@@ -3,6 +3,7 @@ using RaqamliAvlod.Application.Utils;
 using RaqamliAvlod.Application.ViewModels.Questions;
 using RaqamliAvlod.DataAccess.Interfaces;
 using RaqamliAvlod.Domain.Entities.Questions;
+using RaqamliAvlod.Domain.Enums;
 using RaqamliAvlod.Infrastructure.Service.Dtos.Questions;
 using RaqamliAvlod.Infrastructure.Service.Helpers;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Questions;
@@ -18,9 +19,10 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Questions
         {
             this._unitOfWork = unitOfWork;
         }
-        public async Task<bool> CreateAsync(QuestionAnswerCreateDto dto)
+        public async Task<bool> CreateAsync(QuestionAnswerCreateDto dto, long userId)
         {
             var answers = (QuestionAnswer)dto;
+            answers.OwnerId = userId;
 
             if (answers.ParentId is not null)
                 answers.HasReplied = true;
@@ -32,18 +34,17 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Questions
             return true;
         }
 
-        public async Task<bool> DeleteAsync(long id)
+        public async Task<bool> DeleteAsync(long id, long userId, UserRole role)
         {
             var answer = await _unitOfWork.QuestionAnswers.FindByIdAsync(id);
             if (answer is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, message: "Answer not found");
-            else
-            {
-                await _unitOfWork.QuestionAnswers.DeleteAsync(id);
-                answer.HasReplied = false;
+            if (answer.OwnerId != userId && role == UserRole.User)
+                throw new StatusCodeException(HttpStatusCode.Forbidden, "You can't delete it");
+             await _unitOfWork.QuestionAnswers.DeleteAsync(id);
+             answer.HasReplied = false;
 
-                return true;
-            }
+             return true;
         }
 
         public async Task<IEnumerable<QuestionAnswerViewModel>> GetAllAsync(long questionId, PaginationParams? @params = null)
@@ -66,12 +67,14 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Questions
             return questionAnswerViews;
         }
 
-        public async Task<bool> UpdateAsync(long id, QuestionAnswerUpdateDto dto)
+        public async Task<bool> UpdateAsync(long id, QuestionAnswerUpdateDto dto, long userId)
         {
             var answer = await _unitOfWork.QuestionAnswers.FindByIdAsync(id);
 
             if (answer is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, message: "Answer not found");
+            if (answer.OwnerId != userId)
+                throw new StatusCodeException(HttpStatusCode.Forbidden, "You can't change it");
 
             answer.Description = dto.Description;
 

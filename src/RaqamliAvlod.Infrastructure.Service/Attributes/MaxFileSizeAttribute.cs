@@ -15,8 +15,8 @@ namespace RaqamliAvlod.Attributes
             var file = value as IFormFile;
             if (file is not null)
             {
-                if ((file.Length / 1024) > _maxFileSize)
-                    return new ValidationResult($"File must be less than {_maxFileSize} kB");
+                if ((file.Length / 1024 / 1024) > _maxFileSize)
+                    return new ValidationResult($"File must be less than {_maxFileSize} MB");
             }
 
             return ValidationResult.Success;

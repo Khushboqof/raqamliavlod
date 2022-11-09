@@ -1,6 +1,8 @@
-﻿using RaqamliAvlod.Application.Exceptions;
+﻿using Microsoft.IdentityModel.Tokens;
+using RaqamliAvlod.Application.Exceptions;
 using RaqamliAvlod.Application.ViewModels.Questions;
 using RaqamliAvlod.DataAccess.Interfaces;
+using RaqamliAvlod.Domain.Entities.Questions;
 using RaqamliAvlod.Infrastructure.Service.Dtos.Questions;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Questions;
 using System.Net;
@@ -62,14 +64,19 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Questions
             return (TagViewModel)tag;
         }
 
-        public async Task<TagViewModel> GetByNameAsync(string name)
+        public async Task<IEnumerable<TagViewModel?>> GetByNameAsync(string name)
         {
-            var tag = await _unitOfWork.Tags.FindByNameAsync(name.ToLower());
+            var tag = await _unitOfWork.Tags.SearchAsync(name.ToLower());
 
-            if (tag is null)
+            if (tag.IsNullOrEmpty())
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Tag not found");
 
-            return tag;
+            ICollection<TagViewModel> result = new List<TagViewModel>();
+
+            foreach (var item in tag)
+                result.Add((TagViewModel)item);
+
+            return result;
         }
     }
 }

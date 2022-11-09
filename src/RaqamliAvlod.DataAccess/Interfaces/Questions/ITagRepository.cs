@@ -6,6 +6,8 @@ namespace RaqamliAvlod.DataAccess.Interfaces.Questions
     {
         public Task<Tag?> FindByNameAsync(string name);
 
+        public Task<IEnumerable<Tag?>> SearchAsync(string name);
+
         public Task<IEnumerable<Tag>> AddRangeAsync(IEnumerable<string> tags);
     }
 }

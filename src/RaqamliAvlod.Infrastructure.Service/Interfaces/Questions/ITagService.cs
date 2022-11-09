@@ -9,6 +9,6 @@ namespace RaqamliAvlod.Infrastructure.Service.Interfaces.Questions
         Task<bool> UpdateAsync(long id, TagCreateDto dto);
         Task<bool> DeleteAsync(long id);
         Task<TagViewModel> GetByIdAsync(long Id);
-        Task<TagViewModel> GetByNameAsync(string name);
+        Task<IEnumerable<TagViewModel>> GetByNameAsync(string name);
     }
 }
