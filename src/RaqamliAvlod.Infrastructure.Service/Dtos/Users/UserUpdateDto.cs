@@ -1,5 +1,6 @@
 ﻿using RaqamliAvlod.Attributes;
 using RaqamliAvlod.Domain.Entities.Users;
+using RaqamliAvlod.Infrastructure.Service.Attributes;
 using System.ComponentModel.DataAnnotations;
 
 namespace RaqamliAvlod.Infrastructure.Service.Dtos
@@ -11,6 +12,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Dtos
         [Required]
         public string Lastname { get; set; } = string.Empty;
         [Required]
+        [UsernameCheck]
         public string Username { get; set; } = string.Empty;
         [Required]
         public string PhoneNumber { get; set; } = string.Empty;
