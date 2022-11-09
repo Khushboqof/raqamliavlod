@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using RaqamliAvlod.Attributes;
 using RaqamliAvlod.Domain.Entities.Courses;
+using RaqamliAvlod.Infrastructure.Service.Attributes;
 using System.ComponentModel.DataAnnotations;
 
 namespace RaqamliAvlod.Infrastructure.Service.Dtos
@@ -20,6 +21,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Dtos
         [AllowedFiles(new string[] { ".jpg", ".png", ".jpeg" })]
         public IFormFile? Image { get; set; }
 
+        [Integer]
         public float Price { get; set; }
 
         [Required]
