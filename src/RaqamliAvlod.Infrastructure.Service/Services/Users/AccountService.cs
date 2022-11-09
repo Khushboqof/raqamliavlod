@@ -17,14 +17,16 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
         private readonly IAuthManager _authManager;
         private readonly IMemoryCache _cache;
         private readonly IEmailService _emailService;
+        private readonly IFileService _fileService;
 
         public AccountService(IUnitOfWork unitOfWork, IAuthManager authManager,
-            IMemoryCache cache, IEmailService emailService)
+            IMemoryCache cache, IEmailService emailService, IFileService fileService)
         {
             _unitOfWork = unitOfWork;
             _authManager = authManager;
             _cache = cache;
             _emailService = emailService;
+            _fileService = fileService;
         }
 
         public async Task<string> LogInAsync(AccountLoginDto accountLogin)
@@ -49,6 +51,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
             var hashResult = PasswordHasher.Hash(accountCreate.Password);
             newUser.Salt = hashResult.Salt;
             newUser.PasswordHash = hashResult.Hash;
+            newUser.ImagePath = $"{_fileService.ImageFolderName}/IMG_bf6218f9-dd17-44ce-8d39-e9b9d374a903.jpg";
             newUser.CreatedAt = TimeHelper.GetCurrentDateTime();
             newUser.UpdatedAt = TimeHelper.GetCurrentDateTime();
 

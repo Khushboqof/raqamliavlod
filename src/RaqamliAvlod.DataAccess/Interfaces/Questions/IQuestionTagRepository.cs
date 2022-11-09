@@ -9,5 +9,6 @@ namespace RaqamliAvlod.DataAccess.Interfaces.Questions
         public Task<PagedList<QuestionTag>> GetAllTagsFromQuestionAsync(long questionId, PaginationParams @params);
 
         public Task AddRangeAsync(IEnumerable<QuestionTag> questionTags);
+        public Task DeleteQuestionTagsAsync(long questionId);
     }
 }

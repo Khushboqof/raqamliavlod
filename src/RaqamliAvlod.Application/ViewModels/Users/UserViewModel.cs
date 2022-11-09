@@ -9,6 +9,7 @@ namespace RaqamliAvlod.Application.ViewModels.Users
         public string Lastname { get; set; } = string.Empty;
         public string Username { get; set; } = string.Empty;
         public string CreatedAt { get; set; } = string.Empty;
+        public string ImagePath { get; set; } = string.Empty;
         public int ContestCoins { get; set; }
         public int ProblemSetCoins { get; set; }
 
@@ -20,6 +21,7 @@ namespace RaqamliAvlod.Application.ViewModels.Users
                 Firstname = user.FirstName,
                 Lastname = user.LastName,
                 Username = user.Username,
+                ImagePath = user.ImagePath,
                 CreatedAt = user.CreatedAt.ToString(),
                 ContestCoins = user.ContestCoins,
                 ProblemSetCoins = user.ProblemSetCoins

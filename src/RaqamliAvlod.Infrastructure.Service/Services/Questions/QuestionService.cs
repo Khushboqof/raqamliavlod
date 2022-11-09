@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using RaqamliAvlod.Application.Exceptions;
+﻿using RaqamliAvlod.Application.Exceptions;
 using RaqamliAvlod.Application.Utils;
 using RaqamliAvlod.Application.ViewModels.Questions;
 using RaqamliAvlod.DataAccess.Interfaces;
 using RaqamliAvlod.Domain.Entities.Questions;
+using RaqamliAvlod.Domain.Enums;
 using RaqamliAvlod.Infrastructure.Service.Dtos;
 using RaqamliAvlod.Infrastructure.Service.Helpers;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Common;
@@ -15,18 +15,15 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Questions;
 public class QuestionService : IQuestionService
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly ITagService _tagService;
     private readonly IPaginatorService _paginator;
+    private readonly IQuestionTagService _questionTagService;
 
-    public QuestionService(IUnitOfWork unitOfWork, IIdentityHelperService identityHelperService,
-        IHttpContextAccessor httpContextAccessor, ITagService tagService,
-        IPaginatorService paginator)
+    public QuestionService(IUnitOfWork unitOfWork,
+        IPaginatorService paginator, IQuestionTagService service)
     {
         _unitOfWork = unitOfWork;
-        _httpContextAccessor = httpContextAccessor;
-        _tagService = tagService;
         _paginator = paginator;
+        _questionTagService = service;
     }
 
     public async Task<bool> CreateAsync(QuestionCreateDto dto, long userId)
@@ -39,28 +36,17 @@ public class QuestionService : IQuestionService
         question.CreatedAt = TimeHelper.GetCurrentDateTime();
         var result = await _unitOfWork.Questions.CreateAsync(question);
 
-        List<string> tags = new();
-        List<QuestionTag> questionTags = new();
-        foreach (var tagdto in dto.Tags!)
-        {
-            var tag = await _unitOfWork.Tags.FindByNameAsync(tagdto);
-            if (tag is null)
-                tags.Add(tagdto);
-            else questionTags.Add(new QuestionTag() { QuestionId = question.Id, TagId = tag.Id });
-        }
-
-        var createdTags = await _unitOfWork.Tags.AddRangeAsync(tags);
-        foreach (var tag in createdTags)
-            questionTags.Add(new QuestionTag() { QuestionId = question.Id, TagId = tag.Id });
-        await _unitOfWork.QuestionTags.AddRangeAsync(questionTags);
-
+        await _questionTagService.CreateAsync(result, dto.Tags);
         return result is not null;
     }
 
-    public async Task<bool> DeleteAsync(long questionId)
+    public async Task<bool> DeleteAsync(long questionId, long userId, UserRole userRole)
     {
-        if (await _unitOfWork.Questions.FindByIdAsync(questionId) is null)
+        var res = await _unitOfWork.Questions.FindByIdAsync(questionId);
+        if (res is null)
             throw new StatusCodeException(HttpStatusCode.NotFound, "Question Not Found!");
+        if (res.OwnerId != userId && userRole == UserRole.User)
+            throw new StatusCodeException(HttpStatusCode.Forbidden, "You cannot change it");
 
         return await _unitOfWork.Questions.DeleteAsync(questionId) is not null;
     }
@@ -85,7 +71,7 @@ public class QuestionService : IQuestionService
 
     public async Task<bool> UpdateAsync(long questionId, QuestionCreateDto dto, long userId)
     {
-        var question = _unitOfWork.Questions.FindByIdAsync(questionId);
+        var question = await _unitOfWork.Questions.FindByIdAsync(questionId);
         if (question is null)
             throw new StatusCodeException(HttpStatusCode.NotFound, "Question Not Found!");
 
@@ -93,9 +79,13 @@ public class QuestionService : IQuestionService
         if (user is null)
             throw new StatusCodeException(HttpStatusCode.NotFound, "User not found");
 
+        if (userId != question.OwnerId)
+            throw new StatusCodeException(HttpStatusCode.Forbidden, "You cannot change it!");
 
         var editedQuestion = (Question)dto;
         editedQuestion.Id = question.Id;
+        editedQuestion.OwnerId = userId;
+        await _questionTagService.UpdateAsync(editedQuestion, dto.Tags);
 
         return await _unitOfWork.Questions.UpdateAsync(questionId, editedQuestion) is not null;
     }
