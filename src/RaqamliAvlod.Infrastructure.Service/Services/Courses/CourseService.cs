@@ -16,12 +16,15 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Courses
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IFileService _fileService;
+        private readonly IPaginatorService _paginator;
 
         public CourseService(IUnitOfWork unitOfWork,
-            IFileService fileService)
+            IFileService fileService,
+            IPaginatorService paginator)
         {
             _unitOfWork = unitOfWork;
             _fileService = fileService;
+            _paginator = paginator;
         }
         public async Task<bool> CreateAsync(CourseCreateDto dto)
         {
@@ -31,13 +34,13 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Courses
                 throw new StatusCodeException(HttpStatusCode.BadRequest, "Owner not found!");
             var course = (Course)dto;
 
-            course.ImagePath = await _fileService.SaveImageAsync(dto.Image!);        
+            course.ImagePath = await _fileService.SaveImageAsync(dto.Image!);
             course.CreatedAt = TimeHelper.GetCurrentDateTime();
             course.UpdatedAt = TimeHelper.GetCurrentDateTime();
 
             var res = await _unitOfWork.Courses.CreateAsync(course);
 
-            return res is not null ? true : false;
+            return res is not null;
         }
 
         public async Task<bool> DeleteAsync(long id)
@@ -47,18 +50,22 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Courses
             if (course is null)
                 throw new StatusCodeException(HttpStatusCode.BadRequest, "Course not found!");
 
+            if(!string.IsNullOrEmpty(course.ImagePath))
+                await _fileService.DeleteImageAsync(course.ImagePath);
+
             var res = await _unitOfWork.Courses.DeleteAsync(id);
 
-            return res is not null ? true : false;
+            return res is not null;
         }
 
         public async Task<IEnumerable<CourseViewModel>> GetAllAsync(PaginationParams @params)
         {
             var courses = await _unitOfWork.Courses.GetAllAsync(@params);
+            _paginator.ToPagenator(courses.MetaData);
 
             var courseViews = new List<CourseViewModel>();
 
-            foreach(var course in courses)
+            foreach (var course in courses)
             {
                 var owner = (await _unitOfWork.Users.FindByIdAsync(course.OwnerId))!;
                 var ownerView = (OwnerViewModel)owner;
@@ -75,6 +82,8 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Courses
         public async Task<IEnumerable<CourseViewModel>> SearchByTitleAsync(string text, PaginationParams @params)
         {
             var courses = await _unitOfWork.Courses.SearchAsync(text, @params);
+            _paginator.ToPagenator(courses.MetaData);
+
             var courseViews = new List<CourseViewModel>();
 
             foreach (var course in courses)
@@ -126,12 +135,13 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Courses
                 await _fileService.DeleteImageAsync(course.ImagePath);
                 updadetCourse.ImagePath = await _fileService.SaveImageAsync(dto.Image);
             }
-                
+
             updadetCourse.Id = courseId;
+            updadetCourse.CreatedAt = course.CreatedAt;
             updadetCourse.UpdatedAt = TimeHelper.GetCurrentDateTime();
 
             var result = await _unitOfWork.Courses.UpdateAsync(courseId, updadetCourse);
-            return result is not null ? true : false;
+            return result is not null;
         }
     }
 }

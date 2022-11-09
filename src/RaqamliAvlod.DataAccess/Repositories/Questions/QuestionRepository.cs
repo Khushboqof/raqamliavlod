@@ -22,7 +22,7 @@ namespace RaqamliAvlod.DataAccess.Repositories.Questions
 
         public async Task<PagedList<QuestionBaseViewModel>> GetAllViewAsync(PaginationParams @params)
         {
-            var query = from question in _dbcontext.Questions.Include(x=>x.Owner)
+            var query = from question in _dbcontext.Questions.Include(x => x.Owner)
                         orderby question.CreatedAt descending
                         select (QuestionBaseViewModel)question;
 
@@ -33,7 +33,7 @@ namespace RaqamliAvlod.DataAccess.Repositories.Questions
         public async Task CountViewAsync(long questionId)
         {
             var question = await _dbcontext.Questions.FindAsync(questionId);
-            if(question is not null)
+            if (question is not null)
             {
                 question.ViewCount++;
                 _dbcontext.Questions.Update(question);

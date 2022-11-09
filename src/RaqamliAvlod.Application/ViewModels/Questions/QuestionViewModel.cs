@@ -1,5 +1,4 @@
-﻿using RaqamliAvlod.Application.ViewModels.Users;
-using RaqamliAvlod.Domain.Entities.Questions;
+﻿using RaqamliAvlod.Domain.Entities.Questions;
 
 namespace RaqamliAvlod.Application.ViewModels.Questions
 {

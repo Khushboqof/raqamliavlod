@@ -14,7 +14,7 @@ namespace RaqamliAvlod.DataAccess.Repositories.Questions
 
         public async Task<PagedList<QuestionAnswer>> GetAllByQuestionIdAsync(long questionId, PaginationParams @params)
         {
-            var questionAnswers = _dbSet.Where(answers => answers.QuestionId == questionId).OrderBy(x=>x.Id);
+            var questionAnswers = _dbSet.Where(answers => answers.QuestionId == questionId).OrderBy(x => x.Id);
 
             return await PagedList<QuestionAnswer>.ToPagedListAsync(questionAnswers, @params.PageNumber, @params.PageSize);
         }

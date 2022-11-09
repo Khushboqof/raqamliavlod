@@ -17,9 +17,9 @@ public class QuestionsController : ControllerBase
     private readonly ITagService _tagService;
     private readonly IIdentityHelperService _identityHelper;
 
-    public QuestionsController(IQuestionService questionService, 
-        IQuestionAnswerService questionAnswerService, 
-        ITagService tagService, 
+    public QuestionsController(IQuestionService questionService,
+        IQuestionAnswerService questionAnswerService,
+        ITagService tagService,
         IIdentityHelperService identityHelper)
     {
         _questionService = questionService;
@@ -40,23 +40,15 @@ public class QuestionsController : ControllerBase
     public async Task<IActionResult> CreateAsync([FromForm] QuestionCreateDto questionCreateViewModel)
         => Ok(await _questionService.CreateAsync(questionCreateViewModel, _identityHelper.GetUserId()));
 
-    [HttpPut("{questionId}"), Authorize(Roles ="Admin, User, SuperAdmin")]
-    public async Task<IActionResult> UpdateAsync(long questionId, 
-        [FromBody] QuestionCreateDto questionUpdateViewModel)
-    {
-        //var result = await _questionService.UpdateAsync(questionId, questionUpdateViewModel, );
-
-        return Ok();// result);
-    }
+    [HttpPut("{questionId}"), Authorize(Roles = "Admin, User, SuperAdmin")]
+    public async Task<IActionResult> UpdateAsync(long questionId,
+        [FromBody] QuestionCreateDto questionUpdateViewModel) 
+        => Ok(await _questionService.UpdateAsync(questionId, questionUpdateViewModel, _identityHelper.GetUserId()));
 
     [HttpDelete("{questionId}")]
     [Authorize(Roles = "Admin, User, SuperAdmin")]
-    public async Task<IActionResult> DeleteAsync(long questionId)
-    {
-        var result = await _questionService.DeleteAsync(questionId);
-
-        return Ok(result);
-    }
+    public async Task<IActionResult> DeleteAsync(long questionId) 
+        => Ok(await _questionService.DeleteAsync(questionId, _identityHelper.GetUserId(), _identityHelper.GetUserRole()));
 
     [HttpPost("{questionId}/views")]
     public async Task<IActionResult> CreateViewsAsync(long questionId)
@@ -101,7 +93,7 @@ public class QuestionsController : ControllerBase
         => Ok(await _tagService.DeleteAsync(tagId));
 
     [HttpPut("tags/{tagId}")]
-    public async Task<IActionResult> UpdateTagAsync(long tagId,[FromForm] TagCreateDto updateDto)
+    public async Task<IActionResult> UpdateTagAsync(long tagId, [FromForm] TagCreateDto updateDto)
         => Ok(await _tagService.UpdateAsync(tagId, updateDto));
 
     [HttpGet("tags/{tagId}")]

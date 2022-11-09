@@ -14,7 +14,7 @@ namespace RaqamliAvlod.DataAccess.Repositories.Questions
 
         public async Task<PagedList<QuestionTag>> GetAllTagsFromQuestionAsync(long questionId, PaginationParams @params)
         {
-            var questionTags = _dbSet.Where(tag => tag.QuestionId == questionId).OrderBy(x=>x.Id);
+            var questionTags = _dbSet.Where(tag => tag.QuestionId == questionId).OrderBy(x => x.Id);
 
             return await PagedList<QuestionTag>.ToPagedListAsync(questionTags, @params.PageNumber, @params.PageSize);
         }
@@ -22,6 +22,13 @@ namespace RaqamliAvlod.DataAccess.Repositories.Questions
         public async Task AddRangeAsync(IEnumerable<QuestionTag> questionTags)
         {
             await _dbSet.AddRangeAsync(questionTags);
+            await _dbcontext.SaveChangesAsync();
+        }
+
+        public async Task DeleteQuestionTagsAsync(long questionId)
+        {
+            var questionTags = _dbSet.Where(x => x.QuestionId == questionId);
+            _dbSet.RemoveRange(questionTags);
             await _dbcontext.SaveChangesAsync();
         }
     }
