@@ -31,7 +31,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
 
         public async Task<string> LogInAsync(AccountLoginDto accountLogin)
         {
-            var user = await _unitOfWork.Users.GetByEmailAsync(accountLogin.Email);
+            var user = await _unitOfWork.Users.GetByEmailAsync(accountLogin.Email.ToLower());
 
             if(user is null) throw new StatusCodeException(HttpStatusCode.NotFound, message: "email is wrong");
 
@@ -45,7 +45,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
 
         public async Task<bool> RegisterAsync(AccountCreateDto accountCreate)
         {
-            var user = await _unitOfWork.Users.GetByEmailAsync(accountCreate.Email);
+            var user = await _unitOfWork.Users.GetByEmailAsync(accountCreate.Email.ToLower());
             if (user is not null) throw new StatusCodeException(HttpStatusCode.BadRequest, message: "user already exist");
 
             var newUser = (User)accountCreate;
