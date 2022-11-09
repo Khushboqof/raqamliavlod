@@ -29,19 +29,19 @@ public class UsersController : ControllerBase
     public async Task<IActionResult> GetAsync(long userId)
         => Ok(await _userService.GetAsync(userId));
 
-    [HttpPut, Authorize(Roles = "User, Admin")]
+    [HttpPut, Authorize(Roles = "User, Admin, SuperAdmin")]
     public async Task<IActionResult> UpdateAsync([FromForm] UserUpdateDto userUpdateViewModel)
         => Ok(await _userService.UpdateAsync(_identityHelperService.GetUserId(), userUpdateViewModel));
 
-    [HttpDelete("{userId}"), Authorize(Roles = "Admin")]
+    [HttpDelete("{userId}"), Authorize(Roles = "Admin, SuperAdmin")]
     public async Task<IActionResult> DeleteAsync(long userId)
         => Ok(await _userService.DeleteAsync(userId));
 
-    [HttpPost("images/upload"), Authorize(Roles = "Admin, User")]
+    [HttpPost("images/upload"), Authorize(Roles = "Admin, User, SuperAdmin")]
     public async Task<IActionResult> ImageUpdateAsync([FromForm] ImageUploadDto dto)
         => Ok(await _userService.ImageUpdateAsync(_identityHelperService.GetUserId(), dto));
 
-    [HttpGet("{userId}/submuissions")]
+    [HttpGet("{userId}/submuissions"), AllowAnonymous]
     public async Task<IActionResult> GetSubmissionsAsync(long userId, [FromQuery] PaginationParams @params)
     {
         return Ok();

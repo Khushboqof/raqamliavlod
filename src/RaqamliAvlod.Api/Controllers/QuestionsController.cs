@@ -46,7 +46,7 @@ public class QuestionsController : ControllerBase
         => Ok(await _questionService.UpdateAsync(questionId, questionUpdateViewModel, _identityHelper.GetUserId()));
 
     [HttpDelete("{questionId}")]
-    [Authorize(Roles = "Admin, User, SuperAdmin")]
+    [Authorize(Roles = "Admin, SuperAdmin")]
     public async Task<IActionResult> DeleteAsync(long questionId) 
         => Ok(await _questionService.DeleteAsync(questionId, _identityHelper.GetUserId(), _identityHelper.GetUserRole()));
 
@@ -75,7 +75,7 @@ public class QuestionsController : ControllerBase
        => Ok(await _questionAnswerService.UpdateAsync(answerId, questionAnswerUpdateDto, _identityHelper.GetUserId()));
 
     [HttpDelete("answers/{answerId}")]
-    [Authorize(Roles = "Admin, User, SuperAdmin")]
+    [Authorize(Roles = "Admin, SuperAdmin")]
     public async Task<IActionResult> DeleteAsnwerAsync(long answerId)
         => Ok(await _questionAnswerService.DeleteAsync(answerId, _identityHelper.GetUserId(), _identityHelper.GetUserRole()));
 
@@ -85,23 +85,23 @@ public class QuestionsController : ControllerBase
         return Ok();
     }
 
-    [HttpPost("tags")]
+    [HttpPost("tags"), Authorize("User, Admin, SuperAdmin")]
     public async Task<IActionResult> CreateAsync(string tag)
         => Ok(await _tagService.CreateAsync(tag));
 
-    [HttpDelete("tag/{tagId}")]
+    [HttpDelete("tag/{tagId}"), Authorize("Admin, SuperAdmin")]
     public async Task<IActionResult> DeleteTagAsync(long tagId)
         => Ok(await _tagService.DeleteAsync(tagId));
 
-    [HttpPut("tags/{tagId}")]
+    [HttpPut("tags/{tagId}"), Authorize("Admin, SuperAdmin")]
     public async Task<IActionResult> UpdateTagAsync(long tagId, [FromForm] TagCreateDto updateDto)
         => Ok(await _tagService.UpdateAsync(tagId, updateDto));
 
-    [HttpGet("tags/{tagId}")]
+    [HttpGet("tags/{tagId}"), AllowAnonymous]
     public async Task<IActionResult> GetByTagIdAsync(long tagId)
         => Ok(await _tagService.GetByIdAsync(tagId));
 
-    [HttpGet("tags/search")]
+    [HttpGet("tags/search"), AllowAnonymous]
     public async Task<IActionResult> GetByTagNameAsync([FromQuery] string name)
         => Ok(await _tagService.GetByNameAsync(name));
 }
