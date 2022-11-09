@@ -47,13 +47,10 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
             var userViews = new List<UserViewModel>();
 
             foreach (var user in users)
-            {
-                if(user.EmailConfirmed is true)
-                {
-                    var userView = (UserViewModel)user;
+            {               
+                 var userView = (UserViewModel)user;
 
-                    userViews.Add(userView);
-                }
+                 userViews.Add(userView);                
             }
 
             return userViews;
