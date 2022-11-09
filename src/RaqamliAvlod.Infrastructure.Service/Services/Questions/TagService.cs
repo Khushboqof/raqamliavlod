@@ -18,12 +18,10 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Questions
             this._unitOfWork = unitOfWork;
         }
 
-        public async Task<bool> CreateAsync(string tagName)
+        public async Task<bool> CreateAsync(TagCreateDto tagCreateDto)
         {
-            var tags = await _unitOfWork.Tags.FindByNameAsync(tagName.ToLower());
-
-            var tag = new TagCreateDto();
-            tag.TagName = tagName;
+            var tag = (Tag)tagCreateDto;
+            var tags = await _unitOfWork.Tags.FindByNameAsync(tag.TagName.ToLower());
 
             if (tags is not null)
                 throw new StatusCodeException(HttpStatusCode.BadRequest, "Tag already exists");
