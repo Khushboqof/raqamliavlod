@@ -47,16 +47,28 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
             var userViews = new List<UserViewModel>();
 
             foreach (var user in users)
-            {
-                var userView = (UserViewModel)user;
+            {               
+                 var userView = (UserViewModel)user;
 
-                userViews.Add(userView);
+                 userViews.Add(userView);                
             }
 
             return userViews;
         }
 
-        public async Task<UserViewModel> GetAsync(long id)
+        public async Task<UserViewModel> GetUsernameAsync(string username)
+        {
+            var user = await _unitOfWork.Users.GetByUsernameAsync(username.Trim());
+
+            if (user is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, message: "User not found");
+
+            var userView = (UserViewModel)user;
+
+            return userView;
+        }
+
+        public async Task<UserViewModel> GetIdAsync(long id)
         {
             var user = await _unitOfWork.Users.FindByIdAsync(id);
 
@@ -97,6 +109,10 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
 
             if (phoneNumber is not null)
                 throw new StatusCodeException(HttpStatusCode.BadRequest, message: "This phoneNumber already exist");
+
+            viewModel.Firstname.Trim();
+            viewModel.Lastname.Trim();
+            viewModel.Username.Trim();
 
             var newUser = (User)viewModel;
             newUser.Id = id;

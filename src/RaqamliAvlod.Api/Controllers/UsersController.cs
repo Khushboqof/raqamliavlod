@@ -26,8 +26,12 @@ public class UsersController : ControllerBase
         => Ok(await _userService.GetAllAsync(@params));
 
     [HttpGet("{userId}"), AllowAnonymous]
-    public async Task<IActionResult> GetAsync(long userId)
-        => Ok(await _userService.GetAsync(userId));
+    public async Task<IActionResult> GetIdAsync(long userId)
+        => Ok(await _userService.GetIdAsync(userId));
+
+    [HttpGet("username"), AllowAnonymous]
+    public async Task<IActionResult> GetUsernameAsync(string username)
+        => Ok(await _userService.GetUsernameAsync(username));
 
     [HttpPut, Authorize(Roles = "User, Admin")]
     public async Task<IActionResult> UpdateAsync([FromForm] UserUpdateDto userUpdateViewModel)
