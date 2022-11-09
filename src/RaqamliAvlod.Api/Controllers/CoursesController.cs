@@ -80,10 +80,9 @@ public class CoursesController : ControllerBase
         => Ok(await _courseVideoService.GetAsync(videoId));
 
     [HttpPut("videos/{videoId}")]
-    public async Task<IActionResult> UpdateCourseVideoAsync(long videoId, string link)
-    {
-        return Ok();
-    }
+    public async Task<IActionResult> UpdateCourseVideoAsync(long videoId, [FromForm]CourseVideoUpdateDto dto)
+        => Ok(await _courseVideoService.UpdateAsync(videoId, dto));
+
     [HttpDelete("videos/{videoId}")]
     public async Task<IActionResult> DeleteVideosAsync(long videoId)
     => Ok(await _courseVideoService.DeleteAsync(videoId));

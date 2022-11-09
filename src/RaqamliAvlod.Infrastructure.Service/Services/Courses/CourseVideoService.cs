@@ -43,14 +43,14 @@ public class CourseVideoService : ICourseVideoService
         return res is not null ? true : false;
     }
 
-    public async Task<bool> DeleteAsync(long courseVideoId)
+    public async Task<bool> DeleteAsync(long videoId)
     {
-        var courseVideo = await _unitOfWork.Courses.FindByIdAsync(courseVideoId);
+        var courseVideo = await _unitOfWork.CourseVideos.FindByIdAsync(videoId);
 
         if (courseVideo is null)
             throw new StatusCodeException(HttpStatusCode.BadRequest, "Video not found!");
 
-        var result = await _unitOfWork.CourseVideos.DeleteAsync(courseVideoId);
+        var result = await _unitOfWork.CourseVideos.DeleteAsync(videoId);
 
         return result is not null ? true : false;
     }
@@ -82,9 +82,28 @@ public class CourseVideoService : ICourseVideoService
 
         return videoView;
     }
-    public Task<bool> UpdateAsync(long courseVideoId, CourseVideoUpdateDto dto)
+    public async Task<bool> UpdateAsync(long videoId, CourseVideoUpdateDto dto)
     {
-        throw new NotImplementedException();
+        var video = await _unitOfWork.CourseVideos.FindByIdAsync(videoId);
+        if (video is null)
+            throw new StatusCodeException(HttpStatusCode.BadRequest, "Video not found!");
+
+        var course = await _unitOfWork.Courses.FindByIdAsync(dto.CourseId);
+        if (course is null)
+            throw new StatusCodeException(HttpStatusCode.BadRequest, "Course not found!");
+
+        var videoLink = await new YoutubeClient().Videos.GetAsync(YouTubeVideoIdExtractor(dto.Link));
+
+        video.YouTubeLink = videoLink.Url;
+        video.Title = videoLink.Title;
+        video.Description = videoLink.Description;
+        video.YouTubeThumbnail = videoLink.Thumbnails.OrderByDescending(p => p.Resolution.Height).FirstOrDefault()!.Url;
+        video.Duration = DateTime.Parse(videoLink.Duration!.Value.ToString()).ToString("HH:mm:ss");
+        video.CourseId = dto.CourseId;
+
+        var res = await _unitOfWork.CourseVideos.UpdateAsync(videoId, video);
+
+        return res is not null ? true : false;
     }
 
 

@@ -47,6 +47,9 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Courses
             if (course is null)
                 throw new StatusCodeException(HttpStatusCode.BadRequest, "Course not found!");
 
+            if(!string.IsNullOrEmpty(course.ImagePath))
+                await _fileService.DeleteImageAsync(course.ImagePath);
+
             var res = await _unitOfWork.Courses.DeleteAsync(id);
 
             return res is not null ? true : false;
@@ -128,6 +131,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Courses
             }
                 
             updadetCourse.Id = courseId;
+            updadetCourse.CreatedAt = course.CreatedAt;
             updadetCourse.UpdatedAt = TimeHelper.GetCurrentDateTime();
 
             var result = await _unitOfWork.Courses.UpdateAsync(courseId, updadetCourse);
