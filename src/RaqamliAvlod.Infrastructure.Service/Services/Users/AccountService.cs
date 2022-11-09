@@ -32,7 +32,8 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
         public async Task<string> LogInAsync(AccountLoginDto accountLogin)
         {
             var user = await _unitOfWork.Users.GetByEmailAsync(accountLogin.Email);
-            if (user is null) throw new StatusCodeException(HttpStatusCode.NotFound, message: "email is wrong");
+
+            if(user is null) throw new StatusCodeException(HttpStatusCode.NotFound, message: "email is wrong");
 
             if (user.EmailConfirmed is false)
                 throw new StatusCodeException(HttpStatusCode.BadRequest, message: "email did not verified");

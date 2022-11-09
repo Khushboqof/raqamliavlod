@@ -13,8 +13,12 @@ namespace RaqamliAvlod.DataAccess.Repositories.Users
         }
 
         public async Task<User?> GetByEmailAsync(string email)
-        {
-            return await _dbcontext.Users.FirstOrDefaultAsync(user => user.Email == email);
-        }
+            => await _dbcontext.Users.FirstOrDefaultAsync(user => user.Email == email);
+
+        public async Task<User?> GetByUsernameAsync(string username)
+            => await _dbcontext.Users.FirstOrDefaultAsync(user => user.Username == username);
+
+        public async Task<User?> GetByPhonNumberAsync(string phoneNumber)
+            => await _dbcontext.Users.FirstOrDefaultAsync(user => user.PhoneNumber == phoneNumber);
     }
 }
