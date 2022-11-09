@@ -64,14 +64,19 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Questions
             return (TagViewModel)tag;
         }
 
-        public async Task<IEnumerable<Tag?>> GetByNameAsync(string name)
+        public async Task<IEnumerable<TagViewModel?>> GetByNameAsync(string name)
         {
             var tag = await _unitOfWork.Tags.SearchAsync(name.ToLower());
 
             if (tag.IsNullOrEmpty())
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Tag not found");
 
-            return tag;
+            ICollection<TagViewModel> result = new List<TagViewModel>();
+
+            foreach (var item in tag)
+                result.Add((TagViewModel)item);
+
+            return result;
         }
     }
 }
