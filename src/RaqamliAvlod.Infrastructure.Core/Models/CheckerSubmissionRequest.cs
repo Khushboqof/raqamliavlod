@@ -14,6 +14,8 @@
 
         public uint MemoryLimit { get; set; }
 
+        public string IdentityKey { get; set; } = String.Empty;
+
         public string Password { get; set; } = String.Empty;
     }
 }
