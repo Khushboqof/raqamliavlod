@@ -16,7 +16,7 @@ namespace RaqamliAvlod.DataAccess.Repositories.ProblemSets
         public async Task<IEnumerable<ProblemSetTest>> GetAllByProblemSetId(long problemSetId)
         {
             return await _dbSet.Where(problemSetTest => problemSetTest.ProblemSetId == problemSetId)
-                        .OrderBy(x=>x.Id).ToListAsync();
+                        .OrderBy(x => x.Id).ToListAsync();
         }
     }
 }

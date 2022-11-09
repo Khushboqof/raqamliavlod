@@ -15,9 +15,9 @@ namespace RaqamliAvlod.DataAccess.Repositories.Contests
         public async Task<PagedList<ContestSubmissionsInfo>> GetAllByContestIdAsync(long contestId, PaginationParams @params)
         {
             var submissionInfo = _dbSet.Where(info => info.ContestStandingsId == contestId)
-                .OrderBy(x=>x.Id);
+                .OrderBy(x => x.Id);
 
-            return await PagedList<ContestSubmissionsInfo>.ToPagedListAsync(submissionInfo, 
+            return await PagedList<ContestSubmissionsInfo>.ToPagedListAsync(submissionInfo,
                 @params.PageNumber, @params.PageSize);
         }
     }

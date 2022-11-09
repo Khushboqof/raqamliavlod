@@ -1,5 +1,4 @@
 ﻿using RaqamliAvlod.Domain.Entities.Questions;
-using RaqamliAvlod.Infrastructure.Service.Dtos.Questions;
 using System.ComponentModel.DataAnnotations;
 
 namespace RaqamliAvlod.Infrastructure.Service.Dtos

@@ -17,7 +17,7 @@ namespace RaqamliAvlod.Application.ViewModels.Questions
                 Id = question.Id,
                 Title = question.Title,
                 ViewCount = question.ViewCount,
-                Owner = (OwnerViewModel) question.Owner
+                Owner = (OwnerViewModel)question.Owner
             };
         }
     }

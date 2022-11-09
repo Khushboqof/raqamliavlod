@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using RaqamliAvlod.Attributes;
+﻿using RaqamliAvlod.Attributes;
 using RaqamliAvlod.Domain.Entities.Users;
 using System.ComponentModel.DataAnnotations;
 

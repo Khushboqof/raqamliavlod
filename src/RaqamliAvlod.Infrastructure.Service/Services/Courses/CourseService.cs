@@ -31,7 +31,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Courses
                 throw new StatusCodeException(HttpStatusCode.BadRequest, "Owner not found!");
             var course = (Course)dto;
 
-            course.ImagePath = await _fileService.SaveImageAsync(dto.Image!);        
+            course.ImagePath = await _fileService.SaveImageAsync(dto.Image!);
             course.CreatedAt = TimeHelper.GetCurrentDateTime();
             course.UpdatedAt = TimeHelper.GetCurrentDateTime();
 
@@ -61,7 +61,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Courses
 
             var courseViews = new List<CourseViewModel>();
 
-            foreach(var course in courses)
+            foreach (var course in courses)
             {
                 var owner = (await _unitOfWork.Users.FindByIdAsync(course.OwnerId))!;
                 var ownerView = (OwnerViewModel)owner;
@@ -129,7 +129,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Courses
                 await _fileService.DeleteImageAsync(course.ImagePath);
                 updadetCourse.ImagePath = await _fileService.SaveImageAsync(dto.Image);
             }
-                
+
             updadetCourse.Id = courseId;
             updadetCourse.CreatedAt = course.CreatedAt;
             updadetCourse.UpdatedAt = TimeHelper.GetCurrentDateTime();
