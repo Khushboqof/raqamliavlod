@@ -69,6 +69,7 @@ public class CourseVideoService : ICourseVideoService
         foreach (var courseVideo in courseVideos)
         {
             var courseView = (CourseVideoGetAllViewModel)courseVideo;
+            courseView.Duration = DateTime.Parse(courseVideo.Duration).TimeOfDay;
             courseViews.Add(courseView);
         }
 
@@ -82,6 +83,9 @@ public class CourseVideoService : ICourseVideoService
         if (video is null)
             throw new StatusCodeException(HttpStatusCode.BadRequest, "Video not found!");
 
+        video.ViewCount += 1;
+        await _unitOfWork.CourseVideos.UpdateAsync(videoId, video);
+
         var videoView = (CourseVideoGetViewModel)video;
         videoView.Duration = DateTime.Parse(video.Duration).TimeOfDay;
 
@@ -93,10 +97,6 @@ public class CourseVideoService : ICourseVideoService
         if (video is null)
             throw new StatusCodeException(HttpStatusCode.BadRequest, "Video not found!");
 
-        var course = await _unitOfWork.Courses.FindByIdAsync(dto.CourseId);
-        if (course is null)
-            throw new StatusCodeException(HttpStatusCode.BadRequest, "Course not found!");
-
         var videoLink = await new YoutubeClient().Videos.GetAsync(YouTubeVideoIdExtractor(dto.Link));
 
         video.YouTubeLink = videoLink.Url;
@@ -104,7 +104,6 @@ public class CourseVideoService : ICourseVideoService
         video.Description = videoLink.Description;
         video.YouTubeThumbnail = videoLink.Thumbnails.OrderByDescending(p => p.Resolution.Height).FirstOrDefault()!.Url;
         video.Duration = DateTime.Parse(videoLink.Duration!.Value.ToString()).ToString("HH:mm:ss");
-        video.CourseId = dto.CourseId;
 
         var res = await _unitOfWork.CourseVideos.UpdateAsync(videoId, video);
 

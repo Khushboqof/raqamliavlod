@@ -85,6 +85,7 @@ public class QuestionService : IQuestionService
         var editedQuestion = (Question)dto;
         editedQuestion.Id = question.Id;
         editedQuestion.OwnerId = userId;
+        editedQuestion.CreatedAt = question.CreatedAt;
         await _questionTagService.UpdateAsync(editedQuestion, dto.Tags);
 
         return await _unitOfWork.Questions.UpdateAsync(questionId, editedQuestion) is not null;
