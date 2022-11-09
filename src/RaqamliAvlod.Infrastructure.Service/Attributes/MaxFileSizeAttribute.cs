@@ -16,7 +16,7 @@ namespace RaqamliAvlod.Attributes
             if (file is not null)
             {
                 if ((file.Length / 1024) > _maxFileSize)
-                    return new ValidationResult($"File must be less than {_maxFileSize} kB");
+                    return new ValidationResult($"File must be less than {_maxFileSize} MB");
             }
 
             return ValidationResult.Success;
