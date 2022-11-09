@@ -32,7 +32,7 @@ public class UsersController : ControllerBase
     public async Task<IActionResult> UpdateAsync([FromForm] UserUpdateDto userUpdateViewModel)
         => Ok(await _userService.UpdateAsync(_identityHelperService.GetUserId(), userUpdateViewModel));
 
-    [HttpDelete("{userId}")]
+    [HttpDelete("{userId}"), Authorize(Roles = "Admin")]
     public async Task<IActionResult> DeleteAsync(long userId)
         => Ok(await _userService.DeleteAsync(userId));
 

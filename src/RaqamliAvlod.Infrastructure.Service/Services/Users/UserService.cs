@@ -85,9 +85,17 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
         public async Task<bool> UpdateAsync(long id, UserUpdateDto viewModel)
         {
             var user = await _unitOfWork.Users.FindByIdAsync(id);
+            var userName = await _unitOfWork.Users.GetByUsernameAsync(viewModel.Username);
+            var phoneNumber = await _unitOfWork.Users.GetByPhonNumberAsync(viewModel.PhoneNumber);
 
             if (user is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, message: "User not found");
+
+            if (userName is not null)
+                throw new StatusCodeException(HttpStatusCode.BadRequest, message: "This username already exist");
+
+            if (phoneNumber is not null)
+                throw new StatusCodeException(HttpStatusCode.BadRequest, message: "This phoneNumber already exist");
 
             var newUser = (User)viewModel;
             newUser.Id = id;
