@@ -6,6 +6,7 @@ namespace RaqamliAvlod.Application.ViewModels.Questions
     {
         public IEnumerable<string> Tags { get; set; } = default!;
         public string Description { get; set; } = String.Empty;
+        
 
         public static implicit operator QuestionViewModel(Question question)
         {
@@ -16,6 +17,7 @@ namespace RaqamliAvlod.Application.ViewModels.Questions
                 Description = question.Description,
                 ViewCount = question.ViewCount,
                 Owner = question.Owner,
+                CreatedAt = question.CreatedAt,
             };
         }
     }
