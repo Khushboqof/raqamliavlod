@@ -27,8 +27,4 @@
     <ProjectReference Include="..\RaqamliAvlod.Infrastructure.Service\RaqamliAvlod.Infrastructure.Service.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\Images\" />
-  </ItemGroup>
-
 </Project>
