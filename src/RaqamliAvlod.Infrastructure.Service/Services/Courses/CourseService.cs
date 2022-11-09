@@ -16,12 +16,15 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Courses
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IFileService _fileService;
+        private readonly IPaginatorService _paginator;
 
         public CourseService(IUnitOfWork unitOfWork,
-            IFileService fileService)
+            IFileService fileService,
+            IPaginatorService paginator)
         {
             _unitOfWork = unitOfWork;
             _fileService = fileService;
+            _paginator = paginator;
         }
         public async Task<bool> CreateAsync(CourseCreateDto dto)
         {
@@ -37,7 +40,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Courses
 
             var res = await _unitOfWork.Courses.CreateAsync(course);
 
-            return res is not null ? true : false;
+            return res is not null;
         }
 
         public async Task<bool> DeleteAsync(long id)
@@ -52,12 +55,13 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Courses
 
             var res = await _unitOfWork.Courses.DeleteAsync(id);
 
-            return res is not null ? true : false;
+            return res is not null;
         }
 
         public async Task<IEnumerable<CourseViewModel>> GetAllAsync(PaginationParams @params)
         {
             var courses = await _unitOfWork.Courses.GetAllAsync(@params);
+            _paginator.ToPagenator(courses.MetaData);
 
             var courseViews = new List<CourseViewModel>();
 
@@ -78,6 +82,8 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Courses
         public async Task<IEnumerable<CourseViewModel>> SearchByTitleAsync(string text, PaginationParams @params)
         {
             var courses = await _unitOfWork.Courses.SearchAsync(text, @params);
+            _paginator.ToPagenator(courses.MetaData);
+
             var courseViews = new List<CourseViewModel>();
 
             foreach (var course in courses)
@@ -135,7 +141,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Courses
             updadetCourse.UpdatedAt = TimeHelper.GetCurrentDateTime();
 
             var result = await _unitOfWork.Courses.UpdateAsync(courseId, updadetCourse);
-            return result is not null ? true : false;
+            return result is not null;
         }
     }
 }
