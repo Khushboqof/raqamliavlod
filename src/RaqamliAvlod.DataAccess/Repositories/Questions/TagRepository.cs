@@ -27,6 +27,7 @@ namespace RaqamliAvlod.DataAccess.Repositories.Questions
         public async Task<Tag?> FindByNameAsync(string name)
              => await _dbSet.FirstOrDefaultAsync(tag => tag.TagName == name);
 
-
+        public async Task<IEnumerable<Tag?>> SearchAsync(string name)
+            => _dbSet.Where(p => p.TagName.Contains(name));
     }
 }
