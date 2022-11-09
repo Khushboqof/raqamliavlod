@@ -56,9 +56,9 @@ public class QuestionsController : ControllerBase
         return Ok();
     }
 
-    [HttpPost("answers/create")]
+    [HttpPost("answers")]
     public async Task<IActionResult> CreateAnswerAsync([FromForm] QuestionAnswerCreateDto questionAnswerCreateDto)
-        => Ok(await _questionAnswerService.CreateAsync(questionAnswerCreateDto));
+        => Ok(await _questionAnswerService.CreateAsync(questionAnswerCreateDto, _identityHelper.GetUserId()));
 
     //[HttpGet("answers/{answerId}")]
     //public async Task<IActionResult> GetAnswerAsync(long answerId)
@@ -66,9 +66,9 @@ public class QuestionsController : ControllerBase
     //    return Ok();
     //}
 
-    [HttpGet("answers/list")]
-    public async Task<IActionResult> GetAllAsync(long id, [FromQuery] PaginationParams @params)
-       => Ok(await _questionAnswerService.GetAllAsync(id, @params));
+    [HttpGet("answers/{questionId}")]
+    public async Task<IActionResult> GetAllAsync(long questionId, [FromQuery] PaginationParams @params)
+       => Ok(await _questionAnswerService.GetAllAsync(questionId, @params));
 
     [HttpPut("answers/{answerId}")]
     public async Task<IActionResult> UpdateAnswerAsync(long answerId, [FromForm] QuestionAnswerUpdateDto questionAnswerUpdateDto)
@@ -84,7 +84,7 @@ public class QuestionsController : ControllerBase
         return Ok();
     }
 
-    [HttpPost("tags/create")]
+    [HttpPost("tags")]
     public async Task<IActionResult> CreateAsync(string tag)
         => Ok(await _tagService.CreateAsync(tag));
 
@@ -100,7 +100,7 @@ public class QuestionsController : ControllerBase
     public async Task<IActionResult> GetByTagIdAsync(long tagId)
         => Ok(await _tagService.GetByIdAsync(tagId));
 
-    [HttpGet("tags/search")]
+    [HttpGet("tags")]
     public async Task<IActionResult> GetByTagNameAsync([FromQuery] string name)
         => Ok(await _tagService.GetByNameAsync(name));
 }
