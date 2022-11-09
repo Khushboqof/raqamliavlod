@@ -42,7 +42,7 @@ public class QuestionsController : ControllerBase
 
     [HttpPut("{questionId}"), Authorize(Roles = "Admin, User, SuperAdmin")]
     public async Task<IActionResult> UpdateAsync(long questionId,
-        [FromBody] QuestionCreateDto questionUpdateViewModel) 
+        [FromForm] QuestionCreateDto questionUpdateViewModel) 
         => Ok(await _questionService.UpdateAsync(questionId, questionUpdateViewModel, _identityHelper.GetUserId()));
 
     [HttpDelete("{questionId}")]
@@ -56,7 +56,7 @@ public class QuestionsController : ControllerBase
         return Ok();
     }
 
-    [HttpPost("answers")]
+    [HttpPost("answers"), Authorize(Roles = "Admin, User, SuperAdmin")]
     public async Task<IActionResult> CreateAnswerAsync([FromForm] QuestionAnswerCreateDto questionAnswerCreateDto)
         => Ok(await _questionAnswerService.CreateAsync(questionAnswerCreateDto, _identityHelper.GetUserId()));
 
@@ -66,17 +66,18 @@ public class QuestionsController : ControllerBase
     //    return Ok();
     //}
 
-    [HttpGet("answers/{questionId}")]
+    [HttpGet("answers/{questionId}"), AllowAnonymous]
     public async Task<IActionResult> GetAllAsync(long questionId, [FromQuery] PaginationParams @params)
        => Ok(await _questionAnswerService.GetAllAsync(questionId, @params));
 
-    [HttpPut("answers/{answerId}")]
+    [HttpPut("answers/{answerId}"), Authorize(Roles = "Admin, User, SuperAdmin")]
     public async Task<IActionResult> UpdateAnswerAsync(long answerId, [FromForm] QuestionAnswerUpdateDto questionAnswerUpdateDto)
-       => Ok(await _questionAnswerService.UpdateAsync(answerId, questionAnswerUpdateDto));
+       => Ok(await _questionAnswerService.UpdateAsync(answerId, questionAnswerUpdateDto, _identityHelper.GetUserId()));
 
     [HttpDelete("answers/{answerId}")]
+    [Authorize(Roles = "Admin, User, SuperAdmin")]
     public async Task<IActionResult> DeleteAsnwerAsync(long answerId)
-        => Ok(await _questionAnswerService.DeleteAsync(answerId));
+        => Ok(await _questionAnswerService.DeleteAsync(answerId, _identityHelper.GetUserId(), _identityHelper.GetUserRole()));
 
     [HttpGet("search/{search}")]
     public async Task<IActionResult> GetSearchAsync(string search)

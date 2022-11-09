@@ -6,6 +6,7 @@ using RaqamliAvlod.Application.ViewModels.Users;
 using RaqamliAvlod.DataAccess.Interfaces;
 using RaqamliAvlod.Domain.Entities.Users;
 using RaqamliAvlod.Infrastructure.Service.Dtos;
+using RaqamliAvlod.Infrastructure.Service.Dtos.Accounts;
 using RaqamliAvlod.Infrastructure.Service.Helpers;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Common;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Users;
@@ -79,7 +80,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
             return userView;
         }
 
-        public async Task<bool> ImageUpdateAsync(long id, IFormFile formFile)
+        public async Task<bool> ImageUpdateAsync(long id, ImageUploadDto dto)
         {
             var user = await _unitOfWork.Users.FindByIdAsync(id);
 
@@ -87,7 +88,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
             {
                 await _fileService.DeleteImageAsync(user.ImagePath);
 
-                user.ImagePath = await _fileService.SaveImageAsync(formFile);
+                user.ImagePath = await _fileService.SaveImageAsync(dto.Image);
             }
             await _unitOfWork.Users.UpdateAsync(id, user);
 
