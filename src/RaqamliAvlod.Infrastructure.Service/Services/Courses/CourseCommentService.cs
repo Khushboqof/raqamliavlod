@@ -34,6 +34,7 @@ public class CourseCommentService : ICourseCommentService
 
         var courseComment = (CourseComment)dto;
         courseComment.CourseId = courseId;
+        courseComment.OwnerId = userId;
         courseComment.CreatedAt = TimeHelper.GetCurrentDateTime();
         var res = await _unitOfWork.CourseComments.CreateAsync(courseComment);
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RaqamliAvlod.Application.Utils;
+using RaqamliAvlod.Domain.Entities.Courses;
 using RaqamliAvlod.Infrastructure.Service.Dtos;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Common;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Courses;
@@ -53,26 +54,18 @@ public class CoursesController : ControllerBase
     [HttpPost("{courseId}/comments"), Authorize(Roles = "User, Admin, SuperAdmin")]
     public async Task<IActionResult> CreateCommentAsync(long courseId,
         [FromBody] CourseCommentCreateDto courseCommentCreateViewModel)
-    {
-        var userId = _identityHelper.GetUserId();
-        var result = await _courseCommentService.CreateAsync(userId, courseId, courseCommentCreateViewModel);
-        return Ok(result);
-    }
+         => Ok(await _courseCommentService.CreateAsync(_identityHelper.GetUserId(), courseId, courseCommentCreateViewModel));
+    
 
     [HttpGet("{courseId}/comments"), AllowAnonymous]
     public async Task<IActionResult> GetAllCommentsAsync([FromQuery] PaginationParams @params, long courseId)
-    {
-        var result = await _courseCommentService.GetAllByCourseIdAsync(courseId, @params);
-        return Ok(result);
-    }
+        => Ok(await _courseCommentService.GetAllByCourseIdAsync(courseId, @params));
+    
 
     [HttpDelete("{courseId}/comments/{commentId}"), Authorize(Roles = "Admin, SuperAdmin")]
     public async Task<IActionResult> DeleteCommentAsync(long courseId, long commentId)
-    {
-        var userId = _identityHelper.GetUserId();
-        var result = await _courseCommentService.DeleteAsync(userId, courseId, commentId);
-        return Ok(result);
-    }
+       => Ok(await _courseCommentService.DeleteAsync(_identityHelper.GetUserId(), courseId, commentId));
+    
 
     [HttpPost("videos"), Authorize("Admin, SuperAdmin")]
     public async Task<IActionResult> CreateCourseVideoAsync([FromForm] CourseVideoCreateDto dto)
