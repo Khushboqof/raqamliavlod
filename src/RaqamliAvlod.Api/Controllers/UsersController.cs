@@ -45,6 +45,10 @@ public class UsersController : ControllerBase
     public async Task<IActionResult> ImageUpdateAsync([FromForm] ImageUploadDto dto)
         => Ok(await _userService.ImageUpdateAsync(_identityHelperService.GetUserId(), dto));
 
+    [HttpPatch("role/control"), Authorize(Roles = "SuperAdmin")]
+    public async Task<IActionResult> RoleControlAsync(long userId, ushort roleNum)
+        => Ok(await _userService.RoleControlAsync(userId, roleNum));
+
     [HttpGet("{userId}/submuissions")]
     public async Task<IActionResult> GetSubmissionsAsync(long userId, [FromQuery] PaginationParams @params)
     {
