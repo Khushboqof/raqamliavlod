@@ -11,6 +11,8 @@ namespace RaqamliAvlod.Application.ViewModels.Courses
         public string Type { get; set; } = string.Empty;
         public string ImagePath { get; set; } = string.Empty;
         public float Price { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
 
         public OwnerViewModel Owner { get; set; } = null!;
 
@@ -24,6 +26,8 @@ namespace RaqamliAvlod.Application.ViewModels.Courses
                 Type = course.Type,
                 ImagePath = course.ImagePath,
                 Price = course.Price,
+                CreatedAt = course.CreatedAt,
+                UpdatedAt = course.UpdatedAt
             };
         }
     }

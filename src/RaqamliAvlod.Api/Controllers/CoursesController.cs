@@ -34,6 +34,10 @@ public class CoursesController : ControllerBase
     public async Task<IActionResult> GetAllAsync([FromQuery] PaginationParams @params)
         => Ok(await _courseService.GetAllAsync(@params));
 
+    [HttpGet("search")]
+    public async Task<IActionResult> SearchByTitleAsync([FromQuery] string title, [FromQuery] PaginationParams @params)
+        => Ok(await _courseService.SearchByTitleAsync(title, @params));
+
     [HttpGet("{courseId}")]
     public async Task<IActionResult> GetAsync(long courseId)
         => Ok(await _courseService.GetAsync(courseId));
@@ -68,12 +72,6 @@ public class CoursesController : ControllerBase
         var userId = _identityHelper.GetUserId();
         var result = await _courseCommentService.DeleteAsync(userId, courseId, commentId);
         return Ok(result);
-    }
-
-    [HttpGet("search/{search}")]
-    public async Task<IActionResult> SearchAsync([FromQuery] PaginationParams @params, string search)
-    {
-        return Ok();
     }
 
     [HttpPost("videos")]
