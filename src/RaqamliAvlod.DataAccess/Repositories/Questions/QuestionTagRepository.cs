@@ -24,5 +24,12 @@ namespace RaqamliAvlod.DataAccess.Repositories.Questions
             await _dbSet.AddRangeAsync(questionTags);
             await _dbcontext.SaveChangesAsync();
         }
+
+        public async Task DeleteQuestionTagsAsync(long questionId)
+        {
+            var questionTags = _dbSet.Where(x => x.QuestionId == questionId);
+            _dbSet.RemoveRange(questionTags);
+            await _dbcontext.SaveChangesAsync();
+        }
     }
 }
