@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RaqamliAvlod.Application.Utils;
 using RaqamliAvlod.Infrastructure.Service.Dtos;
+using RaqamliAvlod.Infrastructure.Service.Dtos.Accounts;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Common;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Users;
 
@@ -37,8 +38,8 @@ public class UsersController : ControllerBase
         => Ok(await _userService.DeleteAsync(userId));
 
     [HttpPost("images/upload"), Authorize(Roles = "Admin, User")]
-    public async Task<IActionResult> ImageUpdateAsync(IFormFile imageUpload)
-        => Ok(await _userService.ImageUpdateAsync(_identityHelperService.GetUserId(), imageUpload));
+    public async Task<IActionResult> ImageUpdateAsync([FromForm] ImageUploadDto dto)
+        => Ok(await _userService.ImageUpdateAsync(_identityHelperService.GetUserId(), dto));
 
     [HttpGet("{userId}/submuissions")]
     public async Task<IActionResult> GetSubmissionsAsync(long userId, [FromQuery] PaginationParams @params)
