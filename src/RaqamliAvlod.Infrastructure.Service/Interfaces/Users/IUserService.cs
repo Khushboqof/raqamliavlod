@@ -14,5 +14,6 @@ namespace RaqamliAvlod.Infrastructure.Service.Interfaces.Users
         Task<UserViewModel> GetUsernameAsync(string username);
         Task<bool> ImageUpdateAsync(long id, ImageUploadDto dto);
         Task<IEnumerable<UserViewModel>> GetAllAsync(PaginationParams @params);
+        Task<bool> RoleControlAsync(long userId, ushort roleNum);
     }
 }
