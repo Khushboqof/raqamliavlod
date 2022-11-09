@@ -138,7 +138,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
             if (user is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, message: "User not found");
 
-            if (roleNum >= 3)
+            if (roleNum >= 2)
                 throw new StatusCodeException(HttpStatusCode.BadRequest, message: "This role don't exist");
 
             user.Role = (UserRole)roleNum;

@@ -46,7 +46,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
             }
             else
             {
-                var user = await _unitOfWork.Users.GetByUsernameAsync(accountLogin.EmailOrUsername.Trim());
+                var user = await _unitOfWork.Users.GetByUsernameAsync(accountLogin.EmailOrUsername);
 
                 if (user is null) throw new StatusCodeException(HttpStatusCode.NotFound, message: "username is wrong");
 
