@@ -101,7 +101,7 @@ public class QuestionsController : ControllerBase
     public async Task<IActionResult> GetByTagIdAsync(long tagId)
         => Ok(await _tagService.GetByIdAsync(tagId));
 
-    [HttpGet("tags")]
+    [HttpGet("tags/search")]
     public async Task<IActionResult> GetByTagNameAsync([FromQuery] string name)
         => Ok(await _tagService.GetByNameAsync(name));
 }
