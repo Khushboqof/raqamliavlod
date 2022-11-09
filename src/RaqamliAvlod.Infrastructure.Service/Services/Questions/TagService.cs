@@ -3,6 +3,7 @@ using RaqamliAvlod.Application.Exceptions;
 using RaqamliAvlod.Application.ViewModels.Questions;
 using RaqamliAvlod.DataAccess.Interfaces;
 using RaqamliAvlod.Domain.Entities.Questions;
+using RaqamliAvlod.Domain.Enums;
 using RaqamliAvlod.Infrastructure.Service.Dtos.Questions;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Questions;
 using System.Net;
@@ -18,7 +19,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Questions
             this._unitOfWork = unitOfWork;
         }
 
-        public async Task<bool> CreateAsync(TagCreateDto tagCreateDto)
+        public async Task<bool> CreateAsync(TagCreateDto tagCreateDto, UserRole role)
         {
             var tag = (Tag)tagCreateDto;
             var tags = await _unitOfWork.Tags.FindByNameAsync(tag.TagName.ToLower());

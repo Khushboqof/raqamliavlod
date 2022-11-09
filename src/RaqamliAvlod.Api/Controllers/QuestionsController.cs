@@ -85,15 +85,15 @@ public class QuestionsController : ControllerBase
         return Ok();
     }
 
-    [HttpPost("tags"), Authorize("User, Admin, SuperAdmin")]
-    public async Task<IActionResult> CreateAsync(string tag)
-        => Ok(await _tagService.CreateAsync(tag));
+    [HttpPost("tags"), Authorize(Roles = "User, Admin, SuperAdmin")]
+    public async Task<IActionResult> CreateAsync([FromForm] TagCreateDto tag)
+        => Ok(await _tagService.CreateAsync(tag, _identityHelper.GetUserRole()));
 
-    [HttpDelete("tag/{tagId}"), Authorize("Admin, SuperAdmin")]
+    [HttpDelete("tag/{tagId}"), Authorize(Roles = "Admin, SuperAdmin")]
     public async Task<IActionResult> DeleteTagAsync(long tagId)
         => Ok(await _tagService.DeleteAsync(tagId));
 
-    [HttpPut("tags/{tagId}"), Authorize("Admin, SuperAdmin")]
+    [HttpPut("tags/{tagId}"), Authorize(Roles = "Admin, SuperAdmin")]
     public async Task<IActionResult> UpdateTagAsync(long tagId, [FromForm] TagCreateDto updateDto)
         => Ok(await _tagService.UpdateAsync(tagId, updateDto));
 
