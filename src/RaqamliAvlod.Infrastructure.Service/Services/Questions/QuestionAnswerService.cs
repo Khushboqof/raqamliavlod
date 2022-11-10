@@ -47,24 +47,25 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Questions
              return true;
         }
 
-        public async Task<IEnumerable<QuestionAnswerViewModel>> GetAllAsync(long questionId, PaginationParams? @params = null)
+        public async Task<IEnumerable<QuestionAnswerViewModel>> GetAllAsync(long questionId, long userId, PaginationParams? @params = null)
         {
             var questionAnswers = await _unitOfWork.QuestionAnswers.GetAllByQuestionIdAsync(questionId, @params);
-
-            var questionAnswerViews = new List<QuestionAnswerViewModel>();
-
             foreach (var answer in questionAnswers)
-            {
-                var questionOwner = await _unitOfWork.Users.FindByIdAsync(answer.OwnerId);
+                if (answer.Owner.UserId == userId)
+                    answer.CurrentUserIsAuthor = true;
 
-                var questionAnswerView = (QuestionAnswerViewModel)answer;
+            return questionAnswers;
+        }
 
-                questionAnswerView.Username = questionOwner.Username;
-
-                questionAnswerViews.Add(questionAnswerView);
-            }
-
-            return questionAnswerViews;
+        public async Task<IEnumerable<QuestionAnswerViewModel>> GetRepliesAsync(long answerId, long userId)
+        {
+            if (await _unitOfWork.QuestionAnswers.FindByIdAsync(answerId) is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Answer not found!");
+            var questionAnswers = await _unitOfWork.QuestionAnswers.GetAllRepliesAsync(answerId);
+            foreach (var answer in questionAnswers)
+                if (answer.Owner.UserId == userId)
+                    answer.CurrentUserIsAuthor = true;
+            return questionAnswers;
         }
 
         public async Task<bool> UpdateAsync(long id, QuestionAnswerUpdateDto dto, long userId)

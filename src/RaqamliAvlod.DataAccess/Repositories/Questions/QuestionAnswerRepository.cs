@@ -1,5 +1,7 @@
 ﻿using CodePower.DataAccess.Common;
+using Microsoft.EntityFrameworkCore;
 using RaqamliAvlod.Application.Utils;
+using RaqamliAvlod.Application.ViewModels.Questions;
 using RaqamliAvlod.DataAccess.DbContexts;
 using RaqamliAvlod.DataAccess.Interfaces.Questions;
 using RaqamliAvlod.Domain.Entities.Questions;
@@ -12,11 +14,21 @@ namespace RaqamliAvlod.DataAccess.Repositories.Questions
         {
         }
 
-        public async Task<PagedList<QuestionAnswer>> GetAllByQuestionIdAsync(long questionId, PaginationParams @params)
+        public async Task<PagedList<QuestionAnswerViewModel>> GetAllByQuestionIdAsync(long questionId, PaginationParams @params)
         {
-            var questionAnswers = _dbSet.Where(answers => answers.QuestionId == questionId).OrderBy(x => x.Id);
+            var questionAsnwerViews = from questionAnswer in _dbSet.Where(answers => (answers.QuestionId == questionId) && (answers.HasReplied == false))
+                                                            .Include(x => x.Owner).OrderByDescending(x => x.CreatedAt)
+                                      select new QuestionAnswerViewModel(questionAnswer, _dbSet.Count(x => x.ParentId == questionAnswer.Id));
+            
+            return await PagedList<QuestionAnswerViewModel>.ToPagedListAsync(questionAsnwerViews, @params.PageNumber, @params.PageSize);
 
-            return await PagedList<QuestionAnswer>.ToPagedListAsync(questionAnswers, @params.PageNumber, @params.PageSize);
         }
+
+        public async Task<IEnumerable<QuestionAnswerViewModel>> GetAllRepliesAsync(long answerId)
+        {
+            var res = _dbSet.Where(x => x.ParentId == answerId).Include(x => x.Owner).Select(x => (QuestionAnswerViewModel)x);
+            return res;
+        }
+          
     }
 }

@@ -1,4 +1,5 @@
-﻿using RaqamliAvlod.Domain.Entities.Questions;
+﻿using RaqamliAvlod.Application.ViewModels.Users;
+using RaqamliAvlod.Domain.Entities.Questions;
 
 namespace RaqamliAvlod.Application.ViewModels.Questions
 {
@@ -6,7 +7,11 @@ namespace RaqamliAvlod.Application.ViewModels.Questions
     {
         public long Id { get; set; }
         public string Description { get; set; } = String.Empty;
-        public string Username { get; set; } = string.Empty;
+        public int ReplyCount { get; set; } = 0;
+        public bool HasReplied { get; set; }
+        public long? ParentId { get; set; }
+        public OwnerViewModel Owner { get; set; }
+        public bool CurrentUserIsAuthor { get; set; } = false;  
         public long QuestionId { get; set; }
 
         public static implicit operator QuestionAnswerViewModel(QuestionAnswer questionAnswer)
@@ -15,8 +20,24 @@ namespace RaqamliAvlod.Application.ViewModels.Questions
             {
                 Id = questionAnswer.Id,
                 Description = questionAnswer.Description,
-                QuestionId = questionAnswer.QuestionId
+                HasReplied = questionAnswer.HasReplied,
+                Owner = (OwnerViewModel)questionAnswer.Owner,
+                QuestionId = questionAnswer.QuestionId,
+                ParentId = questionAnswer.ParentId
             };
+        }
+        public QuestionAnswerViewModel(QuestionAnswer questionAnswer, int replyCount)
+        {
+            Id = questionAnswer.Id;
+            Description = questionAnswer.Description;
+            HasReplied = questionAnswer.HasReplied;
+            Owner = (OwnerViewModel)questionAnswer.Owner;
+            QuestionId = questionAnswer.QuestionId;
+            ParentId = questionAnswer.ParentId; 
+            ReplyCount = replyCount;
+        }
+        public QuestionAnswerViewModel()
+        {
         }
     }
 }
