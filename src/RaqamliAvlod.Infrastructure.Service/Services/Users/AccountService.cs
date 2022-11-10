@@ -28,25 +28,47 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
             _emailService = emailService;
             _fileService = fileService;
         }
-
+        
         public async Task<string> LogInAsync(AccountLoginDto accountLogin)
         {
-            var user = await _unitOfWork.Users.GetByEmailAsync(accountLogin.Email.ToLower());
+            if(accountLogin.EmailOrUsername.Contains('@'))
+            {
+                var user = await _unitOfWork.Users.GetByEmailAsync(accountLogin.EmailOrUsername.ToLower().Trim());
 
-            if(user is null) throw new StatusCodeException(HttpStatusCode.NotFound, message: "email is wrong");
+                if (user is null) throw new StatusCodeException(HttpStatusCode.NotFound, message: "email is wrong");
 
-            if (user.EmailConfirmed is false)
-                throw new StatusCodeException(HttpStatusCode.BadRequest, message: "email did not verified");
+                if (user.EmailConfirmed is false)
+                    throw new StatusCodeException(HttpStatusCode.BadRequest, message: "email did not verified");
 
-            if (PasswordHasher.Verify(accountLogin.Password, user.Salt, user.PasswordHash))
-                return _authManager.GenerateToken(user);
-            else throw new StatusCodeException(HttpStatusCode.BadRequest, message: "password is wrong");
+                if (PasswordHasher.Verify(accountLogin.Password, user.Salt, user.PasswordHash))
+                    return _authManager.GenerateToken(user);
+                else throw new StatusCodeException(HttpStatusCode.BadRequest, message: "password is wrong");
+            }
+            else
+            {
+                var user = await _unitOfWork.Users.GetByUsernameAsync(accountLogin.EmailOrUsername.Trim());
+
+                if (user is null) throw new StatusCodeException(HttpStatusCode.NotFound, message: "username is wrong");
+
+                if (user.EmailConfirmed is false)
+                    throw new StatusCodeException(HttpStatusCode.BadRequest, message: "email did not verified");
+
+                if (PasswordHasher.Verify(accountLogin.Password, user.Salt, user.PasswordHash))
+                    return _authManager.GenerateToken(user);
+                else throw new StatusCodeException(HttpStatusCode.BadRequest, message: "password is wrong");
+            }
+            
         }
 
         public async Task<bool> RegisterAsync(AccountCreateDto accountCreate)
         {
             var user = await _unitOfWork.Users.GetByEmailAsync(accountCreate.Email.ToLower());
             if (user is not null) throw new StatusCodeException(HttpStatusCode.BadRequest, message: "user already exist");
+
+            accountCreate.Firstname.Trim();
+            accountCreate.Lastname.Trim();
+            accountCreate.Email.Trim();
+            accountCreate.Password.Trim();
 
             var newUser = (User)accountCreate;
             var hashResult = PasswordHasher.Hash(accountCreate.Password);

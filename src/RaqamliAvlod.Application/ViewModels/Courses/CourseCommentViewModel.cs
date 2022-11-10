@@ -8,7 +8,7 @@ namespace RaqamliAvlod.Application.ViewModels.Courses
         public long Id { get; set; }
         public OwnerViewModel Owner { get; set; } = null!;
         public string CommentText { get; set; } = string.Empty;
-
+        public bool IsCurrentUserIsAdmin { get; set; }
         public long CourseId { get; set; }
 
         public DateTime CreatedAt { get; set; }

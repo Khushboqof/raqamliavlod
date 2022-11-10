@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Org.BouncyCastle.Asn1.Cms;
-using RaqamliAvlod.Application.Exceptions;
+﻿using RaqamliAvlod.Application.Exceptions;
 using RaqamliAvlod.Application.Utils;
 using RaqamliAvlod.Application.ViewModels.Users;
 using RaqamliAvlod.DataAccess.Interfaces;
 using RaqamliAvlod.Domain.Entities.Users;
+using RaqamliAvlod.Domain.Enums;
 using RaqamliAvlod.Infrastructure.Service.Dtos;
 using RaqamliAvlod.Infrastructure.Service.Dtos.Accounts;
 using RaqamliAvlod.Infrastructure.Service.Helpers;
@@ -47,16 +46,28 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
             var userViews = new List<UserViewModel>();
 
             foreach (var user in users)
-            {
-                var userView = (UserViewModel)user;
+            {               
+                 var userView = (UserViewModel)user;
 
-                userViews.Add(userView);
+                 userViews.Add(userView);                
             }
 
             return userViews;
         }
 
-        public async Task<UserViewModel> GetAsync(long id)
+        public async Task<UserViewModel> GetUsernameAsync(string username)
+        {
+            var user = await _unitOfWork.Users.GetByUsernameAsync(username.Trim());
+
+            if (user is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, message: "User not found");
+
+            var userView = (UserViewModel)user;
+
+            return userView;
+        }
+
+        public async Task<UserViewModel> GetIdAsync(long id)
         {
             var user = await _unitOfWork.Users.FindByIdAsync(id);
 
@@ -98,6 +109,10 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
             if (phoneNumber is not null)
                 throw new StatusCodeException(HttpStatusCode.BadRequest, message: "This phoneNumber already exist");
 
+            viewModel.Firstname.Trim();
+            viewModel.Lastname.Trim();
+            viewModel.Username.Trim();
+
             var newUser = (User)viewModel;
             newUser.Id = id;
             newUser.UpdatedAt = TimeHelper.GetCurrentDateTime();
@@ -112,6 +127,22 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
             newUser.CreatedAt = user.CreatedAt;
 
             await _unitOfWork.Users.UpdateAsync(id, newUser);
+
+            return true;
+        }
+
+        public async Task<bool> RoleControlAsync(long userId, ushort roleNum)
+        {
+            var user = await _unitOfWork.Users.FindByIdAsync(userId);
+
+            if (user is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, message: "User not found");
+
+            if (roleNum >= 3)
+                throw new StatusCodeException(HttpStatusCode.BadRequest, message: "This role don't exist");
+
+            user.Role = (UserRole)roleNum;
+            await _unitOfWork.Users.UpdateAsync(userId, user);
 
             return true;
         }

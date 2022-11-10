@@ -1,9 +1,12 @@
-﻿using RaqamliAvlod.Application.Exceptions;
+﻿using Microsoft.AspNetCore.Identity;
+using RaqamliAvlod.Application.Exceptions;
 using RaqamliAvlod.Application.Utils;
 using RaqamliAvlod.Application.ViewModels.Courses;
 using RaqamliAvlod.Application.ViewModels.Users;
 using RaqamliAvlod.DataAccess.Interfaces;
 using RaqamliAvlod.Domain.Entities.Courses;
+using RaqamliAvlod.Domain.Entities.Users;
+using RaqamliAvlod.Domain.Enums;
 using RaqamliAvlod.Infrastructure.Service.Dtos;
 using RaqamliAvlod.Infrastructure.Service.Helpers;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Common;
@@ -34,6 +37,7 @@ public class CourseCommentService : ICourseCommentService
 
         var courseComment = (CourseComment)dto;
         courseComment.CourseId = courseId;
+        courseComment.OwnerId = userId;
         courseComment.CreatedAt = TimeHelper.GetCurrentDateTime();
         var res = await _unitOfWork.CourseComments.CreateAsync(courseComment);
 
@@ -41,25 +45,20 @@ public class CourseCommentService : ICourseCommentService
 
     }
 
-    public async Task<bool> DeleteAsync(long userId, long courseId, long id)
+    public async Task<bool> DeleteAsync(long userId, long id)
     {
-        var course = await _unitOfWork.Courses.FindByIdAsync(courseId);
         var courseComment = await _unitOfWork.CourseComments.FindByIdAsync(id);
-
-        if (course is null)
-            throw new StatusCodeException(HttpStatusCode.BadRequest, "Course not found!");
+        var user = await _unitOfWork.Users.FindByIdAsync(userId);
         if (courseComment is null)
             throw new StatusCodeException(HttpStatusCode.BadRequest, "Comment not found!");
-        if (courseComment.CourseId != courseId)
-            throw new StatusCodeException(HttpStatusCode.BadRequest, "This comment related to another course");
-        if (courseComment.OwnerId != userId)
+        if (courseComment.OwnerId != userId || user.Role==UserRole.Admin)
             throw new StatusCodeException(HttpStatusCode.BadRequest, "Not permitted!");
         var res = await _unitOfWork.CourseComments.DeleteAsync(id);
 
         return res is not null ? true : false;
     }
 
-    public async Task<IEnumerable<CourseCommentViewModel>> GetAllByCourseIdAsync(long courseId, PaginationParams @params)
+    public async Task<IEnumerable<CourseCommentViewModel>> GetAllByCourseIdAsync(long userId, long courseId, PaginationParams @params)
     {
         var courseComments = await _unitOfWork.CourseComments.GetAllByCourseIdAsync(courseId, @params);
         _paginator.ToPagenator(courseComments.MetaData);
@@ -74,13 +73,15 @@ public class CourseCommentService : ICourseCommentService
 
             courseCommentView.Owner = (OwnerViewModel)owner;
 
+            courseCommentView.IsCurrentUserIsAdmin = userId == owner.Id;
+
             courseCommentViews.Add(courseCommentView);
         }
 
         return courseCommentViews;
     }
 
-    public async Task<CourseCommentViewModel> GetAsync(long id)
+    public async Task<CourseCommentViewModel> GetAsync(long userId, long id)
     {
         var courseComment = await _unitOfWork.CourseComments.FindByIdAsync(id);
 
@@ -94,18 +95,23 @@ public class CourseCommentService : ICourseCommentService
 
         var courseCommentView = (CourseCommentViewModel)courseComment;
 
+        courseCommentView.IsCurrentUserIsAdmin = userId == owner.Id;
+
         courseCommentView.Owner = (OwnerViewModel)owner;
 
         return courseCommentView;
     }
 
-    public async Task<bool> UpdateAsync(long courseCommentId, CourseCommentUpdateDto dto)
+    public async Task<bool> UpdateAsync(long userId, long courseCommentId, CourseCommentUpdateDto dto)
     {
         var courseComment = await _unitOfWork.CourseComments.FindByIdAsync(courseCommentId);
-
+        var user = await _unitOfWork.Users.FindByIdAsync(userId);
         if (courseComment is null)
-            throw new StatusCodeException(HttpStatusCode.BadRequest, "Course not found!");
-
+            throw new StatusCodeException(HttpStatusCode.BadRequest, "Comment not found!");
+        
+        if (courseComment.OwnerId != userId || user.Role == UserRole.Admin)
+            throw new StatusCodeException(HttpStatusCode.BadRequest, "Not permitted!");
+        
         courseComment.CommentText = dto.CommentText;
 
         var res = await _unitOfWork.CourseComments.UpdateAsync(courseCommentId, courseComment);
