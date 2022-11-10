@@ -50,21 +50,13 @@ public class QuestionsController : ControllerBase
     public async Task<IActionResult> DeleteAsync(long questionId) 
         => Ok(await _questionService.DeleteAsync(questionId, _identityHelper.GetUserId(), _identityHelper.GetUserRole()));
 
-    [HttpPost("{questionId}/views")]
-    public async Task<IActionResult> CreateViewsAsync(long questionId)
-    {
-        return Ok();
-    }
-
     [HttpPost("answers"), Authorize(Roles = "Admin, User, SuperAdmin")]
     public async Task<IActionResult> CreateAnswerAsync([FromForm] QuestionAnswerCreateDto questionAnswerCreateDto)
         => Ok(await _questionAnswerService.CreateAsync(questionAnswerCreateDto, _identityHelper.GetUserId()));
 
-    //[HttpGet("answers/{answerId}")]
-    //public async Task<IActionResult> GetAnswerAsync(long answerId)
-    //{
-    //    return Ok();
-    //}
+    [HttpGet("answers/{answerId}/replies")]
+    public async Task<IActionResult> GetAllRepliesAsync(long answerId)
+        => Ok(await _questionAnswerService.GetRepliesAsync(answerId));
 
     [HttpGet("answers/{questionId}"), AllowAnonymous]
     public async Task<IActionResult> GetAllAsync(long questionId, [FromQuery] PaginationParams @params)

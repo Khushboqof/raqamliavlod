@@ -11,5 +11,6 @@ namespace RaqamliAvlod.Infrastructure.Service.Interfaces.Questions
         Task<bool> UpdateAsync(long id, QuestionAnswerUpdateDto dto, long userId);
         Task<bool> DeleteAsync(long id, long userId, UserRole role);
         Task<IEnumerable<QuestionAnswerViewModel>> GetAllAsync(long questionId, PaginationParams? @params = null);
+        Task<IEnumerable<QuestionAnswerViewModel>> GetRepliesAsync(long answerId);
     }
 }

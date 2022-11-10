@@ -51,20 +51,14 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Questions
         {
             var questionAnswers = await _unitOfWork.QuestionAnswers.GetAllByQuestionIdAsync(questionId, @params);
 
-            var questionAnswerViews = new List<QuestionAnswerViewModel>();
+            return questionAnswers;
+        }
 
-            foreach (var answer in questionAnswers)
-            {
-                var questionOwner = await _unitOfWork.Users.FindByIdAsync(answer.OwnerId);
-
-                var questionAnswerView = (QuestionAnswerViewModel)answer;
-
-                questionAnswerView.Username = questionOwner.Username;
-
-                questionAnswerViews.Add(questionAnswerView);
-            }
-
-            return questionAnswerViews;
+        public async Task<IEnumerable<QuestionAnswerViewModel>> GetRepliesAsync(long answerId)
+        {
+            if (await _unitOfWork.QuestionAnswers.FindByIdAsync(answerId) is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Answer not found!");
+            return await _unitOfWork.QuestionAnswers.GetAllRepliesAsync(answerId);
         }
 
         public async Task<bool> UpdateAsync(long id, QuestionAnswerUpdateDto dto, long userId)
