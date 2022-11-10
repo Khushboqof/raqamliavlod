@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RaqamliAvlod.Application.Utils;
+using RaqamliAvlod.Domain.Enums;
 using RaqamliAvlod.Infrastructure.Service.Dtos;
 using RaqamliAvlod.Infrastructure.Service.Dtos.Questions;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Common;
@@ -38,16 +39,16 @@ public class QuestionsController : ControllerBase
 
     [HttpPost, Authorize(Roles = "Admin, User, SuperAdmin")]
     public async Task<IActionResult> CreateAsync([FromForm] QuestionCreateDto questionCreateViewModel)
-        => Ok(await _questionService.CreateAsync(questionCreateViewModel, _identityHelper.GetUserId()));
+        => Ok(await _questionService.CreateAsync(questionCreateViewModel, (long)_identityHelper.GetUserId()!));
 
     [HttpPut("{questionId}"), Authorize(Roles = "Admin, User, SuperAdmin")]
     public async Task<IActionResult> UpdateAsync(long questionId,
         [FromForm] QuestionCreateDto questionUpdateViewModel) 
-        => Ok(await _questionService.UpdateAsync(questionId, questionUpdateViewModel, _identityHelper.GetUserId()));
+        => Ok(await _questionService.UpdateAsync(questionId, questionUpdateViewModel, (long)_identityHelper.GetUserId()!));
 
     [HttpDelete("{questionId}"), Authorize(Roles = "Admin, User, SuperAdmin")]
     public async Task<IActionResult> DeleteAsync(long questionId) 
-        => Ok(await _questionService.DeleteAsync(questionId, _identityHelper.GetUserId(), _identityHelper.GetUserRole()));
+        => Ok(await _questionService.DeleteAsync(questionId, (long)_identityHelper.GetUserId()!, (UserRole)_identityHelper.GetUserRole()!));
 
     [HttpPost("answers"), Authorize(Roles = "Admin, User, SuperAdmin")]
     public async Task<IActionResult> CreateAnswerAsync([FromForm] QuestionAnswerCreateDto questionAnswerCreateDto)
