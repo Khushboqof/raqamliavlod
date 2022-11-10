@@ -35,7 +35,7 @@ public class UsersController : ControllerBase
 
     [HttpPut, Authorize(Roles = "User, Admin, SuperAdmin")]
     public async Task<IActionResult> UpdateAsync([FromForm] UserUpdateDto userUpdateViewModel)
-        => Ok(await _userService.UpdateAsync(_identityHelperService.GetUserId(), userUpdateViewModel));
+        => Ok(await _userService.UpdateAsync((long)_identityHelperService.GetUserId()!, userUpdateViewModel));
 
     [HttpDelete("{userId}"), Authorize(Roles = "Admin, SuperAdmin")]
     public async Task<IActionResult> DeleteAsync(long userId)
@@ -43,7 +43,7 @@ public class UsersController : ControllerBase
 
     [HttpPost("images/upload"), Authorize(Roles = "Admin, User, SuperAdmin")]
     public async Task<IActionResult> ImageUpdateAsync([FromForm] ImageUploadDto dto)
-        => Ok(await _userService.ImageUpdateAsync(_identityHelperService.GetUserId(), dto));
+        => Ok(await _userService.ImageUpdateAsync((long)_identityHelperService.GetUserId()!, dto));
 
     [HttpPatch("role/control"), Authorize(Roles = "SuperAdmin")]
     public async Task<IActionResult> RoleControlAsync(long userId, ushort roleNum)

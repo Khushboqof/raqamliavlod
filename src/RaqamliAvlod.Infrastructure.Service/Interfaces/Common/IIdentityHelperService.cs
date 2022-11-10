@@ -4,8 +4,8 @@ namespace RaqamliAvlod.Infrastructure.Service.Interfaces.Common
 {
     public interface IIdentityHelperService
     {
-        UserRole GetUserRole();
-        long GetUserId();
+        UserRole? GetUserRole();
+        long? GetUserId();
         string GetUserName();
         string GetUserEmail();
     }

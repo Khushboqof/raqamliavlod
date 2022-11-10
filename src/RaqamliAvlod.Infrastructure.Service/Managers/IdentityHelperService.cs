@@ -13,28 +13,28 @@ namespace RaqamliAvlod.Infrastructure.Service.Managers
             this._accessor = accessor;
         }
 
-
         public string GetUserEmail()
         {
-            return _accessor.HttpContext!.User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress")!.Value;
+            var res = _accessor.HttpContext!.User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress");
+            return res is not null ? res.Value : string.Empty;
         }
 
-        public long GetUserId()
+        public long? GetUserId()
         {
-            var res = _accessor.HttpContext!.User.FindFirst("Id")!.Value;
-            return long.Parse(res);
+            var res = _accessor.HttpContext!.User.FindFirst("Id");
+            return res is not null ? long.Parse(res.Value) : null; 
         }
 
         public string GetUserName()
         {
-            return _accessor.HttpContext!.User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name")!.Value;
+            var res = _accessor.HttpContext!.User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name");
+            return res is not null ? res.Value : string.Empty;
         }
 
-        public UserRole GetUserRole()
+        public UserRole? GetUserRole()
         {
-            var res = _accessor.HttpContext!.User.FindFirst("http://schemas.microsoft.com/ws/2008/06/identity/claims/role")!.Value;
-
-            return Enum.Parse<UserRole>(res);
+            var res = _accessor.HttpContext!.User.FindFirst("http://schemas.microsoft.com/ws/2008/06/identity/claims/role");
+            return res is not null ? Enum.Parse<UserRole>(res.Value) : null;
         }
     }
 }
