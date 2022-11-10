@@ -65,11 +65,6 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
             var user = await _unitOfWork.Users.GetByEmailAsync(accountCreate.Email.ToLower());
             if (user is not null) throw new StatusCodeException(HttpStatusCode.BadRequest, message: "user already exist");
 
-            accountCreate.Firstname.Trim();
-            accountCreate.Lastname.Trim();
-            accountCreate.Email.Trim();
-            accountCreate.Password.Trim();
-
             var newUser = (User)accountCreate;
             var hashResult = PasswordHasher.Hash(accountCreate.Password);
             newUser.Salt = hashResult.Salt;
