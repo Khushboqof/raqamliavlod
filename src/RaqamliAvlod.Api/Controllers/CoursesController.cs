@@ -27,7 +27,7 @@ public class CoursesController : ControllerBase
         _identityHelper = identityHelper;
     }
 
-    [HttpPost, Authorize("Admin, SuperAdmin")]
+    [HttpPost, Authorize(Roles = "Admin, SuperAdmin")]
     public async Task<IActionResult> CreateAsync([FromForm] CourseCreateDto courseCreateDto)
         => Ok(await _courseService.CreateAsync(courseCreateDto));
 
@@ -43,11 +43,11 @@ public class CoursesController : ControllerBase
     public async Task<IActionResult> GetAsync(long courseId)
         => Ok(await _courseService.GetAsync(courseId));
 
-    [HttpPut("{courseId}"), Authorize("Admin, SuperAdmin")]
+    [HttpPut("{courseId}"), Authorize(Roles = "Admin, SuperAdmin")]
     public async Task<IActionResult> UpdateAsync(long courseId, [FromForm] CourseUpdateDto updateDto)
         => Ok(await _courseService.UpdateAsync(courseId, updateDto));
 
-    [HttpDelete("{courseId}"), Authorize("Admin, SuperAdmin")]
+    [HttpDelete("{courseId}"), Authorize(Roles = "Admin, SuperAdmin")]
     public async Task<IActionResult> DeleteAsync(long courseId)
         => Ok(await _courseService.DeleteAsync(courseId));
 
@@ -57,19 +57,19 @@ public class CoursesController : ControllerBase
         [FromBody] CourseCommentCreateDto courseCommentCreateViewModel)
          => Ok(await _courseCommentService.CreateAsync(_identityHelper.GetUserId(), courseId, courseCommentCreateViewModel));
     
-    [HttpGet("{courseId}/comments"), Authorize(Roles = "User,Admin,SuperAdmin")]
+    [HttpGet("{courseId}/comments"), Authorize(Roles = "User, Admin, SuperAdmin")]
     public async Task<IActionResult> GetAllCommentsAsync([FromQuery] PaginationParams @params, long courseId)
         => Ok(await _courseCommentService.GetAllByCourseIdAsync(_identityHelper.GetUserId(),courseId, @params));
     
-    [HttpDelete("comments/{commentId}"), Authorize(Roles = "User,Admin,SuperAdmin")]
+    [HttpDelete("comments/{commentId}"), Authorize(Roles = "User, Admin, SuperAdmin")]
     public async Task<IActionResult> DeleteCommentAsync( long commentId)
        => Ok(await _courseCommentService.DeleteAsync(_identityHelper.GetUserId(), commentId));
     
-    [HttpPut("comments/{commentId}"), Authorize(Roles = "User,Admin,SuperAdmin")]
+    [HttpPut("comments/{commentId}"), Authorize(Roles = "User, Admin, SuperAdmin")]
     public async Task<IActionResult> UpdateCommentAsync(long commentId, CourseCommentUpdateDto dto)
        => Ok(await _courseCommentService.UpdateAsync(_identityHelper.GetUserId(), commentId, dto));
 
-    [HttpPost("videos"), Authorize("Admin, SuperAdmin")]
+    [HttpPost("videos"), Authorize(Roles = "Admin, SuperAdmin")]
     public async Task<IActionResult> CreateCourseVideoAsync([FromForm] CourseVideoCreateDto dto)
         => Ok(await _courseVideoService.CreateAsync(dto));
 
@@ -81,11 +81,11 @@ public class CoursesController : ControllerBase
     public async Task<IActionResult> GetCourseVideoAsync(long videoId)
         => Ok(await _courseVideoService.GetAsync(videoId));
 
-    [HttpPut("videos/{videoId}"), Authorize("Admin, SuperAdmin")]
+    [HttpPut("videos/{videoId}"), Authorize(Roles = "Admin, SuperAdmin")]
     public async Task<IActionResult> UpdateCourseVideoAsync(long videoId, [FromForm]CourseVideoUpdateDto dto)
         => Ok(await _courseVideoService.UpdateAsync(videoId, dto));
 
-    [HttpDelete("videos/{videoId}"), Authorize("Admin, SuperAdmin")]
+    [HttpDelete("videos/{videoId}"), Authorize(Roles = "Admin, SuperAdmin")]
     public async Task<IActionResult> DeleteVideosAsync(long videoId)
         => Ok(await _courseVideoService.DeleteAsync(videoId));
 }
