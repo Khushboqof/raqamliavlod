@@ -5,9 +5,8 @@ namespace RaqamliAvlod.Application.ViewModels.Questions
     public class QuestionViewModel : QuestionBaseViewModel
     {
         public IEnumerable<string> Tags { get; set; } = default!;
-        public bool CurrentUserIsAuthor { get; set; } = false;
         public string Description { get; set; } = String.Empty;
-        
+        public bool CurrentUserIsAuthor { get; set; } = false;
 
         public static implicit operator QuestionViewModel(Question question)
         {

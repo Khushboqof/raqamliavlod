@@ -19,17 +19,23 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Questions
         {
             this._unitOfWork = unitOfWork;
         }
-        public async Task<bool> CreateAsync(QuestionAnswerCreateDto dto, long userId)
+        public async Task<bool> CreateAsync(long questionId,QuestionAnswerCreateDto dto, long userId)
         {
-            var answers = (QuestionAnswer)dto;
-            answers.OwnerId = userId;
+            var answer = (QuestionAnswer)dto;
+            answer.OwnerId = userId;
+            if (answer.ParentId is not null)
+            {
+                answer.HasReplied = true;
+                var answers = await _unitOfWork.QuestionAnswers.GetAllByQuestionIdAsync(questionId, new PaginationParams(1, 50));
+                var res = answers.Any(x => x.Id == dto.ParentId);
+                if (!res)
+                    throw new StatusCodeException(HttpStatusCode.NotFound, "Answer not found");
 
-            if (answers.ParentId is not null)
-                answers.HasReplied = true;
+            }
+            answer.QuestionId = questionId;
+            answer.CreatedAt = TimeHelper.GetCurrentDateTime();
 
-            answers.CreatedAt = TimeHelper.GetCurrentDateTime();
-
-            await _unitOfWork.QuestionAnswers.CreateAsync(answers);
+            await _unitOfWork.QuestionAnswers.CreateAsync(answer);
 
             return true;
         }

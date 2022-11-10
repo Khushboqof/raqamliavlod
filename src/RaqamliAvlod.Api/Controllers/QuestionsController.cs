@@ -50,9 +50,9 @@ public class QuestionsController : ControllerBase
     public async Task<IActionResult> DeleteAsync(long questionId) 
         => Ok(await _questionService.DeleteAsync(questionId, _identityHelper.GetUserId(), _identityHelper.GetUserRole()));
 
-    [HttpPost("answers"), Authorize(Roles = "Admin, User, SuperAdmin")]
-    public async Task<IActionResult> CreateAnswerAsync([FromForm] QuestionAnswerCreateDto questionAnswerCreateDto)
-        => Ok(await _questionAnswerService.CreateAsync(questionAnswerCreateDto, _identityHelper.GetUserId()));
+    [HttpPost("{questionId}/answers"), Authorize(Roles = "Admin, User, SuperAdmin")]
+    public async Task<IActionResult> CreateAnswerAsync(long questionId, [FromForm] QuestionAnswerCreateDto questionAnswerCreateDto)
+        => Ok(await _questionAnswerService.CreateAsync(questionId, questionAnswerCreateDto, _identityHelper.GetUserId()));
 
     [HttpGet("answers/{answerId}/replies")]
     public async Task<IActionResult> GetAllRepliesAsync(long answerId)
