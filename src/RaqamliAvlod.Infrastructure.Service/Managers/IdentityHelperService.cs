@@ -13,16 +13,17 @@ namespace RaqamliAvlod.Infrastructure.Service.Managers
             this._accessor = accessor;
         }
 
-
         public string GetUserEmail()
         {
             return _accessor.HttpContext!.User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress")!.Value;
         }
 
-        public long GetUserId()
+        public long? GetUserId()
         {
             var res = _accessor.HttpContext!.User.FindFirst("Id")!.Value;
-            return long.Parse(res);
+            if (long.TryParse(res, out long id))
+                return id;
+            return null;
         }
 
         public string GetUserName()
@@ -30,11 +31,12 @@ namespace RaqamliAvlod.Infrastructure.Service.Managers
             return _accessor.HttpContext!.User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name")!.Value;
         }
 
-        public UserRole GetUserRole()
+        public UserRole? GetUserRole()
         {
             var res = _accessor.HttpContext!.User.FindFirst("http://schemas.microsoft.com/ws/2008/06/identity/claims/role")!.Value;
-
-            return Enum.Parse<UserRole>(res);
+            if (Enum.TryParse<UserRole>(res, out UserRole role))
+                return role;
+            return null;
         }
     }
 }

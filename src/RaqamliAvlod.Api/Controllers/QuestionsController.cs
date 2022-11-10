@@ -45,8 +45,7 @@ public class QuestionsController : ControllerBase
         [FromForm] QuestionCreateDto questionUpdateViewModel) 
         => Ok(await _questionService.UpdateAsync(questionId, questionUpdateViewModel, _identityHelper.GetUserId()));
 
-    [HttpDelete("{questionId}")]
-    [Authorize(Roles = "Admin, User, SuperAdmin")]
+    [HttpDelete("{questionId}"), Authorize(Roles = "Admin, User, SuperAdmin")]
     public async Task<IActionResult> DeleteAsync(long questionId) 
         => Ok(await _questionService.DeleteAsync(questionId, _identityHelper.GetUserId(), _identityHelper.GetUserRole()));
 
@@ -54,7 +53,7 @@ public class QuestionsController : ControllerBase
     public async Task<IActionResult> CreateAnswerAsync([FromForm] QuestionAnswerCreateDto questionAnswerCreateDto)
         => Ok(await _questionAnswerService.CreateAsync(questionAnswerCreateDto, _identityHelper.GetUserId()));
 
-    [HttpGet("answers/{answerId}/replies")]
+    [HttpGet("answers/{answerId}/replies"), AllowAnonymous]
     public async Task<IActionResult> GetAllRepliesAsync(long answerId)
         => Ok(await _questionAnswerService.GetRepliesAsync(answerId, _identityHelper.GetUserId()));
 

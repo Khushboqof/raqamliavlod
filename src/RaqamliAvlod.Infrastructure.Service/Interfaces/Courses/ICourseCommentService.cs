@@ -10,6 +10,6 @@ namespace RaqamliAvlod.Infrastructure.Service.Interfaces.Courses
         Task<bool> UpdateAsync(long userId,long courseCommentId, CourseCommentUpdateDto dto);
         Task<bool> DeleteAsync(long userId, long id);
         Task<CourseCommentViewModel> GetAsync(long userId,long id);
-        Task<IEnumerable<CourseCommentViewModel>> GetAllByCourseIdAsync(long userId, long courseId, PaginationParams @params);
+        Task<IEnumerable<CourseCommentViewModel>> GetAllByCourseIdAsync(long? userId, long courseId, PaginationParams @params);
     }
 }

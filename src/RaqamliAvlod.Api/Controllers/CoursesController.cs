@@ -55,7 +55,7 @@ public class CoursesController : ControllerBase
     [HttpPost("{courseId}/comments"), Authorize(Roles = "User, Admin, SuperAdmin")]
     public async Task<IActionResult> CreateCommentAsync(long courseId,
         [FromBody] CourseCommentCreateDto courseCommentCreateViewModel)
-         => Ok(await _courseCommentService.CreateAsync(_identityHelper.GetUserId(), courseId, courseCommentCreateViewModel));
+         => Ok(await _courseCommentService.CreateAsync((long)_identityHelper.GetUserId()!, courseId, courseCommentCreateViewModel));
     
     [HttpGet("{courseId}/comments"), Authorize(Roles = "User, Admin, SuperAdmin")]
     public async Task<IActionResult> GetAllCommentsAsync([FromQuery] PaginationParams @params, long courseId)
@@ -63,11 +63,11 @@ public class CoursesController : ControllerBase
     
     [HttpDelete("comments/{commentId}"), Authorize(Roles = "User, Admin, SuperAdmin")]
     public async Task<IActionResult> DeleteCommentAsync( long commentId)
-       => Ok(await _courseCommentService.DeleteAsync(_identityHelper.GetUserId(), commentId));
+       => Ok(await _courseCommentService.DeleteAsync((long)_identityHelper.GetUserId()!, commentId));
     
     [HttpPut("comments/{commentId}"), Authorize(Roles = "User, Admin, SuperAdmin")]
     public async Task<IActionResult> UpdateCommentAsync(long commentId, CourseCommentUpdateDto dto)
-       => Ok(await _courseCommentService.UpdateAsync(_identityHelper.GetUserId(), commentId, dto));
+       => Ok(await _courseCommentService.UpdateAsync((long)_identityHelper.GetUserId()!, commentId, dto));
 
     [HttpPost("videos"), Authorize(Roles = "Admin, SuperAdmin")]
     public async Task<IActionResult> CreateCourseVideoAsync([FromForm] CourseVideoCreateDto dto)
