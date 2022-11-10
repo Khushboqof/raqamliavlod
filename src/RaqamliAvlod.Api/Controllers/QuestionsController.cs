@@ -46,7 +46,7 @@ public class QuestionsController : ControllerBase
         => Ok(await _questionService.UpdateAsync(questionId, questionUpdateViewModel, _identityHelper.GetUserId()));
 
     [HttpDelete("{questionId}")]
-    [Authorize(Roles = "Admin, SuperAdmin")]
+    [Authorize(Roles = "Admin, User, SuperAdmin")]
     public async Task<IActionResult> DeleteAsync(long questionId) 
         => Ok(await _questionService.DeleteAsync(questionId, _identityHelper.GetUserId(), _identityHelper.GetUserRole()));
 
@@ -58,7 +58,7 @@ public class QuestionsController : ControllerBase
     public async Task<IActionResult> GetAllRepliesAsync(long answerId)
         => Ok(await _questionAnswerService.GetRepliesAsync(answerId));
 
-    [HttpGet("answers/{questionId}"), AllowAnonymous]
+    [HttpGet("{questionId}/answers"), AllowAnonymous]
     public async Task<IActionResult> GetAllAsync(long questionId, [FromQuery] PaginationParams @params)
        => Ok(await _questionAnswerService.GetAllAsync(questionId, @params));
 

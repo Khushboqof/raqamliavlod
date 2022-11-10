@@ -58,13 +58,14 @@ public class QuestionService : IQuestionService
         return questions;
     }
 
-    public async Task<QuestionViewModel> GetAsync(long questionId)
+    public async Task<QuestionViewModel> GetAsync(long questionId, long userId)
     {
         var questionView = await _unitOfWork.Questions.GetViewAsync(questionId);
 
         if (questionView is null)
             throw new StatusCodeException(HttpStatusCode.NotFound, "Question Not Found!");
-
+        if (questionView.Owner.UserId == userId)
+            questionView.CurrentUserIsAuthor = true;
         await _unitOfWork.Questions.CountViewAsync(questionId);
         return questionView;
     }
