@@ -24,7 +24,7 @@ public class AccountsController : ControllerBase
         => Ok(new { Token =  await _accountService.LogInAsync(accountLoginViewModel)});
 
     [HttpPost("verifyemail")]
-    public async Task<IActionResult> VerifyEmail([FromBody] VerifyEmailDto verifyEmail)
+    public async Task<IActionResult> VerifyEmail([FromForm] VerifyEmailDto verifyEmail)
         => Ok(await _accountService.VerifyEmailAsync(verifyEmail));
 
     [HttpPost("reset-password"), AllowAnonymous]
