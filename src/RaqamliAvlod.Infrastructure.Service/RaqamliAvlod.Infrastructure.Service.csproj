@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -7,9 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Dtos\Accounts\Queries\**" />
+    <EmbeddedResource Remove="Dtos\Accounts\Queries\**" />
+    <None Remove="Dtos\Accounts\Queries\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="MailKit" Version="3.4.2" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.10" />
     <PackageReference Include="MimeKit" Version="3.4.2" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.25.0" />
+    <PackageReference Include="YoutubeExplode" Version="6.2.4" />
   </ItemGroup>
 
   <ItemGroup>

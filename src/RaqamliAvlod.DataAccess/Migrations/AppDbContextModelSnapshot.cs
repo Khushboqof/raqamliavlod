@@ -61,6 +61,9 @@ namespace RaqamliAvlod.DataAccess.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Title")
+                        .IsUnique();
+
                     b.ToTable("Contests");
                 });
 
@@ -91,7 +94,8 @@ namespace RaqamliAvlod.DataAccess.Migrations
 
                     b.HasIndex("ContestId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId", "ContestId")
+                        .IsUnique();
 
                     b.ToTable("ContestStandings");
                 });
@@ -123,7 +127,8 @@ namespace RaqamliAvlod.DataAccess.Migrations
 
                     b.HasIndex("ContestStandingsId");
 
-                    b.HasIndex("ProblemSetId");
+                    b.HasIndex("ProblemSetId", "ContestStandingsId")
+                        .IsUnique();
 
                     b.ToTable("ContestSubmissionsInfos");
                 });
@@ -164,12 +169,9 @@ namespace RaqamliAvlod.DataAccess.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<long?>("UserId")
-                        .HasColumnType("bigint");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("OwnerId");
 
                     b.ToTable("Courses");
                 });
@@ -195,14 +197,11 @@ namespace RaqamliAvlod.DataAccess.Migrations
                     b.Property<long>("OwnerId")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CourseId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("OwnerId");
 
                     b.ToTable("CourseComments");
                 });
@@ -225,6 +224,10 @@ namespace RaqamliAvlod.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("Duration")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
@@ -242,7 +245,8 @@ namespace RaqamliAvlod.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CourseId");
+                    b.HasIndex("CourseId", "YouTubeLink")
+                        .IsUnique();
 
                     b.ToTable("CourseVideos");
                 });
@@ -306,14 +310,17 @@ namespace RaqamliAvlod.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ContestId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.HasIndex("OwnerId");
+
+                    b.HasIndex("ContestIdentifier", "ContestId")
+                        .IsUnique();
 
                     b.ToTable("ProblemSets");
                 });
@@ -366,15 +373,12 @@ namespace RaqamliAvlod.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
                     b.Property<int>("ViewCount")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("OwnerId");
 
                     b.ToTable("Questions");
                 });
@@ -386,9 +390,6 @@ namespace RaqamliAvlod.DataAccess.Migrations
                         .HasColumnType("bigint");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<long?>("AnswerId")
-                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -409,16 +410,13 @@ namespace RaqamliAvlod.DataAccess.Migrations
                     b.Property<long>("QuestionId")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("AnswerId");
+                    b.HasIndex("OwnerId");
+
+                    b.HasIndex("ParentId");
 
                     b.HasIndex("QuestionId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("QuestionAnswers");
                 });
@@ -441,7 +439,8 @@ namespace RaqamliAvlod.DataAccess.Migrations
 
                     b.HasIndex("QuestionId");
 
-                    b.HasIndex("TagId");
+                    b.HasIndex("TagId", "QuestionId")
+                        .IsUnique();
 
                     b.ToTable("QuestionTags");
                 });
@@ -458,7 +457,13 @@ namespace RaqamliAvlod.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("ViewCount")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TagName")
+                        .IsUnique();
 
                     b.ToTable("Tags");
                 });
@@ -570,7 +575,6 @@ namespace RaqamliAvlod.DataAccess.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Username")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -579,6 +583,9 @@ namespace RaqamliAvlod.DataAccess.Migrations
                         .IsUnique();
 
                     b.HasIndex("PhoneNumber")
+                        .IsUnique();
+
+                    b.HasIndex("Username")
                         .IsUnique();
 
                     b.ToTable("Users");
@@ -624,11 +631,13 @@ namespace RaqamliAvlod.DataAccess.Migrations
 
             modelBuilder.Entity("RaqamliAvlod.Domain.Entities.Courses.Course", b =>
                 {
-                    b.HasOne("RaqamliAvlod.Domain.Entities.Users.User", "User")
+                    b.HasOne("RaqamliAvlod.Domain.Entities.Users.User", "Owner")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("RaqamliAvlod.Domain.Entities.Courses.CourseComment", b =>
@@ -639,15 +648,15 @@ namespace RaqamliAvlod.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RaqamliAvlod.Domain.Entities.Users.User", "User")
+                    b.HasOne("RaqamliAvlod.Domain.Entities.Users.User", "Owner")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Course");
 
-                    b.Navigation("User");
+                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("RaqamliAvlod.Domain.Entities.Courses.CourseVideo", b =>
@@ -667,15 +676,15 @@ namespace RaqamliAvlod.DataAccess.Migrations
                         .WithMany()
                         .HasForeignKey("ContestId");
 
-                    b.HasOne("RaqamliAvlod.Domain.Entities.Users.User", "User")
+                    b.HasOne("RaqamliAvlod.Domain.Entities.Users.User", "Owner")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Contest");
 
-                    b.Navigation("User");
+                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("RaqamliAvlod.Domain.Entities.ProblemSets.ProblemSetTest", b =>
@@ -691,20 +700,26 @@ namespace RaqamliAvlod.DataAccess.Migrations
 
             modelBuilder.Entity("RaqamliAvlod.Domain.Entities.Questions.Question", b =>
                 {
-                    b.HasOne("RaqamliAvlod.Domain.Entities.Users.User", "User")
+                    b.HasOne("RaqamliAvlod.Domain.Entities.Users.User", "Owner")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("RaqamliAvlod.Domain.Entities.Questions.QuestionAnswer", b =>
                 {
-                    b.HasOne("RaqamliAvlod.Domain.Entities.Questions.QuestionAnswer", "Answer")
+                    b.HasOne("RaqamliAvlod.Domain.Entities.Users.User", "Owner")
                         .WithMany()
-                        .HasForeignKey("AnswerId");
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RaqamliAvlod.Domain.Entities.Questions.QuestionAnswer", "Parent")
+                        .WithMany()
+                        .HasForeignKey("ParentId");
 
                     b.HasOne("RaqamliAvlod.Domain.Entities.Questions.Question", "Question")
                         .WithMany()
@@ -712,17 +727,11 @@ namespace RaqamliAvlod.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RaqamliAvlod.Domain.Entities.Users.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Owner");
 
-                    b.Navigation("Answer");
+                    b.Navigation("Parent");
 
                     b.Navigation("Question");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("RaqamliAvlod.Domain.Entities.Questions.QuestionTag", b =>

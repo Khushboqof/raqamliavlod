@@ -11,12 +11,16 @@ namespace RaqamliAvlod.DataAccess.Interfaces
     {
         public IContestRepository Contests { get; }
         public IContestStandingsRepository ContestStandings { get; }
+        public IContestSubmissionInfoRepository ContestSubmissionInfo { get; }
         public ICourseCommentRepository CourseComments { get; }
         public ICourseRepository Courses { get; }
+        public ICourseVideoRepository CourseVideos { get; }
         public IProblemSetRepository ProblemSets { get; }
         public IProblemSetTestRepository ProblemSetTests { get; }
         public IQuestionAnswerRepository QuestionAnswers { get; }
         public IQuestionRepository Questions { get; }
+        public IQuestionTagRepository QuestionTags { get; }
+        public ITagRepository Tags { get; }
         public ISubmissionRepository Submissions { get; }
         public IUserRepository Users { get; }
     }

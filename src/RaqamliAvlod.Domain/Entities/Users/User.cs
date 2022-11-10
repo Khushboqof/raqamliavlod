@@ -7,7 +7,7 @@ namespace RaqamliAvlod.Domain.Entities.Users
     {
         public string FirstName { get; set; } = String.Empty;
         public string LastName { get; set; } = String.Empty;
-        public string Username { get; set; } = String.Empty;
+        public string? Username { get; set; }
         public string ImagePath { get; set; } = String.Empty;
         public int ContestCoins { get; set; }
         public int ProblemSetCoins { get; set; }

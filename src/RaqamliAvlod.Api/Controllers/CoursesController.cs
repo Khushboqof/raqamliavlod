@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RaqamliAvlod.Application.Utils;
-using RaqamliAvlod.Application.ViewModels.Courses.Commands;
+using RaqamliAvlod.Domain.Entities.Courses;
+using RaqamliAvlod.Infrastructure.Service.Dtos;
+using RaqamliAvlod.Infrastructure.Service.Interfaces.Common;
+using RaqamliAvlod.Infrastructure.Service.Interfaces.Courses;
 
 namespace RaqamliAvlod.Api.Controllers;
 
@@ -8,80 +12,80 @@ namespace RaqamliAvlod.Api.Controllers;
 [ApiController]
 public class CoursesController : ControllerBase
 {
-    [HttpGet]
-    public async Task<IActionResult> GetAllAsync([FromQuery] PaginationParams @params, string searchText)
+    private readonly ICourseService _courseService;
+    private readonly ICourseVideoService _courseVideoService;
+    private readonly ICourseCommentService _courseCommentService;
+    private readonly IIdentityHelperService _identityHelper;
+
+    public CoursesController(ICourseService courseService,
+        ICourseVideoService courseVideoService, ICourseCommentService courseCommentService,
+        IIdentityHelperService identityHelper)
     {
-        return Ok();
+        _courseService = courseService;
+        _courseVideoService = courseVideoService;
+        _courseCommentService = courseCommentService;
+        _identityHelper = identityHelper;
     }
+
+    [HttpPost, Authorize("Admin, SuperAdmin")]
+    public async Task<IActionResult> CreateAsync([FromForm] CourseCreateDto courseCreateDto)
+        => Ok(await _courseService.CreateAsync(courseCreateDto));
+
+    [HttpGet, AllowAnonymous]
+    public async Task<IActionResult> GetAllAsync([FromQuery] PaginationParams @params)
+        => Ok(await _courseService.GetAllAsync(@params));
+
+    [HttpGet("search"), AllowAnonymous]
+    public async Task<IActionResult> SearchByTitleAsync([FromQuery] string title, [FromQuery] PaginationParams @params)
+        => Ok(await _courseService.SearchByTitleAsync(title, @params));
 
     [HttpGet("{courseId}")]
     public async Task<IActionResult> GetAsync(long courseId)
-    {
-        return Ok();
-    }
+        => Ok(await _courseService.GetAsync(courseId));
 
-    [HttpPost]
-    public async Task<IActionResult> CreateAsync([FromForm] CourseCreateViewModel courseCreateViewModel)
-    {
-        return Ok();
-    }
+    [HttpPut("{courseId}"), Authorize("Admin, SuperAdmin")]
+    public async Task<IActionResult> UpdateAsync(long courseId, [FromForm] CourseUpdateDto updateDto)
+        => Ok(await _courseService.UpdateAsync(courseId, updateDto));
 
-    [HttpDelete("{courseId}")]
+    [HttpDelete("{courseId}"), Authorize("Admin, SuperAdmin")]
     public async Task<IActionResult> DeleteAsync(long courseId)
-    {
-        return Ok();
-    }
+        => Ok(await _courseService.DeleteAsync(courseId));
 
-    [HttpPatch("{courseId}")]
-    public async Task<IActionResult> UpdateAsync(long courseId, [FromForm] CourseCreateViewModel courseUpdateViewModel)
-    {
-        return Ok();
-    }
 
-    [HttpPost("{courseId}/comments")]
-    public async Task<IActionResult> CreateCommentAsync(long courseId, [FromBody] CourseCommentCreateViewModel courseCommentCreateViewModel)
-    {
-        return Ok();
-    }
-
-    [HttpGet("{courseId}/comments")]
+    [HttpPost("{courseId}/comments"), Authorize(Roles = "User, Admin, SuperAdmin")]
+    public async Task<IActionResult> CreateCommentAsync(long courseId,
+        [FromBody] CourseCommentCreateDto courseCommentCreateViewModel)
+         => Ok(await _courseCommentService.CreateAsync(_identityHelper.GetUserId(), courseId, courseCommentCreateViewModel));
+    
+    [HttpGet("{courseId}/comments"), Authorize(Roles = "User,Admin,SuperAdmin")]
     public async Task<IActionResult> GetAllCommentsAsync([FromQuery] PaginationParams @params, long courseId)
-    {
-        return Ok();
-    }
+        => Ok(await _courseCommentService.GetAllByCourseIdAsync(_identityHelper.GetUserId(),courseId, @params));
+    
+    [HttpDelete("comments/{commentId}"), Authorize(Roles = "User,Admin,SuperAdmin")]
+    public async Task<IActionResult> DeleteCommentAsync( long commentId)
+       => Ok(await _courseCommentService.DeleteAsync(_identityHelper.GetUserId(), commentId));
+    
+    [HttpPut("comments/{commentId}"), Authorize(Roles = "User,Admin,SuperAdmin")]
+    public async Task<IActionResult> UpdateCommentAsync(long commentId, CourseCommentUpdateDto dto)
+       => Ok(await _courseCommentService.UpdateAsync(_identityHelper.GetUserId(), commentId, dto));
 
-    [HttpDelete("{courseId}/comments/{commentId}")]
-    public async Task<IActionResult> DeleteCommentAsync(long courseId, long commentId)
-    {
-        return Ok();
-    }
+    [HttpPost("videos"), Authorize("Admin, SuperAdmin")]
+    public async Task<IActionResult> CreateCourseVideoAsync([FromForm] CourseVideoCreateDto dto)
+        => Ok(await _courseVideoService.CreateAsync(dto));
 
-    [HttpGet("search/{search}")]
-    public async Task<IActionResult> SearchAsync([FromQuery] PaginationParams @params, string search)
-    {
-        return Ok();
-    }
+    [HttpGet("{courseId}/videos")]
+    public async Task<IActionResult> GetAllCourseVideoAsync(long courseId, [FromQuery] PaginationParams @params)
+        => Ok(await _courseVideoService.GetAllAsync(courseId, @params));
 
-    [HttpDelete("videos")]
-    public async Task<IActionResult> DeleteVideosAsync(long id)
-    {
-        return Ok();
-    }
+    [HttpGet("videos/{videoId}")]
+    public async Task<IActionResult> GetCourseVideoAsync(long videoId)
+        => Ok(await _courseVideoService.GetAsync(videoId));
 
-    [HttpPost("videos")]
-    public async Task<IActionResult> CreateCourseVideoAsync([FromForm] CourseVideoCreateViewModel courseVideoCreateViewModel)
-    {
-        return Ok();
-    }
+    [HttpPut("videos/{videoId}"), Authorize("Admin, SuperAdmin")]
+    public async Task<IActionResult> UpdateCourseVideoAsync(long videoId, [FromForm]CourseVideoUpdateDto dto)
+        => Ok(await _courseVideoService.UpdateAsync(videoId, dto));
 
-    [HttpPatch("videos")]
-    public async Task<IActionResult> UpdateCourseVideoAsync(long id, string link)
-    {
-        return Ok();
-    }
-    [HttpPost("videos/views")]
-    public async Task<IActionResult> CreateViewsAsync(long id)
-    {
-        return Ok();
-    }
+    [HttpDelete("videos/{videoId}"), Authorize("Admin, SuperAdmin")]
+    public async Task<IActionResult> DeleteVideosAsync(long videoId)
+        => Ok(await _courseVideoService.DeleteAsync(videoId));
 }

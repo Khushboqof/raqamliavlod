@@ -1,11 +1,14 @@
 ﻿using CodePower.DataAccess.Common;
+using RaqamliAvlod.Application.Utils;
 using RaqamliAvlod.Domain.Entities.Questions;
-using System;
 
 namespace RaqamliAvlod.DataAccess.Interfaces.Questions
 {
     public interface IQuestionTagRepository : IRepository<QuestionTag>
     {
-        public Task<PagedList<QuestionTag>> GetAllTagsFromQuestionAsync(long questionId);
+        public Task<PagedList<QuestionTag>> GetAllTagsFromQuestionAsync(long questionId, PaginationParams @params);
+
+        public Task AddRangeAsync(IEnumerable<QuestionTag> questionTags);
+        public Task DeleteQuestionTagsAsync(long questionId);
     }
 }
