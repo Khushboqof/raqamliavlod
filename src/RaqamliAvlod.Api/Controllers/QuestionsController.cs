@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RaqamliAvlod.Application.Utils;
+using RaqamliAvlod.Domain.Enums;
 using RaqamliAvlod.Infrastructure.Service.Dtos;
 using RaqamliAvlod.Infrastructure.Service.Dtos.Questions;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Common;
@@ -38,23 +39,22 @@ public class QuestionsController : ControllerBase
 
     [HttpPost, Authorize(Roles = "Admin, User, SuperAdmin")]
     public async Task<IActionResult> CreateAsync([FromForm] QuestionCreateDto questionCreateViewModel)
-        => Ok(await _questionService.CreateAsync(questionCreateViewModel, _identityHelper.GetUserId()));
+        => Ok(await _questionService.CreateAsync(questionCreateViewModel, (long)_identityHelper.GetUserId()!));
 
     [HttpPut("{questionId}"), Authorize(Roles = "Admin, User, SuperAdmin")]
     public async Task<IActionResult> UpdateAsync(long questionId,
         [FromForm] QuestionCreateDto questionUpdateViewModel) 
-        => Ok(await _questionService.UpdateAsync(questionId, questionUpdateViewModel, _identityHelper.GetUserId()));
+        => Ok(await _questionService.UpdateAsync(questionId, questionUpdateViewModel, (long)_identityHelper.GetUserId()!));
 
-    [HttpDelete("{questionId}")]
-    [Authorize(Roles = "Admin, User, SuperAdmin")]
+    [HttpDelete("{questionId}"), Authorize(Roles = "Admin, User, SuperAdmin")]
     public async Task<IActionResult> DeleteAsync(long questionId) 
-        => Ok(await _questionService.DeleteAsync(questionId, _identityHelper.GetUserId(), _identityHelper.GetUserRole()));
+        => Ok(await _questionService.DeleteAsync(questionId, (long)_identityHelper.GetUserId()!, (UserRole)_identityHelper.GetUserRole()!));
 
     [HttpPost("answers"), Authorize(Roles = "Admin, User, SuperAdmin")]
     public async Task<IActionResult> CreateAnswerAsync([FromForm] QuestionAnswerCreateDto questionAnswerCreateDto)
-        => Ok(await _questionAnswerService.CreateAsync(questionAnswerCreateDto, _identityHelper.GetUserId()));
+        => Ok(await _questionAnswerService.CreateAsync(questionAnswerCreateDto, (long)_identityHelper.GetUserId()!));
 
-    [HttpGet("answers/{answerId}/replies")]
+    [HttpGet("answers/{answerId}/replies"), AllowAnonymous]
     public async Task<IActionResult> GetAllRepliesAsync(long answerId)
         => Ok(await _questionAnswerService.GetRepliesAsync(answerId, _identityHelper.GetUserId()));
 
@@ -64,12 +64,12 @@ public class QuestionsController : ControllerBase
 
     [HttpPut("answers/{answerId}"), Authorize(Roles = "Admin, User, SuperAdmin")]
     public async Task<IActionResult> UpdateAnswerAsync(long answerId, [FromForm] QuestionAnswerUpdateDto questionAnswerUpdateDto)
-       => Ok(await _questionAnswerService.UpdateAsync(answerId, questionAnswerUpdateDto, _identityHelper.GetUserId()));
+       => Ok(await _questionAnswerService.UpdateAsync(answerId, questionAnswerUpdateDto, (long)_identityHelper.GetUserId()!));
 
     [HttpDelete("answers/{answerId}")]
     [Authorize(Roles = "Admin, SuperAdmin, User")]
     public async Task<IActionResult> DeleteAsnwerAsync(long answerId)
-        => Ok(await _questionAnswerService.DeleteAsync(answerId, _identityHelper.GetUserId(), _identityHelper.GetUserRole()));
+        => Ok(await _questionAnswerService.DeleteAsync(answerId, (long)_identityHelper.GetUserId()!, (UserRole)_identityHelper.GetUserRole()!));
 
     [HttpGet("search/{search}")]
     public async Task<IActionResult> GetSearchAsync(string search)
@@ -79,7 +79,7 @@ public class QuestionsController : ControllerBase
 
     [HttpPost("tags"), Authorize(Roles = "User, Admin, SuperAdmin")]
     public async Task<IActionResult> CreateAsync([FromForm] TagCreateDto tag)
-        => Ok(await _tagService.CreateAsync(tag, _identityHelper.GetUserRole()));
+        => Ok(await _tagService.CreateAsync(tag, (UserRole)_identityHelper.GetUserRole()!));
 
     [HttpDelete("tag/{tagId}"), Authorize(Roles = "Admin, SuperAdmin")]
     public async Task<IActionResult> DeleteTagAsync(long tagId)
