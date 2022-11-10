@@ -33,6 +33,9 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
             if (result is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, message: "User don't exist");
 
+            if (result.Role == UserRole.SuperAdmin)
+                throw new StatusCodeException(HttpStatusCode.BadRequest, message: "You can't delete this user");
+
             var user = await _unitOfWork.Users.DeleteAsync(id);
 
             return user != null;
