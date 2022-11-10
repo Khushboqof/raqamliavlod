@@ -52,7 +52,7 @@ public class QuestionsController : ControllerBase
 
     [HttpPost("answers"), Authorize(Roles = "Admin, User, SuperAdmin")]
     public async Task<IActionResult> CreateAnswerAsync([FromForm] QuestionAnswerCreateDto questionAnswerCreateDto)
-        => Ok(await _questionAnswerService.CreateAsync(questionAnswerCreateDto, _identityHelper.GetUserId()));
+        => Ok(await _questionAnswerService.CreateAsync(questionAnswerCreateDto, (long)_identityHelper.GetUserId()!));
 
     [HttpGet("answers/{answerId}/replies"), AllowAnonymous]
     public async Task<IActionResult> GetAllRepliesAsync(long answerId)
@@ -64,12 +64,12 @@ public class QuestionsController : ControllerBase
 
     [HttpPut("answers/{answerId}"), Authorize(Roles = "Admin, User, SuperAdmin")]
     public async Task<IActionResult> UpdateAnswerAsync(long answerId, [FromForm] QuestionAnswerUpdateDto questionAnswerUpdateDto)
-       => Ok(await _questionAnswerService.UpdateAsync(answerId, questionAnswerUpdateDto, _identityHelper.GetUserId()));
+       => Ok(await _questionAnswerService.UpdateAsync(answerId, questionAnswerUpdateDto, (long)_identityHelper.GetUserId()!));
 
     [HttpDelete("answers/{answerId}")]
     [Authorize(Roles = "Admin, SuperAdmin, User")]
     public async Task<IActionResult> DeleteAsnwerAsync(long answerId)
-        => Ok(await _questionAnswerService.DeleteAsync(answerId, _identityHelper.GetUserId(), _identityHelper.GetUserRole()));
+        => Ok(await _questionAnswerService.DeleteAsync(answerId, (long)_identityHelper.GetUserId()!, (UserRole)_identityHelper.GetUserRole()!));
 
     [HttpGet("search/{search}")]
     public async Task<IActionResult> GetSearchAsync(string search)
@@ -79,7 +79,7 @@ public class QuestionsController : ControllerBase
 
     [HttpPost("tags"), Authorize(Roles = "User, Admin, SuperAdmin")]
     public async Task<IActionResult> CreateAsync([FromForm] TagCreateDto tag)
-        => Ok(await _tagService.CreateAsync(tag, _identityHelper.GetUserRole()));
+        => Ok(await _tagService.CreateAsync(tag, (UserRole)_identityHelper.GetUserRole()!));
 
     [HttpDelete("tag/{tagId}"), Authorize(Roles = "Admin, SuperAdmin")]
     public async Task<IActionResult> DeleteTagAsync(long tagId)

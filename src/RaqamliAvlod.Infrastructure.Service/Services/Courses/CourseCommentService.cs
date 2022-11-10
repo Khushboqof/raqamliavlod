@@ -58,7 +58,7 @@ public class CourseCommentService : ICourseCommentService
         return res is not null ? true : false;
     }
 
-    public async Task<IEnumerable<CourseCommentViewModel>> GetAllByCourseIdAsync(long userId, long courseId, PaginationParams @params)
+    public async Task<IEnumerable<CourseCommentViewModel>> GetAllByCourseIdAsync(long? userId, long courseId, PaginationParams @params)
     {
         var courseComments = await _unitOfWork.CourseComments.GetAllByCourseIdAsync(courseId, @params);
         _paginator.ToPagenator(courseComments.MetaData);
@@ -73,7 +73,8 @@ public class CourseCommentService : ICourseCommentService
 
             courseCommentView.Owner = (OwnerViewModel)owner;
 
-            courseCommentView.IsCurrentUserIsAdmin = userId == owner.Id;
+            if(userId is not null)
+                courseCommentView.IsCurrentUserIsAdmin = userId == owner.Id;
 
             courseCommentViews.Add(courseCommentView);
         }
@@ -81,7 +82,7 @@ public class CourseCommentService : ICourseCommentService
         return courseCommentViews;
     }
 
-    public async Task<CourseCommentViewModel> GetAsync(long userId, long id)
+    public async Task<CourseCommentViewModel> GetAsync(long? userId, long id)
     {
         var courseComment = await _unitOfWork.CourseComments.FindByIdAsync(id);
 
@@ -95,7 +96,8 @@ public class CourseCommentService : ICourseCommentService
 
         var courseCommentView = (CourseCommentViewModel)courseComment;
 
-        courseCommentView.IsCurrentUserIsAdmin = userId == owner.Id;
+        if(userId is not null)
+            courseCommentView.IsCurrentUserIsAdmin = userId == owner.Id;
 
         courseCommentView.Owner = (OwnerViewModel)owner;
 
