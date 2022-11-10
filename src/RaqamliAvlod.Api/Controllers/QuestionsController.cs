@@ -34,7 +34,7 @@ public class QuestionsController : ControllerBase
 
     [HttpGet("{questionId}"), AllowAnonymous]
     public async Task<IActionResult> GetAsync(long questionId)
-        => Ok(await _questionService.GetAsync(questionId));
+        => Ok(await _questionService.GetAsync(questionId, _identityHelper.GetUserId()));
 
     [HttpPost, Authorize(Roles = "Admin, User, SuperAdmin")]
     public async Task<IActionResult> CreateAsync([FromForm] QuestionCreateDto questionCreateViewModel)
@@ -56,18 +56,18 @@ public class QuestionsController : ControllerBase
 
     [HttpGet("answers/{answerId}/replies")]
     public async Task<IActionResult> GetAllRepliesAsync(long answerId)
-        => Ok(await _questionAnswerService.GetRepliesAsync(answerId));
+        => Ok(await _questionAnswerService.GetRepliesAsync(answerId, _identityHelper.GetUserId()));
 
     [HttpGet("{questionId}/answers"), AllowAnonymous]
     public async Task<IActionResult> GetAllAsync(long questionId, [FromQuery] PaginationParams @params)
-       => Ok(await _questionAnswerService.GetAllAsync(questionId, @params));
+       => Ok(await _questionAnswerService.GetAllAsync(questionId, _identityHelper.GetUserId(), @params));
 
     [HttpPut("answers/{answerId}"), Authorize(Roles = "Admin, User, SuperAdmin")]
     public async Task<IActionResult> UpdateAnswerAsync(long answerId, [FromForm] QuestionAnswerUpdateDto questionAnswerUpdateDto)
        => Ok(await _questionAnswerService.UpdateAsync(answerId, questionAnswerUpdateDto, _identityHelper.GetUserId()));
 
     [HttpDelete("answers/{answerId}")]
-    [Authorize(Roles = "Admin, SuperAdmin")]
+    [Authorize(Roles = "Admin, SuperAdmin, User")]
     public async Task<IActionResult> DeleteAsnwerAsync(long answerId)
         => Ok(await _questionAnswerService.DeleteAsync(answerId, _identityHelper.GetUserId(), _identityHelper.GetUserRole()));
 

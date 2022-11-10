@@ -7,15 +7,11 @@ namespace RaqamliAvlod.Application.ViewModels.Questions
     {
         public long Id { get; set; }
         public string Description { get; set; } = String.Empty;
-<<<<<<< HEAD
         public int ReplyCount { get; set; } = 0;
         public bool HasReplied { get; set; }
         public long? ParentId { get; set; }
         public OwnerViewModel Owner { get; set; }
-=======
         public bool CurrentUserIsAuthor { get; set; } = false;  
-        public string Username { get; set; } = string.Empty;
->>>>>>> 2734140 (updated QuestionAnswerService)
         public long QuestionId { get; set; }
 
         public static implicit operator QuestionAnswerViewModel(QuestionAnswer questionAnswer)
