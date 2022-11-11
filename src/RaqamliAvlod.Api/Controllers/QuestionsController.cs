@@ -55,8 +55,8 @@ public class QuestionsController : ControllerBase
         => Ok(await _questionAnswerService.CreateAsync(questionId, questionAnswerCreateDto, (long)_identityHelper.GetUserId()));
 
     [HttpGet("answers/{answerId}/replies"), AllowAnonymous]
-    public async Task<IActionResult> GetAllRepliesAsync(long answerId)
-        => Ok(await _questionAnswerService.GetRepliesAsync(answerId, _identityHelper.GetUserId()));
+    public async Task<IActionResult> GetAllRepliesAsync(long answerId, PaginationParams @params)
+        => Ok(await _questionAnswerService.GetRepliesAsync(answerId, _identityHelper.GetUserId(), @params));
 
     [HttpGet("{questionId}/answers"), AllowAnonymous]
     public async Task<IActionResult> GetAllAsync(long questionId, [FromQuery] PaginationParams @params)
