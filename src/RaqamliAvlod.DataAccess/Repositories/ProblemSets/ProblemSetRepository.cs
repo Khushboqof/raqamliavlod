@@ -13,6 +13,7 @@ namespace RaqamliAvlod.DataAccess.Repositories.ProblemSets
         public ProblemSetRepository(AppDbContext context) : base(context)
         {
         }
+
         #region Public and Private
         public async Task<ProblemSet?> FindByNameAsync(string problemSetName)
         {
@@ -38,7 +39,6 @@ namespace RaqamliAvlod.DataAccess.Repositories.ProblemSets
             return await PagedList<ProblemSetBaseViewModel>.ToPagedListAsync(query, @params.PageNumber, @params.PageSize);
         }
         #endregion
-
 
         #region Private
         #endregion
