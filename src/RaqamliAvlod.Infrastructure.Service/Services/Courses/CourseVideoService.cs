@@ -64,16 +64,7 @@ public class CourseVideoService : ICourseVideoService
         var courseVideos = await _unitOfWork.CourseVideos.GetAllByCourseIdAsync(courseId, @params);
         _paginator.ToPagenator(courseVideos.MetaData);
 
-        var courseViews = new List<CourseVideoGetAllViewModel>();
-
-        foreach (var courseVideo in courseVideos)
-        {
-            var courseView = (CourseVideoGetAllViewModel)courseVideo;
-            courseView.Duration = DateTime.Parse(courseVideo.Duration).TimeOfDay;
-            courseViews.Add(courseView);
-        }
-
-        return courseViews;
+        return courseVideos;
     }
 
     public async Task<CourseVideoGetViewModel> GetAsync(long videoId)
@@ -87,7 +78,6 @@ public class CourseVideoService : ICourseVideoService
         await _unitOfWork.CourseVideos.UpdateAsync(videoId, video);
 
         var videoView = (CourseVideoGetViewModel)video;
-        videoView.Duration = DateTime.Parse(video.Duration).TimeOfDay;
 
         return videoView;
     }
