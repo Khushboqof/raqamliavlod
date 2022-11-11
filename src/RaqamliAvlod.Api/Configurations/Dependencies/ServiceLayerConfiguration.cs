@@ -34,6 +34,7 @@ namespace RaqamliAvlod.Api.Configurations.Dependencies
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IQuestionTagService, QuestionTagService>();
             builder.Services.AddScoped<IProblemSetService, ProblemSetService>();
+            builder.Services.AddScoped<IContestService, ContestService>();
             builder.Services.AddScoped<IProblemSetTestService, ProblemSetTestService>();
             builder.Services.AddMemoryCache();
         }
