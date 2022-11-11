@@ -1,9 +1,4 @@
-﻿using RaqamliAvlod.Domain.Entities.ProblemSets;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using RaqamliAvlod.Domain.Entities.ProblemSets;
 
 namespace RaqamliAvlod.Application.ViewModels.ProblemSets
 {

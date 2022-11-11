@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RaqamliAvlod.Application.Utils;
 using RaqamliAvlod.Infrastructure.Service.Dtos;
+using RaqamliAvlod.Infrastructure.Service.Interfaces.Common;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.ProblemSets;
 
 namespace RaqamliAvlod.Api.Controllers;
@@ -10,49 +12,46 @@ namespace RaqamliAvlod.Api.Controllers;
 public class ProblemSetsController : ControllerBase
 {
     private readonly IProblemSetService _problemSetService;
+    private readonly IIdentityHelperService _identityService;
     private readonly IProblemSetTestService _testService;
 
-    public ProblemSetsController(IProblemSetService problemSetService,IProblemSetTestService testService)
+    public ProblemSetsController(IProblemSetService problemSetService, 
+        IIdentityHelperService identityHelperService, IProblemSetTestService testService)
     {
         this._problemSetService = problemSetService;
+        this._identityService = identityHelperService;
         this._testService = testService;
     }
 
-    [HttpGet]
+    [HttpGet, AllowAnonymous]
     public async Task<IActionResult> GetAllAsync([FromQuery] PaginationParams @params)
-    {
-        return Ok();
-    }
+        => Ok(await _problemSetService.GetAllAsync(@params, _identityService.GetUserId()));
 
-    [HttpGet("{problemSetId}")]
+    [HttpGet("{problemSetId}"), AllowAnonymous]
     public async Task<IActionResult> GetAsync(long problemSetId)
         => Ok(await _problemSetService.GetAsync(problemSetId));
 
-    [HttpPost]
-    public async Task<IActionResult> CreateAsync([FromForm] ProblemSetCreateDto problemSetCreateViewModel)
-        => Ok(await _problemSetService.CreateAsync(problemSetCreateViewModel));
+    [HttpPost, Authorize(Roles = "Admin, SuperAdmin")]
+    public async Task<IActionResult> CreateAsync([FromForm] ProblemSetCreateDto problemSetCreateDto)
+        => Ok(await _problemSetService.CreateAsync(problemSetCreateDto));
 
-    [HttpPut("{problemSetId}")]
-    public async Task<IActionResult> UpdateAsync(long problemSetId, [FromForm] ProblemSetCreateDto problemSetCreateViewModel)
-    {
-        return Ok();
-    }
+    [HttpPut("{problemSetId}"), Authorize(Roles = "Admin, SuperAdmin")]
+    public async Task<IActionResult> UpdateAsync(long problemSetId, [FromForm] ProblemSetCreateDto problemSetCreateDto)
+        => Ok(await _problemSetService.UpdateAsync(problemSetId, problemSetCreateDto));
 
-    [HttpDelete("{problemSetId}")]
+    [HttpDelete("{problemSetId}"), Authorize(Roles = "Admin, SuperAdmin")]
     public async Task<IActionResult> DeleteAsync(long problemSetId)
-    {
-        return Ok();
-    }
+        => Ok(await _problemSetService.DeleteAsync(problemSetId));
 
-    [HttpGet("search")]
+    [HttpGet("search"), AllowAnonymous]
     public async Task<IActionResult> SearchAsync(string search, [FromQuery] PaginationParams @params)
     {
         return Ok();
     }
 
-    [HttpGet("{problemSetId}/tests")]
+    [HttpGet("{problemSetId}/tests"), AllowAnonymous]
     public async Task<IActionResult> GetProblemSetTestsAsync(long problemSetId)
-        =>Ok();
+        => Ok(await _testService.GetAllAsync(problemSetId));
 
     [HttpGet("tests/{testId}")]
     public async Task<IActionResult> GetProblemSetsTestAsync(long testId)

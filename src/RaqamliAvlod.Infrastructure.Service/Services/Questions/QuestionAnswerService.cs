@@ -6,6 +6,7 @@ using RaqamliAvlod.Domain.Entities.Questions;
 using RaqamliAvlod.Domain.Enums;
 using RaqamliAvlod.Infrastructure.Service.Dtos.Questions;
 using RaqamliAvlod.Infrastructure.Service.Helpers;
+using RaqamliAvlod.Infrastructure.Service.Interfaces.Common;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Questions;
 using System.Net;
 
@@ -14,10 +15,12 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Questions
     public class QuestionAnswerService : IQuestionAnswerService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IPaginatorService _paginator;
 
-        public QuestionAnswerService(IUnitOfWork unitOfWork)
+        public QuestionAnswerService(IUnitOfWork unitOfWork, IPaginatorService paginatorService)
         {
             this._unitOfWork = unitOfWork;
+            this._paginator = paginatorService;
         }
         public async Task<bool> CreateAsync(long questionId,QuestionAnswerCreateDto dto, long userId)
         {
@@ -55,22 +58,24 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Questions
 
         public async Task<IEnumerable<QuestionAnswerViewModel>> GetAllAsync(long questionId, long? userId, PaginationParams? @params = null)
         {
-            var questionAnswers = await _unitOfWork.QuestionAnswers.GetAllByQuestionIdAsync(questionId, @params);
+            var questionAnswers = await _unitOfWork.QuestionAnswers.GetAllByQuestionIdAsync(questionId, @params ?? new PaginationParams());
             foreach (var answer in questionAnswers)
                 if (userId is not null && answer.Owner.UserId == userId)
                     answer.CurrentUserIsAuthor = true;
-
+            _paginator.ToPagenator(questionAnswers.MetaData);
             return questionAnswers;
         }
 
-        public async Task<IEnumerable<QuestionAnswerViewModel>> GetRepliesAsync(long answerId, long? userId)
+        public async Task<IEnumerable<QuestionAnswerViewModel>> GetRepliesAsync(long answerId, long? userId, PaginationParams @params)
         {
             if (await _unitOfWork.QuestionAnswers.FindByIdAsync(answerId) is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Answer not found!");
-            var questionAnswers = await _unitOfWork.QuestionAnswers.GetAllRepliesAsync(answerId);
+            var questionAnswers = await _unitOfWork.QuestionAnswers.GetAllRepliesAsync(answerId, @params);
             foreach (var answer in questionAnswers)
                 if (userId is not null && answer.Owner.UserId == userId)
                     answer.CurrentUserIsAuthor = true;
+
+            _paginator.ToPagenator(questionAnswers.MetaData);
             return questionAnswers;
         }
 
