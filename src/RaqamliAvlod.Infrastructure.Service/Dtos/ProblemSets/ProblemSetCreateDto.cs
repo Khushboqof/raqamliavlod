@@ -1,4 +1,6 @@
-﻿using RaqamliAvlod.Domain.Entities.ProblemSets;
+﻿using RaqamliAvlod.Domain.Constants;
+using RaqamliAvlod.Domain.Entities.ProblemSets;
+using RaqamliAvlod.Infrastructure.Service.Helpers;
 using System.ComponentModel.DataAnnotations;
 
 namespace RaqamliAvlod.Infrastructure.Service.Dtos
@@ -14,7 +16,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Dtos
         [Required]
         public string Type { get; set; } = String.Empty;
 
-        public string Note { get; set; } = String.Empty;
+        public string? Note { get; set; } = String.Empty;
 
         [Required]
         public string InputDescription { get; set; } = String.Empty;
@@ -22,14 +24,14 @@ namespace RaqamliAvlod.Infrastructure.Service.Dtos
         [Required]
         public string OutputDescription { get; set; } = String.Empty;
 
-        [Required]
+        [Required, Range(0, EngineConstants.MAX_TIME_LIMIT)]
         public int TimeLimit { get; set; }
 
-        [Required]
+        [Required, Range(0, EngineConstants.MAX_MEMORY_LIMIT)]
         public int MemoryLimit { get; set; }
 
-        [Required]
-        public byte Difficulty { get; set; }
+        [Required, Range(0, EngineConstants.MAX_DIFFICULTY)]
+        public short Difficulty { get; set; }
 
         [Required]
         public bool IsPublic { get; set; }
@@ -44,6 +46,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Dtos
                 Name = problemSetCreateDto.Name,
                 Description = problemSetCreateDto.Description,
                 Type = problemSetCreateDto.Type,
+                Note = problemSetCreateDto.Note,
                 InputDescription = problemSetCreateDto.InputDescription,
                 OutputDescription = problemSetCreateDto.OutputDescription,
                 TimeLimit = problemSetCreateDto.TimeLimit,
@@ -51,6 +54,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Dtos
                 Difficulty = problemSetCreateDto.Difficulty,
                 IsPublic = problemSetCreateDto.IsPublic,
                 OwnerId = problemSetCreateDto.OwnerId,
+                CreatedAt = TimeHelper.GetCurrentDateTime()
             };
         }
     }
