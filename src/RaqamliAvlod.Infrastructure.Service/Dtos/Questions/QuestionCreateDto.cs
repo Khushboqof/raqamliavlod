@@ -9,7 +9,8 @@ namespace RaqamliAvlod.Infrastructure.Service.Dtos
         public string Title { get; set; } = String.Empty;
         [Required, MinLength(10)]
         public string Description { get; set; } = String.Empty;
-        public IEnumerable<string> Tags { get; set; } = default!;
+
+        public IEnumerable<string> Tags { get; set; } = new List<string>();
 
         public static implicit operator Question(QuestionCreateDto questionCreateDto)
         {
