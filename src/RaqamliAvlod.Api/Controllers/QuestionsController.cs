@@ -71,10 +71,10 @@ public class QuestionsController : ControllerBase
     public async Task<IActionResult> DeleteAsnwerAsync(long answerId)
         => Ok(await _questionAnswerService.DeleteAsync(answerId, (long)_identityHelper.GetUserId()!, (UserRole)_identityHelper.GetUserRole()!));
 
-    [HttpGet("search/{search}")]
-    public async Task<IActionResult> GetSearchAsync(string search)
+    [HttpGet("search")]
+    public async Task<IActionResult> GetSearchAsync([FromQuery] string search, [FromQuery] PaginationParams @params)
     {
-        return Ok();
+        return Ok(await _questionService.SearchAsync(search, @params));
     }
 
     [HttpPost("tags"), Authorize(Roles = "User, Admin, SuperAdmin")]

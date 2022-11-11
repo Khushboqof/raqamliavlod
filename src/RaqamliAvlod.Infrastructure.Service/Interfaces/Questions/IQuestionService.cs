@@ -12,4 +12,5 @@ public interface IQuestionService
     Task<bool> DeleteAsync(long questionId, long userId, UserRole userRole);
     Task<QuestionViewModel> GetAsync(long questionId, long? userId);
     Task<IEnumerable<QuestionBaseViewModel>> GetAllAsync(PaginationParams @params);
+    Task<IEnumerable<QuestionBaseViewModel>> SearchAsync(string search, PaginationParams @params);
 }

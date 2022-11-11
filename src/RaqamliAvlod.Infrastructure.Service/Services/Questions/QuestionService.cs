@@ -70,6 +70,13 @@ public class QuestionService : IQuestionService
         return questionView;
     }
 
+    public async Task<IEnumerable<QuestionBaseViewModel>> SearchAsync(string search, PaginationParams @params)
+    {
+            var questions = await _unitOfWork.Questions.SearchAsync(search, @params);
+        _paginator.ToPagenator(questions.MetaData);
+        return questions;
+    }
+
     public async Task<bool> UpdateAsync(long questionId, QuestionCreateDto dto, long userId)
     {
         var question = await _unitOfWork.Questions.FindByIdAsync(questionId);
