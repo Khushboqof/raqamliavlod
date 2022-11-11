@@ -19,9 +19,9 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.ProblemSets
             this._unitOfWork = unitOfWork;
             this._paginator = paginator;
         }
-        public async Task<bool> CreateAsync(long problemSetId, ProblemSetTestCreateDto testCreateDto)
+        public async Task<bool> CreateAsync(ProblemSetTestCreateDto testCreateDto)
         {
-            var problemSet = await _unitOfWork.ProblemSets.FindByIdAsync(problemSetId);
+            var problemSet = await _unitOfWork.ProblemSets.FindByIdAsync(testCreateDto.ProblemSetId);
             if (problemSet is null) throw new StatusCodeException(HttpStatusCode.NotFound, "ProblemSet is not found");
 
             var test = (ProblemSetTest) testCreateDto;

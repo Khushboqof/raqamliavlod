@@ -17,7 +17,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Dtos
 
         public static implicit operator ProblemSetTest( ProblemSetTestCreateDto problemSetTest)
         {
-            return new ProblemSetTestCreateDto()
+            return new ProblemSetTest()
             {
                 Input = problemSetTest.Input,
                 Output = problemSetTest.Output,

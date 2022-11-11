@@ -53,30 +53,23 @@ public class ProblemSetsController : ControllerBase
     public async Task<IActionResult> GetProblemSetTestsAsync(long problemSetId)
         => Ok(await _testService.GetAllAsync(problemSetId));
 
-    [HttpGet("tests/{testId}")]
-    public async Task<IActionResult> GetProblemSetsTestAsync(long testId)
-    {
-        return Ok();
-    }
+    [HttpGet("tests/{testId}"), AllowAnonymous]
+    public async Task<IActionResult> GetProblemSetsTestAsync(long problemSetId)
+      => Ok(await _testService.GetAllAsync(problemSetId));
 
-    [HttpPost("tests")]
+    [HttpPost("tests"), Authorize(Roles = "Admin, SuperAdmin")]
     public async Task<IActionResult> CreateProblemSetsTestAsync([FromForm] ProblemSetTestCreateDto viewModel)
-    {
-        return Ok();
-    }
+        => Ok(await _testService.CreateAsync(viewModel));
 
-    [HttpPut("tests/{testId}")]
+    [HttpPut("tests/{testId}"), Authorize(Roles = "Admin, SuperAdmin")]
     public async Task<IActionResult> UpdateProblemSetsTestAsync(long testId,
-        [FromForm] ProblemSetTestCreateDto problemSetTestCreateViewModel)
-    {
-        return Ok();
-    }
+        [FromForm] ProblemSetTestCreateDto viewModel)
+        => Ok(await _testService.UpdateAsync(testId, viewModel));
 
-    [HttpDelete("tests/{testId}")]
+    [HttpDelete("tests/{testId}"), Authorize(Roles = "Admin, SuperAdmin")]
     public async Task<IActionResult> DeleteProblemSetsTestAsync(long testId)
-    {
-        return Ok();
-    }
+        => Ok(await _testService.DeleteAsync(testId));
+
 
     [HttpPost("submissions")]
     public async Task<IActionResult> CreateSubmissionAsync(ProblemSetSubmissionCreateDto viewModel)
