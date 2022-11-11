@@ -26,6 +26,7 @@ namespace RaqamliAvlod.Application.ViewModels.Courses
                 Type = course.Type,
                 ImagePath = course.ImagePath,
                 Price = course.Price,
+                Owner = course.Owner,
                 CreatedAt = course.CreatedAt,
                 UpdatedAt = course.UpdatedAt
             };

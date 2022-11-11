@@ -16,6 +16,7 @@ public class CourseVideoGetViewModel : CourseVideoGetAllViewModel
             ViewCount = courseVideo.ViewCount,
             YouTubeLink = courseVideo.YouTubeLink,
             Description = courseVideo.Description,
+            Duration = courseVideo.Duration,
             CreatedAt = courseVideo.CreatedAt
         };
     }
