@@ -56,5 +56,16 @@ namespace RaqamliAvlod.DataAccess.Repositories.Questions
                 return questionView;
             }
         }
+
+        public async Task<PagedList<QuestionBaseViewModel>> SearchAsync(string search, PaginationParams @params)
+        {
+            var query = from q in _dbcontext.Questions.Include(q => q.Owner)
+                        join qt in _dbcontext.QuestionTags on q.Id equals qt.QuestionId
+                        join t in _dbcontext.Tags on qt.TagId equals t.Id
+                        where q.Title.Contains(search) || t.TagName.Contains(search)
+                        select (QuestionBaseViewModel)q;
+     
+            return await PagedList<QuestionBaseViewModel>.ToPagedListAsync(query, @params.PageNumber, @params.PageSize);
+        }
     }
 }

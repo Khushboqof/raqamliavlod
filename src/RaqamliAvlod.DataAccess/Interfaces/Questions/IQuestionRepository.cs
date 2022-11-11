@@ -12,5 +12,7 @@ namespace RaqamliAvlod.DataAccess.Interfaces.Questions
         public Task<PagedList<QuestionBaseViewModel>> GetAllViewAsync(PaginationParams @params);
 
         public Task CountViewAsync(long questionId);
+
+        Task<PagedList<QuestionBaseViewModel>> SearchAsync(string search, PaginationParams @params);
     }
 }
