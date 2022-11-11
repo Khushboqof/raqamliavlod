@@ -6,7 +6,7 @@ namespace RaqamliAvlod.Application.ViewModels.Questions
     {
         public IEnumerable<string> Tags { get; set; } = default!;
         public string Description { get; set; } = String.Empty;
-        
+        public bool CurrentUserIsAuthor { get; set; } = false;
 
         public static implicit operator QuestionViewModel(Question question)
         {

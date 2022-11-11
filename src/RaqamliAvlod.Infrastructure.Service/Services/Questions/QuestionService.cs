@@ -58,15 +58,23 @@ public class QuestionService : IQuestionService
         return questions;
     }
 
-    public async Task<QuestionViewModel> GetAsync(long questionId)
+    public async Task<QuestionViewModel> GetAsync(long questionId, long? userId)
     {
         var questionView = await _unitOfWork.Questions.GetViewAsync(questionId);
 
         if (questionView is null)
             throw new StatusCodeException(HttpStatusCode.NotFound, "Question Not Found!");
-
+        if (userId is not null && questionView.Owner.UserId == userId)
+            questionView.CurrentUserIsAuthor = true;
         await _unitOfWork.Questions.CountViewAsync(questionId);
         return questionView;
+    }
+
+    public async Task<IEnumerable<QuestionBaseViewModel>> SearchAsync(string search, PaginationParams @params)
+    {
+            var questions = await _unitOfWork.Questions.SearchAsync(search, @params);
+        _paginator.ToPagenator(questions.MetaData);
+        return questions;
     }
 
     public async Task<bool> UpdateAsync(long questionId, QuestionCreateDto dto, long userId)

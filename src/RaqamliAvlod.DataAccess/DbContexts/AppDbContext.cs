@@ -34,6 +34,7 @@ namespace RaqamliAvlod.DataAccess.DbContexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            
             #region Contests
             modelBuilder.Entity<Contest>().HasIndex(x => x.Title).IsUnique();
             modelBuilder.Entity<ContestStandings>().HasIndex(entity =>

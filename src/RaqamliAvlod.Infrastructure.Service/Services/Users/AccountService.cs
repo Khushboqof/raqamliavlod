@@ -46,7 +46,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
             }
             else
             {
-                var user = await _unitOfWork.Users.GetByUsernameAsync(accountLogin.EmailOrUsername.Trim());
+                var user = await _unitOfWork.Users.GetByUsernameAsync(accountLogin.EmailOrUsername);
 
                 if (user is null) throw new StatusCodeException(HttpStatusCode.NotFound, message: "username is wrong");
 
@@ -64,11 +64,6 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Users
         {
             var user = await _unitOfWork.Users.GetByEmailAsync(accountCreate.Email.ToLower());
             if (user is not null) throw new StatusCodeException(HttpStatusCode.BadRequest, message: "user already exist");
-
-            accountCreate.Firstname.Trim();
-            accountCreate.Lastname.Trim();
-            accountCreate.Email.Trim();
-            accountCreate.Password.Trim();
 
             var newUser = (User)accountCreate;
             var hashResult = PasswordHasher.Hash(accountCreate.Password);

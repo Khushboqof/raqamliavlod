@@ -14,7 +14,7 @@ namespace RaqamliAvlod.Domain.Entities.ProblemSets
         public string Note { get; set; } = String.Empty;
         public int TimeLimit { get; set; }
         public int MemoryLimit { get; set; }
-        public byte Difficulty { get; set; }
+        public short Difficulty { get; set; }
         public bool IsPublic { get; set; } = false;
         public short ContestCoins { get; set; }
         public char ContestIdentifier { get; set; }

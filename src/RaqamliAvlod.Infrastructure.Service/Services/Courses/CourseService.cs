@@ -60,64 +60,27 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Courses
 
         public async Task<IEnumerable<CourseViewModel>> GetAllAsync(PaginationParams @params)
         {
-            var courses = await _unitOfWork.Courses.GetAllAsync(@params);
+            var courses = await _unitOfWork.Courses.GetAllViewAsync(@params);
             _paginator.ToPagenator(courses.MetaData);
 
-            var courseViews = new List<CourseViewModel>();
-
-            foreach (var course in courses)
-            {
-                var owner = (await _unitOfWork.Users.FindByIdAsync(course.OwnerId))!;
-                var ownerView = (OwnerViewModel)owner;
-
-                var courseView = (CourseViewModel)course;
-                courseView.Owner = ownerView;
-
-                courseViews.Add(courseView);
-            }
-
-            return courseViews;
+            return courses;
         }
 
         public async Task<IEnumerable<CourseViewModel>> SearchByTitleAsync(string text, PaginationParams @params)
         {
-            var courses = await _unitOfWork.Courses.SearchAsync(text, @params);
-            _paginator.ToPagenator(courses.MetaData);
-
-            var courseViews = new List<CourseViewModel>();
-
-            foreach (var course in courses)
-            {
-                var owner = (await _unitOfWork.Users.FindByIdAsync(course.OwnerId))!;
-                var ownerView = (OwnerViewModel)owner;
-
-                var courseView = (CourseViewModel)course;
-                courseView.Owner = ownerView;
-
-                courseViews.Add(courseView);
-            }
+            var courseViews = await _unitOfWork.Courses.SearchByTitleAsync(text, @params);
+            _paginator.ToPagenator(courseViews.MetaData);
 
             return courseViews;
         }
         public async Task<CourseViewModel> GetAsync(long id)
         {
-            var course = await _unitOfWork.Courses.FindByIdAsync(id);
+            var course = await _unitOfWork.Courses.GetViewAsync(id);
 
             if (course is null)
                 throw new StatusCodeException(HttpStatusCode.BadRequest, "Course not found!");
 
-            var owner = await _unitOfWork.Users.FindByIdAsync(course.OwnerId);
-
-            if (owner is null)
-                throw new StatusCodeException(HttpStatusCode.BadRequest, "Owner not found!");
-
-            var ownerView = (OwnerViewModel)owner;
-
-            var courseView = (CourseViewModel)course;
-
-            courseView.Owner = ownerView;
-
-            return courseView;
+            return course;
         }
 
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RaqamliAvlod.Application.Utils;
 using RaqamliAvlod.Infrastructure.Service.Dtos;
+using RaqamliAvlod.Infrastructure.Service.Interfaces.ProblemSets;
 
 namespace RaqamliAvlod.Api.Controllers;
 
@@ -8,6 +9,12 @@ namespace RaqamliAvlod.Api.Controllers;
 [ApiController]
 public class ProblemSetsController : ControllerBase
 {
+    private readonly IProblemSetService _problemSetService;
+    public ProblemSetsController(IProblemSetService problemSetService)
+    {
+        this._problemSetService = problemSetService;
+    }
+
     [HttpGet]
     public async Task<IActionResult> GetAllAsync([FromQuery] PaginationParams @params)
     {
@@ -16,15 +23,11 @@ public class ProblemSetsController : ControllerBase
 
     [HttpGet("{problemSetId}")]
     public async Task<IActionResult> GetAsync(long problemSetId)
-    {
-        return Ok();
-    }
+        => Ok(await _problemSetService.GetAsync(problemSetId));
 
     [HttpPost]
     public async Task<IActionResult> CreateAsync([FromForm] ProblemSetCreateDto problemSetCreateViewModel)
-    {
-        return Ok();
-    }
+        => Ok(await _problemSetService.CreateAsync(problemSetCreateViewModel));
 
     [HttpPut("{problemSetId}")]
     public async Task<IActionResult> UpdateAsync(long problemSetId, [FromForm] ProblemSetCreateDto problemSetCreateViewModel)

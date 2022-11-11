@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace RaqamliAvlod.DataAccess.Migrations
 {
-    public partial class DBUpdate : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -139,7 +140,7 @@ namespace RaqamliAvlod.DataAccess.Migrations
                     Note = table.Column<string>(type: "text", nullable: false),
                     TimeLimit = table.Column<int>(type: "integer", nullable: false),
                     MemoryLimit = table.Column<int>(type: "integer", nullable: false),
-                    Difficulty = table.Column<byte>(type: "smallint", nullable: false),
+                    Difficulty = table.Column<short>(type: "smallint", nullable: false),
                     IsPublic = table.Column<bool>(type: "boolean", nullable: false),
                     ContestCoins = table.Column<short>(type: "smallint", nullable: false),
                     ContestIdentifier = table.Column<char>(type: "character(1)", nullable: false),

@@ -1,4 +1,5 @@
-﻿using RaqamliAvlod.Domain.Entities.ProblemSets;
+﻿using RaqamliAvlod.Application.ViewModels.Users;
+using RaqamliAvlod.Domain.Entities.ProblemSets;
 
 namespace RaqamliAvlod.Application.ViewModels.ProblemSets
 {
@@ -10,12 +11,11 @@ namespace RaqamliAvlod.Application.ViewModels.ProblemSets
         public string Type { get; set; } = String.Empty;
         public string InputDescription { get; set; } = String.Empty;
         public string OutputDescription { get; set; } = String.Empty;
+        public string Note { get; set; } = String.Empty;
         public int TimeLimit { get; set; }
         public int MemoryLimit { get; set; }
-        public byte Difficulty { get; set; }
-        public bool IsPublic { get; set; }
-
-        public string OwnerName { get; set; } = string.Empty;
+        public short Difficulty { get; set; }
+        public OwnerViewModel Owner { get; set; } = default!;
 
         public static implicit operator ProblemSetViewModel(ProblemSet problemSet)
         {
@@ -27,10 +27,11 @@ namespace RaqamliAvlod.Application.ViewModels.ProblemSets
                 Type = problemSet.Type,
                 InputDescription = problemSet.InputDescription,
                 OutputDescription = problemSet.OutputDescription,
+                Note = problemSet.Note,
                 TimeLimit = problemSet.TimeLimit,
                 MemoryLimit = problemSet.MemoryLimit,
                 Difficulty = problemSet.Difficulty,
-                IsPublic = problemSet.IsPublic,
+                Owner = (OwnerViewModel) problemSet.Owner
             };
         }
     }
