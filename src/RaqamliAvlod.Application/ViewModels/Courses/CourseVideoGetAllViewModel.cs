@@ -9,7 +9,7 @@ namespace RaqamliAvlod.Application.ViewModels.Courses
         public string YouTubeThumbnail { get; set; } = string.Empty;
         public int ViewCount { get; set; }
         public string YouTubeLink { get; set; } = string.Empty;
-        public TimeSpan Duration { get; set; }
+        public string Duration { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; }
 
         public static implicit operator CourseVideoGetAllViewModel(CourseVideo courseVideo)
@@ -21,6 +21,7 @@ namespace RaqamliAvlod.Application.ViewModels.Courses
                 YouTubeThumbnail = courseVideo.YouTubeThumbnail,
                 ViewCount = courseVideo.ViewCount,
                 YouTubeLink = courseVideo.YouTubeLink,
+                Duration = courseVideo.Duration,
                 CreatedAt = courseVideo.CreatedAt
             };
         }
