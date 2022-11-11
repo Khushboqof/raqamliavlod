@@ -24,10 +24,10 @@ namespace RaqamliAvlod.DataAccess.Repositories.Questions
 
         }
 
-        public async Task<IEnumerable<QuestionAnswerViewModel>> GetAllRepliesAsync(long answerId)
+        public async Task<IEnumerable<QuestionAnswerViewModel>> GetAllRepliesAsync(long answerId, PaginationParams @params)
         {
-            var res = _dbSet.Where(x => x.ParentId == answerId).Include(x => x.Owner).Select(x => (QuestionAnswerViewModel)x);
-            return res;
+            var res = _dbSet.Where(x => x.ParentId == answerId).OrderBy(x => x.CreatedAt).Include(x => x.Owner).Select(x => (QuestionAnswerViewModel)x);
+            return await PagedList<QuestionAnswerViewModel>.ToPagedListAsync(res, @params.PageNumber, @params.PageSize);
         }
           
     }

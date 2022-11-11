@@ -63,11 +63,11 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.Questions
             return questionAnswers;
         }
 
-        public async Task<IEnumerable<QuestionAnswerViewModel>> GetRepliesAsync(long answerId, long? userId)
+        public async Task<IEnumerable<QuestionAnswerViewModel>> GetRepliesAsync(long answerId, long? userId, PaginationParams @params)
         {
             if (await _unitOfWork.QuestionAnswers.FindByIdAsync(answerId) is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Answer not found!");
-            var questionAnswers = await _unitOfWork.QuestionAnswers.GetAllRepliesAsync(answerId);
+            var questionAnswers = await _unitOfWork.QuestionAnswers.GetAllRepliesAsync(answerId, @params);
             foreach (var answer in questionAnswers)
                 if (userId is not null && answer.Owner.UserId == userId)
                     answer.CurrentUserIsAuthor = true;
