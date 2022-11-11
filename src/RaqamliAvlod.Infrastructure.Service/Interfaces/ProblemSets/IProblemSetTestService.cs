@@ -11,9 +11,9 @@ namespace RaqamliAvlod.Infrastructure.Service.Interfaces.ProblemSets;
 
 public interface IProblemSetTestService
 {
-    public Task<IEnumerable<ProblemSetTestViewModel>> GetAllAsync(PaginationParams @params);
+    public Task<IEnumerable<ProblemSetTestViewModel>> GetAllAsync(long problemSetId);
     public Task<ProblemSetTestViewModel> GetAsync(long testId);
     public Task<bool> DeleteAsync(long testId);
-    public Task<bool> UpdateAsync(ProblemSetTestCreateDto testCreateDto);
+    public Task<bool> CreateAsync(long problemSetId, ProblemSetTestCreateDto testCreateDto);
     public Task<bool> UpdateAsync(long testId, ProblemSetTestCreateDto testCreateDto);
 }

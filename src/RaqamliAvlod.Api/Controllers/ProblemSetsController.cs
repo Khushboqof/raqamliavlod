@@ -10,9 +10,12 @@ namespace RaqamliAvlod.Api.Controllers;
 public class ProblemSetsController : ControllerBase
 {
     private readonly IProblemSetService _problemSetService;
-    public ProblemSetsController(IProblemSetService problemSetService)
+    private readonly IProblemSetTestService _testService;
+
+    public ProblemSetsController(IProblemSetService problemSetService,IProblemSetTestService testService)
     {
         this._problemSetService = problemSetService;
+        this._testService = testService;
     }
 
     [HttpGet]
@@ -49,9 +52,7 @@ public class ProblemSetsController : ControllerBase
 
     [HttpGet("{problemSetId}/tests")]
     public async Task<IActionResult> GetProblemSetTestsAsync(long problemSetId)
-    {
-        return Ok();
-    }
+        =>Ok();
 
     [HttpGet("tests/{testId}")]
     public async Task<IActionResult> GetProblemSetsTestAsync(long testId)
