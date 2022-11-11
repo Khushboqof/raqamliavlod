@@ -12,8 +12,8 @@ using RaqamliAvlod.DataAccess.DbContexts;
 namespace RaqamliAvlod.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221108083555_DBUpdate")]
-    partial class DBUpdate
+    [Migration("20221111064743_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -277,7 +277,7 @@ namespace RaqamliAvlod.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<byte>("Difficulty")
+                    b.Property<short>("Difficulty")
                         .HasColumnType("smallint");
 
                     b.Property<string>("InputDescription")

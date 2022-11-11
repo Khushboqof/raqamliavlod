@@ -275,7 +275,7 @@ namespace RaqamliAvlod.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<byte>("Difficulty")
+                    b.Property<short>("Difficulty")
                         .HasColumnType("smallint");
 
                     b.Property<string>("InputDescription")
