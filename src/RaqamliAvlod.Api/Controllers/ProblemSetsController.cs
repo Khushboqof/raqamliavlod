@@ -54,8 +54,8 @@ public class ProblemSetsController : ControllerBase
         => Ok(await _testService.GetAllAsync(problemSetId));
 
     [HttpGet("tests/{testId}"), AllowAnonymous]
-    public async Task<IActionResult> GetProblemSetsTestAsync(long problemSetId)
-      => Ok(await _testService.GetAllAsync(problemSetId));
+    public async Task<IActionResult> GetProblemSetsTestAsync(long testId)
+      => Ok(await _testService.GetAsync(testId));
 
     [HttpPost("tests"), Authorize(Roles = "Admin, SuperAdmin")]
     public async Task<IActionResult> CreateProblemSetsTestAsync([FromForm] ProblemSetTestCreateDto viewModel)
