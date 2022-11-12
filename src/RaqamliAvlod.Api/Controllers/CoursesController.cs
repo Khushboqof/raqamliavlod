@@ -54,7 +54,7 @@ public class CoursesController : ControllerBase
 
     [HttpPost("{courseId}/comments"), Authorize(Roles = "User, Admin, SuperAdmin")]
     public async Task<IActionResult> CreateCommentAsync(long courseId,
-        [FromBody] CourseCommentCreateDto courseCommentCreateViewModel)
+        [FromForm] CourseCommentCreateDto courseCommentCreateViewModel)
          => Ok(await _courseCommentService.CreateAsync((long)_identityHelper.GetUserId()!, courseId, courseCommentCreateViewModel));
     
     [HttpGet("{courseId}/comments"), Authorize(Roles = "User, Admin, SuperAdmin")]

@@ -1,4 +1,5 @@
 ﻿using RaqamliAvlod.Infrastructure.Service.Interfaces.Common;
+using RaqamliAvlod.Infrastructure.Service.Interfaces.Contests;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Courses;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.ProblemSets;
 using RaqamliAvlod.Infrastructure.Service.Interfaces.Questions;
@@ -6,6 +7,7 @@ using RaqamliAvlod.Infrastructure.Service.Interfaces.Users;
 using RaqamliAvlod.Infrastructure.Service.Managers;
 using RaqamliAvlod.Infrastructure.Service.Security;
 using RaqamliAvlod.Infrastructure.Service.Services.Common;
+using RaqamliAvlod.Infrastructure.Service.Services.Contests;
 using RaqamliAvlod.Infrastructure.Service.Services.Courses;
 using RaqamliAvlod.Infrastructure.Service.Services.ProblemSets;
 using RaqamliAvlod.Infrastructure.Service.Services.Questions;
@@ -32,6 +34,7 @@ namespace RaqamliAvlod.Api.Configurations.Dependencies
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IQuestionTagService, QuestionTagService>();
             builder.Services.AddScoped<IProblemSetService, ProblemSetService>();
+            builder.Services.AddScoped<IContestService, ContestService>();
             builder.Services.AddScoped<IProblemSetTestService, ProblemSetTestService>();
             builder.Services.AddMemoryCache();
         }
