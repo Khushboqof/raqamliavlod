@@ -7,6 +7,7 @@ namespace RaqamliAvlod.Application.ViewModels.ProblemSets
         public long Id { get; set; }
         public string Input { get; set; } = String.Empty;
         public string Output { get; set; } = String.Empty;
+
         public static implicit operator ProblemSetTestViewModel(ProblemSetTest problemSetTest)
         {
             return new ProblemSetTestViewModel()
