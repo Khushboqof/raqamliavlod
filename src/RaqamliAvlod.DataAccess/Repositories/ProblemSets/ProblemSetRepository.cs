@@ -8,25 +8,23 @@ using RaqamliAvlod.Domain.Entities.ProblemSets;
 
 namespace RaqamliAvlod.DataAccess.Repositories.ProblemSets
 {
-    public class ProblemSetRepository : GenericRepository<ProblemSet>, IProblemSetRepository
+    public class ProblemSetRepository : BaseRepository<ProblemSet>, IProblemSetRepository
     {
         public ProblemSetRepository(AppDbContext context) : base(context)
         {
         }
 
-        #region Public and Private
         public async Task<ProblemSet?> FindByNameAsync(string problemSetName)
         {
             return await _dbSet.FirstOrDefaultAsync(x => x.Name == problemSetName);
         }
-        #endregion
 
-        #region Public
         public override async Task<ProblemSet?> FindByIdAsync(long id)
         {
-            return await _dbSet.Include(x => x.Owner).FirstOrDefaultAsync(x => x.Id == id && x.IsPublic == true);
+            return await _dbSet.Include(x => x.Owner).FirstOrDefaultAsync(x => x.Id == id);
         }
 
+        #region Public
         public async Task<PagedList<ProblemSetBaseViewModel>> GetAllViewAsync(PaginationParams @params, long userId)
         {
             var query = from problemSet in _dbcontext.ProblemSets.Where(x => x.IsPublic == true)
@@ -38,9 +36,6 @@ namespace RaqamliAvlod.DataAccess.Repositories.ProblemSets
                         };
             return await PagedList<ProblemSetBaseViewModel>.ToPagedListAsync(query, @params.PageNumber, @params.PageSize);
         }
-        #endregion
-
-        #region Private
         #endregion
     }
 }

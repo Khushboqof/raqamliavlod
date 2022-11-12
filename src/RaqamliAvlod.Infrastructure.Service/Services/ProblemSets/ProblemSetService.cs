@@ -15,10 +15,13 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.ProblemSets
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPaginatorService _paginator;
-        public ProblemSetService(IUnitOfWork unitOfWork, IPaginatorService paginator)
+        private readonly IProblemSetTestService _testService;
+        public ProblemSetService(IUnitOfWork unitOfWork, IPaginatorService paginator, 
+            IProblemSetTestService testService)
         {
             this._unitOfWork = unitOfWork;
             this._paginator = paginator;
+            this._testService = testService;
         }
 
         public async Task<bool> CreateAsync(ProblemSetCreateDto createDto)
@@ -55,7 +58,12 @@ namespace RaqamliAvlod.Infrastructure.Service.Services.ProblemSets
             var problemSet = await _unitOfWork.ProblemSets.FindByIdAsync(problemSetId);
             if (problemSet is null) throw new StatusCodeException(HttpStatusCode.NotFound, "ProblemSet is not found");
 
-            return (ProblemSetViewModel) problemSet;
+            if (problemSet.IsPublic is false)
+                throw new StatusCodeException(HttpStatusCode.Forbidden, "No access this problemSet");
+
+            var result =  (ProblemSetViewModel) problemSet;
+            result.Tests = await _testService.GetAllAsync(problemSetId);
+            return result;
         }
 
         public async Task<bool> UpdateAsync(long problemSetId, ProblemSetCreateDto updateDto)

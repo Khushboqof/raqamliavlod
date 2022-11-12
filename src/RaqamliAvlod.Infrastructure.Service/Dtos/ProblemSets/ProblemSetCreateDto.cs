@@ -34,9 +34,6 @@ namespace RaqamliAvlod.Infrastructure.Service.Dtos
         public short Difficulty { get; set; }
 
         [Required]
-        public bool IsPublic { get; set; }
-
-        [Required]
         public long OwnerId { get; set; }
 
         public static implicit operator ProblemSet(ProblemSetCreateDto problemSetCreateDto)
@@ -52,7 +49,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Dtos
                 TimeLimit = problemSetCreateDto.TimeLimit,
                 MemoryLimit = problemSetCreateDto.MemoryLimit,
                 Difficulty = problemSetCreateDto.Difficulty,
-                IsPublic = problemSetCreateDto.IsPublic,
+                IsPublic = true,
                 OwnerId = problemSetCreateDto.OwnerId,
                 CreatedAt = TimeHelper.GetCurrentDateTime()
             };

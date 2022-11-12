@@ -5,7 +5,7 @@ using RaqamliAvlod.Domain.Entities.ProblemSets;
 
 namespace RaqamliAvlod.DataAccess.Interfaces.ProblemSets
 {
-    public interface IProblemSetRepository : IGenericRepository<ProblemSet>
+    public interface IProblemSetRepository : IRepository<ProblemSet>
     {
         public Task<ProblemSet?> FindByNameAsync(string problemSetName);
 
