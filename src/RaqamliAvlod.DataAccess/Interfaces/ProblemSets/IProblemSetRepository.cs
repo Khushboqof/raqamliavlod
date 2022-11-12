@@ -10,5 +10,7 @@ namespace RaqamliAvlod.DataAccess.Interfaces.ProblemSets
         public Task<ProblemSet?> FindByNameAsync(string problemSetName);
 
         public Task<PagedList<ProblemSetBaseViewModel>> GetAllViewAsync(PaginationParams @params, long userId);
+
+        public Task<PagedList<ContestProblemSetBaseViewModel>> GetAllViewAsync(PaginationParams @params, long userId, long contestId);
     }
 }
