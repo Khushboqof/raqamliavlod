@@ -16,6 +16,7 @@ namespace RaqamliAvlod.Application.ViewModels.ProblemSets
         public int MemoryLimit { get; set; }
         public short Difficulty { get; set; }
         public OwnerViewModel Owner { get; set; } = default!;
+        public IEnumerable<ProblemSetTestViewModel> Tests { get; set; } = default!;
 
         public static implicit operator ProblemSetViewModel(ProblemSet problemSet)
         {

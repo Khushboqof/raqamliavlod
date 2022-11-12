@@ -5,10 +5,12 @@ using RaqamliAvlod.Domain.Entities.ProblemSets;
 
 namespace RaqamliAvlod.DataAccess.Interfaces.ProblemSets
 {
-    public interface IProblemSetRepository : IGenericRepository<ProblemSet>
+    public interface IProblemSetRepository : IRepository<ProblemSet>
     {
         public Task<ProblemSet?> FindByNameAsync(string problemSetName);
 
         public Task<PagedList<ProblemSetBaseViewModel>> GetAllViewAsync(PaginationParams @params, long userId);
+
+        public Task<PagedList<ContestProblemSetBaseViewModel>> GetAllViewAsync(PaginationParams @params, long userId, long contestId);
     }
 }

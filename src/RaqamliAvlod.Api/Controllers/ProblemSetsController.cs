@@ -23,27 +23,27 @@ public class ProblemSetsController : ControllerBase
         this._testService = testService;
     }
 
-    [HttpGet, AllowAnonymous]
+    [HttpGet("public"), AllowAnonymous]
     public async Task<IActionResult> GetAllAsync([FromQuery] PaginationParams @params)
         => Ok(await _problemSetService.GetAllAsync(@params, _identityService.GetUserId()));
 
-    [HttpGet("{problemSetId}"), AllowAnonymous]
+    [HttpGet("public/{problemSetId}"), AllowAnonymous]
     public async Task<IActionResult> GetAsync(long problemSetId)
         => Ok(await _problemSetService.GetAsync(problemSetId));
 
-    [HttpPost, Authorize(Roles = "Admin, SuperAdmin")]
+    [HttpPost("public"), Authorize(Roles = "Admin, SuperAdmin")]
     public async Task<IActionResult> CreateAsync([FromForm] ProblemSetCreateDto problemSetCreateDto)
         => Ok(await _problemSetService.CreateAsync(problemSetCreateDto));
 
-    [HttpPut("{problemSetId}"), Authorize(Roles = "Admin, SuperAdmin")]
+    [HttpPut("public/{problemSetId}"), Authorize(Roles = "Admin, SuperAdmin")]
     public async Task<IActionResult> UpdateAsync(long problemSetId, [FromForm] ProblemSetCreateDto problemSetCreateDto)
         => Ok(await _problemSetService.UpdateAsync(problemSetId, problemSetCreateDto));
 
-    [HttpDelete("{problemSetId}"), Authorize(Roles = "Admin, SuperAdmin")]
+    [HttpDelete("public/{problemSetId}"), Authorize(Roles = "Admin, SuperAdmin")]
     public async Task<IActionResult> DeleteAsync(long problemSetId)
         => Ok(await _problemSetService.DeleteAsync(problemSetId));
 
-    [HttpGet("search"), AllowAnonymous]
+    [HttpGet("public/search"), AllowAnonymous]
     public async Task<IActionResult> SearchAsync(string search, [FromQuery] PaginationParams @params)
     {
         return Ok();
