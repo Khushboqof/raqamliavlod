@@ -1,5 +1,6 @@
 ﻿using RaqamliAvlod.Attributes;
 using RaqamliAvlod.Domain.Entities.Users;
+using RaqamliAvlod.Infrastructure.Service.Attributes;
 using System.ComponentModel.DataAnnotations;
 
 namespace RaqamliAvlod.Infrastructure.Service.Dtos
@@ -13,8 +14,7 @@ namespace RaqamliAvlod.Infrastructure.Service.Dtos
         public string Lastname { get; set; } = string.Empty;
 
         [Required]
-        [RegularExpression("^(?!0+$)(\\+\\d{1,3}[- ]?)?(?!0+$)\\d{10,15}$",
-                ErrorMessage = "Invalid Phone Number!")]
+        [PhoneNumber]
         public string PhoneNumber { get; set; } = string.Empty;
 
         [Required, Email]
