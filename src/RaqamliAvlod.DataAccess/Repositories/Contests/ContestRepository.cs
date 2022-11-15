@@ -1,7 +1,7 @@
-﻿using RaqamliAvlod.DataAccess.DbContexts;
+﻿using Microsoft.EntityFrameworkCore;
+using RaqamliAvlod.DataAccess.DbContexts;
 using RaqamliAvlod.DataAccess.Interfaces.Contests;
 using RaqamliAvlod.Domain.Entities.Contests;
-
 
 namespace RaqamliAvlod.DataAccess.Repositories.Contests
 {
@@ -10,5 +10,8 @@ namespace RaqamliAvlod.DataAccess.Repositories.Contests
         public ContestRepository(AppDbContext context) : base(context)
         {
         }
+
+        public async Task<Contest?> GetByTitleAsync(string title)
+            => await _dbcontext.Contests.FirstOrDefaultAsync(o => o.Title == title);
     }
 }

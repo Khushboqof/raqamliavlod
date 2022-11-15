@@ -51,7 +51,7 @@ public class CourseCommentService : ICourseCommentService
         var user = await _unitOfWork.Users.FindByIdAsync(userId);
         if (courseComment is null)
             throw new StatusCodeException(HttpStatusCode.BadRequest, "Comment not found!");
-        if (courseComment.OwnerId != userId || user.Role==UserRole.Admin)
+        if (courseComment.OwnerId != userId && user!.Role!=UserRole.Admin)
             throw new StatusCodeException(HttpStatusCode.BadRequest, "Not permitted!");
         var res = await _unitOfWork.CourseComments.DeleteAsync(id);
 
@@ -74,7 +74,7 @@ public class CourseCommentService : ICourseCommentService
             courseCommentView.Owner = (OwnerViewModel)owner;
 
             if(userId is not null)
-                courseCommentView.IsCurrentUserIsAdmin = userId == owner.Id;
+                courseCommentView.IsCurrentUserIsAuthor = userId == owner.Id;
 
             courseCommentViews.Add(courseCommentView);
         }
@@ -97,7 +97,7 @@ public class CourseCommentService : ICourseCommentService
         var courseCommentView = (CourseCommentViewModel)courseComment;
 
         if(userId is not null)
-            courseCommentView.IsCurrentUserIsAdmin = userId == owner.Id;
+            courseCommentView.IsCurrentUserIsAuthor = userId == owner.Id;
 
         courseCommentView.Owner = (OwnerViewModel)owner;
 

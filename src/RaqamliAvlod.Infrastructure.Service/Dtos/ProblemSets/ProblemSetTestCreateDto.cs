@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using RaqamliAvlod.Application.ViewModels.ProblemSets;
+using RaqamliAvlod.Domain.Entities.ProblemSets;
+using System.ComponentModel.DataAnnotations;
 
 namespace RaqamliAvlod.Infrastructure.Service.Dtos
 {
@@ -12,5 +14,15 @@ namespace RaqamliAvlod.Infrastructure.Service.Dtos
 
         [Required]
         public long ProblemSetId { get; set; }
+
+        public static implicit operator ProblemSetTest( ProblemSetTestCreateDto problemSetTest)
+        {
+            return new ProblemSetTest()
+            {
+                Input = problemSetTest.Input,
+                Output = problemSetTest.Output,
+                ProblemSetId = problemSetTest.ProblemSetId
+            };
+        }
     }
 }

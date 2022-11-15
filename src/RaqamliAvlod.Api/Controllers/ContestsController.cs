@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RaqamliAvlod.Application.Utils;
 using RaqamliAvlod.Infrastructure.Service.Dtos;
+using RaqamliAvlod.Infrastructure.Service.Interfaces.Contests;
 
 namespace RaqamliAvlod.Api.Controllers;
 
@@ -8,36 +9,32 @@ namespace RaqamliAvlod.Api.Controllers;
 [ApiController]
 public class ContestsController : ControllerBase
 {
+    private readonly IContestService _contestService;
+
+    public ContestsController(IContestService contestService)
+    {
+        _contestService = contestService;
+    }
 
     [HttpGet]
     public async Task<IActionResult> GetAllAsync([FromQuery] PaginationParams @params)
-    {
-        return Ok();
-    }
+        => Ok(await _contestService.GetAllAsync(@params));
 
     [HttpGet("{contestId}")]
     public async Task<IActionResult> GetAsync(long contestId)
-    {
-        return Ok();
-    }
+        => Ok(await _contestService.GetAsync(contestId));
 
     [HttpPost]
-    public async Task<IActionResult> CreateAsync([FromBody] ContestCreateDto contestCreateViewModel)
-    {
-        return Ok();
-    }
+    public async Task<IActionResult> CreateAsync([FromForm] ContestCreateDto contestCreateViewModel)
+        => Ok(await _contestService.CreateAsync(contestCreateViewModel));
 
     [HttpPut("{contestId}")]
-    public async Task<IActionResult> UpdateAsync(long contestId, [FromBody] ContestCreateDto contestUpdateViewModel)
-    {
-        return Ok();
-    }
+    public async Task<IActionResult> UpdateAsync(long contestId, [FromForm] ContestCreateDto contestUpdateViewModel)
+        => Ok(await _contestService.UpdateAsync(contestId, contestUpdateViewModel));
 
     [HttpDelete("{contestId}")]
     public async Task<IActionResult> DeleteAsync(long contestId)
-    {
-        return Ok();
-    }
+        => Ok(await _contestService.DeleteAsync(contestId));
 
     [HttpPost("register")]
     public async Task<IActionResult> RegistrateAsync(long contestId)
