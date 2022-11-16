@@ -9,12 +9,14 @@ namespace RaqamliAvlod.Infrastructure.Service.Dtos
     {
         [Required, Name]
         public string Firstname { get; set; } = string.Empty;
-        [Required]
+
+        [Required, Name]
         public string Lastname { get; set; } = string.Empty;
-        [Required]
-        [UsernameCheck]
+
+        [Required, UsernameCheck]
         public string Username { get; set; } = string.Empty;
-        [Required]
+
+        [Required, PhoneNumber]
         public string PhoneNumber { get; set; } = string.Empty;
 
         public static implicit operator User(UserUpdateDto userUpdate)
